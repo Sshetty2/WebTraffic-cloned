@@ -28,60 +28,38 @@ export const Form = props => {
         }}
       >
         <TextField
-          id="name"
-          name="name"
+          id="group-name"
+          name="group-name"
           helperText={touched.name ? errors.name : ""}
           error={touched.name && Boolean(errors.name)}
-          label="Name"
+          label="Group Name"
           value={name}
           onChange={change.bind(null, "name")}
           fullWidth
    
         />
         <TextField
-          id="email"
-          name="email"
+          id="date-range"
+          name="date-range"
           helperText={touched.email ? errors.email : ""}
           error={touched.email && Boolean(errors.email)}
-          label="Email"
+          label="Date Range"
           fullWidth
           value={email}
           onChange={change.bind(null, "email")}
    
         />
-        <TextField
-          id="password"
-          name="password"
-          helperText={touched.password ? errors.password : ""}
-          error={touched.password && Boolean(errors.password)}
-          label="Password"
-          fullWidth
-          type="password"
-          value={password}
-          onChange={change.bind(null, "password")}
-   
-        />
-        <TextField
-          id="confirmPassword"
-          name="confirmPassword"
-          helperText={touched.confirmPassword ? errors.confirmPassword : ""}
-          error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-          label="Confirm Password"
-          fullWidth
-          type="password"
-          value={confirmPassword}
-          onChange={change.bind(null, "confirmPassword")}
-   
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="raised"
-          color="primary"
-          disabled={!isValid}
-        >
-          Submit
-        </Button>
+        <div style={{paddingTop: '20px'}}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="raised"
+            color="primary"
+            disabled={!isValid}
+          >
+            Submit
+          </Button>
+        </div>
       </form>
     );
    };

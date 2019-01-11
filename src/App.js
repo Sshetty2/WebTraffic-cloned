@@ -38,7 +38,7 @@ class App extends Component {
             <p className="App-intro">
                 <TrafficContainer traffic={this.state.traffic}/>
             </p>
-            <div style={{margin: '20px'}}>
+            <div style={{margin: '20px', paddingBottom: '10px'}}>
                 <Calendar
                 onChange={this.onChange}
                 value={this.state.date}

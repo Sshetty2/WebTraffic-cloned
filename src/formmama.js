@@ -4,6 +4,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { Form } from "./form";
 import Paper from "@material-ui/core/Paper";
 import * as Yup from "yup"
+import './App.css';
 
 const styles = theme => ({
  paper: {
@@ -18,6 +19,8 @@ const styles = theme => ({
  container: {
    maxWidth: "200px"
  }
+
+
 });
 
 const validationSchema = Yup.object({
@@ -45,12 +48,10 @@ class InputForm extends Component {
    return (
      <React.Fragment>
           <div className={classes.container}>
-         <Paper elevation={1} className={classes.paper}>
-           <h1>Form</h1>
-           <Formik
-             render={props => <Form {...props} />}
-           />
-         </Paper>
+            <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
+            <Formik
+                render={props => <Form {...props} />}
+            />
        </div>
      </React.Fragment>
    );

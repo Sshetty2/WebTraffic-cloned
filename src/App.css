@@ -1,6 +1,6 @@
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 100px;
 }
 
 .App-header {
@@ -22,4 +22,14 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.rock-salt{
+  font-family: 'Rock Salt', cursive;
+  font-size: 19px;
+  text-align: center;
+}
+
+.Rancho{
+  font-family: 'Rancho', cursive;
 }

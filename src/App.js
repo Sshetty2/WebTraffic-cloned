@@ -4,6 +4,7 @@ import './App.css';
 import TrafficContainer from "./components/TrafficContainer";
 import {getCurrentTab} from "./common/Utils";
 import Calendar from 'react-calendar';
+import InputForm from './formmama'
 
 class App extends Component {
     constructor(props) {
@@ -34,12 +35,7 @@ class App extends Component {
             <header className="App-header">
               <h1 className="App-title">Welcome to WebTraffic</h1>
             </header>
-            <form onSubmit={this.handleSubmit}>
-                <label>Date: 
-                <textarea value={this.state.date}/>
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
+            <InputForm/>
             <p className="App-intro">
                 <TrafficContainer traffic={this.state.traffic}/>
             </p>

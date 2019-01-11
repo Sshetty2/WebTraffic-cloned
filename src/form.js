@@ -2,7 +2,8 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
-
+import Autocomplete from "./Autocomplete";
+require("./styles.css");
 
 
 
@@ -27,17 +28,20 @@ export const Form = props => {
           alert("submitted");
         }}
       >
-        <TextField
-          id="group-name"
-          name="group-name"
-          helperText={touched.name ? errors.name : ""}
-          error={touched.name && Boolean(errors.name)}
-          label="Group Name"
-          value={name}
-          onChange={change.bind(null, "name")}
-          fullWidth
-   
-        />
+      <Autocomplete
+        suggestions={[
+          "Alligator",
+          "Bask",
+          "Crocodilian",
+          "Death Roll",
+          "Eggs",
+          "Jaws",
+          "Reptile",
+          "Solitary",
+          "Tail",
+          "Wetlands"
+        ]}
+      />
         <TextField
           id="date-range"
           name="date-range"

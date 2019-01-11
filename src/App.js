@@ -33,7 +33,7 @@ class App extends Component {
         return (
           <div className="App">
             <div style={{margin: '20px'}}>
-            <InputForm />
+            <InputForm date = {this.state.date} />
             </div>
             <p className="App-intro">
                 <TrafficContainer traffic={this.state.traffic}/>
@@ -51,3 +51,17 @@ class App extends Component {
 }
 
 export default App;
+
+// main page
+// $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
+//     var text = $(this).text();
+//     console.log(text);
+// });
+
+// group page
+// $(('.groupHomeHeader-groupName'), '.groupHomeHeader-groupNameLink').textContent
+
+
+
+// event page
+// $('.event-info-group--groupName').textContent

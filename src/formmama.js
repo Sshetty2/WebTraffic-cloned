@@ -13,6 +13,7 @@ const styles = theme => ({
    alignItems: "center",
    padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px ${theme
      .spacing.unit * 5}px`
+
  },
  container: {
    maxWidth: "200px"

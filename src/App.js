@@ -32,14 +32,13 @@ class App extends Component {
         console.log(this.state.date)
         return (
           <div className="App">
-            <header className="App-header">
-              <h1 className="App-title">Welcome to WebTraffic</h1>
-            </header>
-            <InputForm/>
+            <div style={{margin: '20px'}}>
+            <InputForm />
+            </div>
             <p className="App-intro">
                 <TrafficContainer traffic={this.state.traffic}/>
             </p>
-            <div>
+            <div style={{margin: '20px'}}>
                 <Calendar
                 onChange={this.onChange}
                 value={this.state.date}

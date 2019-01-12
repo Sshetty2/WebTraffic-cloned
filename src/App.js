@@ -5,6 +5,7 @@ import TrafficContainer from "./components/TrafficContainer";
 import {getCurrentTab} from "./common/Utils";
 import Calendar from 'react-calendar';
 import InputForm from './formmama'
+import $ from 'jquery';
 
 class App extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class App extends Component {
             date: new Date()
         };
     }
+
     onChange = date => this.setState({ date })
 
     componentDidMount() {
@@ -26,10 +28,20 @@ class App extends Component {
                 }
             });
         });
+
+        
+        $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
+        var text = $(this).text();
+        console.log(text);
+        });
+    
+
     }
 
     render() {
         console.log(this.state.date)
+
+
         return (
           <div className="App">
             <div style={{margin: '20px'}}>

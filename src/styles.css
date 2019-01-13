@@ -5,7 +5,7 @@ body {
   input {
     border: 1px solid #999;
     padding: 0.5rem;
-    width: 300px;
+    width: 350px;
   }
   
   .no-suggestions {
@@ -21,7 +21,7 @@ body {
     max-height: 143px;
     overflow-y: auto;
     padding-left: 0;
-    width: calc(300px + 1rem);
+    width: calc(350px + 1rem);
   }
   
   .suggestions li {

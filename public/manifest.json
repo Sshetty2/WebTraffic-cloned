@@ -10,15 +10,21 @@
     "default_title": "Open the popup"
   },
   "icons": {
-    "16": "logo-small.png",
-    "48": "logo-small.png",
-    "128": "logo-small.png"
+    "16": "meetup-icon-white.png",
+    "48": "meetup-logo-small.png",
+    "128": "meetup-logo-small.png"
   },
   "background": {
     "scripts": ["app/background.js"]
   },
   "permissions": [
     "webRequest",
-    "*://developer.mozilla.org/"
+    "http://*.meetup.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*.meetup.com/*"],
+      "js": ["app/jquery-3.3.1.min.js"]
+    }
   ]
 }

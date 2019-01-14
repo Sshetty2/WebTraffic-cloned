@@ -18,13 +18,15 @@
     "scripts": ["app/background.js"]
   },
   "permissions": [
+    "activeTab",
     "webRequest",
     "http://*.meetup.com/*"
   ],
   "content_scripts": [
     {
-      "matches": ["http://*.meetup.com/*"],
-      "js": ["app/jquery-3.3.1.min.js"]
+      "js": ["app/jquery-3.3.1.min.js", "app/content.js"],
+      // "matches": ["http://*.meetup.com/*"]
+      "matches": ["<all_urls>"]
     }
   ]
 }

@@ -1,8 +1,9 @@
+/*global chrome*/
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import $ from 'jquery';
 
+import $ from 'jquery';
 
 import Autocomplete from "./Autocomplete";
 require("./styles.css");
@@ -25,16 +26,14 @@ export const Form = props => {
       setFieldTouched(name, true, false);
     };
     return (
-      
-
 
       <form
         onSubmit={() => {
+          var textArray = []
           $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-          var text = $(this).text();
-          console.log(text);
-          })
-    
+              textArray.push($(this).text());
+          });
+          alert(textArray[0]);
         }}
       >
       <Autocomplete
@@ -77,17 +76,3 @@ export const Form = props => {
     );
    };
    
-
-   // main page
-// $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-//     var text = $(this).text();
-//     console.log(text);
-// });
-
-// group page
-// $(('.groupHomeHeader-groupName'), '.groupHomeHeader-groupNameLink').textContent
-
-
-
-// event page
-// $('.event-info-group--groupName').textContent

@@ -1,3 +1,4 @@
+/*global chrome*/
 import React, { Component } from "react";
 import { Formik } from "formik";
 import withStyles from "@material-ui/core/styles/withStyles";

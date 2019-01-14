@@ -29,11 +29,17 @@ class App extends Component {
             });
         });
 
-        
-        $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-        var text = $(this).text();
-        console.log(text);
-        });
+        chrome.runtime.onMessage.addListener(
+            function(request, sender, sendResponse) {
+    
+              console.log(request.greeting);
+            });
+
+        // can't use jquery from popup app like this
+        // $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
+        // var text = $(this).text();
+        // console.log(text);
+        // });
     
 
     }

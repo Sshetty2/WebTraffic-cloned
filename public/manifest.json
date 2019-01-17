@@ -18,6 +18,7 @@
     "scripts": ["app/background.js"]
   },
   "permissions": [
+    "storage",
     "identity",
     "tabs",
     "activeTab",

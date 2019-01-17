@@ -26,12 +26,35 @@ function buildPropArr(els){
 
 console.log('content script has been run')
 chrome.extension.onMessage.addListener(function(request, sender, response) {
-    if (request.type === 'getDoc') {
-      response(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
+    if (request.type === 'onUpdateFrmEvent') {
+      grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
+      chrome.storage.local.set({grpNameArray: grpNameArray}, function() {
+        console.log('Value is set to ' + grpNameArray);
+      })
+      response(grpNameArray);
+;
+
+      // chrome.runtime.sendMessage(
+      //   "foo",
+      //   function (response) {
+      //     console.log(response)
+      //   }
+      // )
+
+
+
     };
-    console.log(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
     return true;
   });
+
+// chrome.extension.onMessage.addListener(function(request, sender, response) {
+//   if (request.type === 'popupInit') {
+//     response(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
+//   };
+//   console.log(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
+//   return true;
+// });
+
 
 
   // main page

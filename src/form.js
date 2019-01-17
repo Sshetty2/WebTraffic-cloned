@@ -6,9 +6,7 @@ import  Example  from "./Autosuggest";
 
 import $ from 'jquery';
 
-import Autocomplete from "./Autocomplete";
 require("./styles.css");
-
 
 
 export const Form = props => {
@@ -44,7 +42,7 @@ export const Form = props => {
           }}
         >
         <div style={gnamestyle}>
-        <Example {...props} />
+        <Example {...props} errors={errors} />
         </div>
         <div style={drangestyle}>  
         <TextField

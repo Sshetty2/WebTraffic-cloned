@@ -11,7 +11,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            traffic: {},
+            suggestions: [],
             date: new Date()
         };
     }
@@ -23,7 +23,7 @@ class App extends Component {
             chrome.runtime.sendMessage({type: 'popupInit', tabId: tab.id}, (response) => {
                 if (response) {
                     this.setState({
-                        traffic: Object.assign(this.state.traffic, response)
+                        suggestions: response
                     });
                 }
             });
@@ -45,7 +45,7 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.state.date)
+        console.log(this.state.suggestions)
 
 
         return (

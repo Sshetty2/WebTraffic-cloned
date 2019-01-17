@@ -29,7 +29,7 @@ export const Form = props => {
 
       <form
         onSubmit={() => {
-          alert(props.testScript);
+          alert(props.date);
         }}
       >
       <Autocomplete
@@ -53,7 +53,7 @@ export const Form = props => {
           error={touched.email && Boolean(errors.email)}
           label="Date Range"
           fullWidth
-          value={email}
+          value={props.date}
           onChange={change.bind(null, "email")}
    
         />
@@ -65,7 +65,7 @@ export const Form = props => {
             color="primary"
             disabled={!isValid}
           >
-            Submit
+            Schedule
           </Button>
         </div>
       </form>

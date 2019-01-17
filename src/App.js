@@ -53,9 +53,9 @@ class App extends Component {
             <div style={{margin: '20px'}}>
             <InputForm date = {this.state.date} />
             </div>
-            <p className="App-intro">
+            {/* <p className="App-intro">
                 <TrafficContainer traffic={this.state.traffic}/>
-            </p>
+            </p> */}
             <div style={{margin: '20px', paddingBottom: '10px'}}>
                 <Calendar
                 onChange={this.onChange}

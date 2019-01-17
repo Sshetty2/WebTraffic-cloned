@@ -1,3 +1,4 @@
+/*global chrome*/
 import React from "react";
 import Autosuggest from 'react-autosuggest';
 import TextField from "@material-ui/core/TextField";
@@ -31,11 +32,11 @@ const getSuggestions = value => {
 // input value for every given suggestion.
 const getSuggestionValue = suggestion => suggestion.name;
 
-const change = (name, e) => {
-    e.persist();
-    this.props.handleChange(e);
-    this.props.setFieldTouched(name, true, false);
-  };
+// const change = (name, e) => {
+//     e.persist();
+//     this.props.handleChange(e);
+//     this.props.setFieldTouched(name, true, false);
+//   };
 
 
 const renderInputComponent = inputProps => (
@@ -70,7 +71,7 @@ export default class Example extends React.Component {
     // and an onChange handler that updates this value (see below).
     // Suggestions also need to be provided to the Autosuggest,
     // and they are initially empty because the Autosuggest is closed.
-    
+
     this.state = {
       value: '',
       suggestions: []
@@ -79,9 +80,21 @@ export default class Example extends React.Component {
 
   onChange = (event, { newValue }) => {
     this.setState({
-      value: newValue
+        value: newValue
     });
+
+    chrome.storage.local.get(['grpNameArray'], function(result) {
+        console.log('Value currently is ' + result.grpNameArray);
+        this.setState({
+            suggestions: result.grpNameArray,
+        });
+    }.bind(this));
   };
+
+
+//   chrome.storage.local.get(['grpNameArray'], function(result) {
+//     console.log('Value currently is ' + result.grpNameArray);
+//   });
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.

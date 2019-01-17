@@ -2,6 +2,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import  Example  from "./Autosuggest";
 
 import $ from 'jquery';
 
@@ -19,6 +20,16 @@ export const Form = props => {
       isValid,
       setFieldTouched
     } = props;
+
+    var gnamestyle = {
+      paddingTop: '0px',
+      paddingBottom:'20px'
+    };
+
+    var drangestyle = {
+      paddingTop: '10px'
+    }
+
    
     const change = (name, e) => {
       e.persist();
@@ -27,25 +38,15 @@ export const Form = props => {
     };
     return (
 
-      <form
-        onSubmit={() => {
-          alert(props.date);
-        }}
-      >
-      <Autocomplete
-        suggestions={[
-          "Alligator",
-          "Bask",
-          "Crocodilian",
-          "Death Roll",
-          "Eggs",
-          "Jaws",
-          "Reptile",
-          "Solitary",
-          "Tail",
-          "Wetlands"
-        ]}
-      />
+        <form
+          onSubmit={() => {
+            alert(props.date);
+          }}
+        >
+        <div style={gnamestyle}>
+        <Example {...props} />
+        </div>
+        <div style={drangestyle}>  
         <TextField
           id="date-range"
           name="date-range"
@@ -55,8 +56,8 @@ export const Form = props => {
           fullWidth
           value={props.date}
           onChange={change.bind(null, "email")}
-   
         />
+        </div>
         <div style={{paddingTop: '20px'}}>
           <Button
             type="submit"

@@ -18,6 +18,8 @@
     "scripts": ["app/background.js"]
   },
   "permissions": [
+    "identity",
+    "tabs",
     "activeTab",
     "webRequest",
     "http://*.meetup.com/*"

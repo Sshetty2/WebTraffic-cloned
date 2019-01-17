@@ -46,12 +46,13 @@ class InputForm extends Component {
 
  render() {
    const classes = this.props;
+   const testScript = "test script"
    return (
      <React.Fragment>
           <div className={classes.container}>
             <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
             <Formik
-                render={props => <Form {...props} />}
+                render={props => <Form {...props} testScript={testScript} />}
             />
        </div>
      </React.Fragment>

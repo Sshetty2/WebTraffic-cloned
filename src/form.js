@@ -29,11 +29,7 @@ export const Form = props => {
 
       <form
         onSubmit={() => {
-          var textArray = []
-          $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-              textArray.push($(this).text());
-          });
-          alert(textArray[0]);
+          alert(props.testScript);
         }}
       >
       <Autocomplete

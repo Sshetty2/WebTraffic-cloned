@@ -82,7 +82,8 @@ export default class Example extends React.Component {
 
     this.state = {
       value: '',
-      suggestions: []
+      suggestions: [],
+      grpNameArray: []
     };
 
     // Imagine you have a list of languages that you'd like to autosuggest
@@ -100,17 +101,20 @@ getSuggestions = x => {
         // });
         // console.log(groupNameArray)
         // return result.grpNameArray
+        if(result.grpNameArray){
         console.log(result.grpNameArray)
         this.setState({
             grpNameArray: result.grpNameArray
         });
+      }
     });
 
 const inputValue = x.trim().toLowerCase();
 const inputLength = inputValue.length;
+console.log(this.state.grpNameArray)
 
 return inputLength === 0 ? [] : this.state.grpNameArray.filter(y =>
-    y.toLowerCase().slice(0, inputLength) === inputValue
+    y.toLowerCase().slice(0, this.inputLength) === inputValue
 );
 };
 
@@ -202,7 +206,7 @@ renderSuggestion = suggestion => (
     // Finally, render it!
     return (
       <Autosuggest
-        suggestions={this.suggestions}
+        suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={this.getSuggestionValue}

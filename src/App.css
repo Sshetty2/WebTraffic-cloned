@@ -27,9 +27,12 @@
 .rock-salt{
   font-family: 'Rock Salt', cursive;
   font-size: 19px;
+  color: #352995;
   text-align: center;
+  text-shadow: #FC0 1px 0 10px;
 }
 
 .Rancho{
   font-family: 'Rancho', cursive;
 }
+

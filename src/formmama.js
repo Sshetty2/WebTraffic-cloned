@@ -52,7 +52,7 @@ class InputForm extends Component {
           <div className={classes.container}>
             <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
             <Formik
-                render={props => <Form {...props} testScript={testScript} date ={this.props.date} />}
+                render={props => <Form {...props} date ={this.props.date} />}
             />
        </div>
      </React.Fragment>

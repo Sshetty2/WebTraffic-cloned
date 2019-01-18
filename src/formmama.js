@@ -46,7 +46,6 @@ class InputForm extends Component {
 
  render() {
    const classes = this.props;
-   const testScript = "test script"
    return (
      <React.Fragment>
           <div className={classes.container}>

@@ -34,6 +34,8 @@ export const Form = props => {
       handleChange(e);
       setFieldTouched(name, true, false);
     };
+
+
     return (
 
         <form
@@ -42,7 +44,7 @@ export const Form = props => {
           }}
         >
         <div style={gnamestyle}>
-        <Example {...props} errors={errors} />
+        <Example {...props} errors={errors}/>
         </div>
         <div style={drangestyle}>  
         <TextField

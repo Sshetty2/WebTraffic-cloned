@@ -11,7 +11,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            suggestions: [],
+            grpNameArray: [],
             date: new Date()
         };
     }
@@ -22,8 +22,9 @@ class App extends Component {
         getCurrentTab((tab) => {
             chrome.runtime.sendMessage({type: 'popupInit', tabId: tab.id}, (response) => {
                 if (response) {
+                    console.log(`this response from componentDidMount() was ${response}`)
                     this.setState({
-                        suggestions: response
+                        grpNameArray: response
                     });
                 }
             });

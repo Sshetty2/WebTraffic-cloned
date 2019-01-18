@@ -2,15 +2,15 @@
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status === 'complete') {
       chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
-        chrome.tabs.sendMessage(tabId, {grpNameArray: response}, function(response){
-          chrome.storage.local.get(['grpNameArray'], function(result) {
-            console.log('Value currently is ' + result.grpNameArray);
+        console.log(`The response object that was received when we sent the message that ran onUpdated is ${response[0]}`)
+        chrome.storage.local.get(['grpNameArray'], function(result) {
+          console.log('Value currently is ' + result.grpNameArray[0]);
           });
         }
         
 
 
-        )}
+     
         
       )
 
@@ -22,9 +22,6 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   
   // In content_scripts.js
  
-
-
-
 
 
 

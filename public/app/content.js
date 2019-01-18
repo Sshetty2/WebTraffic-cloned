@@ -29,7 +29,7 @@ chrome.extension.onMessage.addListener(function(request, sender, response) {
     if (request.type === 'onUpdateFrmEvent') {
       grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
       chrome.storage.local.set({grpNameArray: grpNameArray}, function() {
-        console.log('Value is set to ' + grpNameArray);
+        console.log('Value is set to ' + grpNameArray[0]);
       })
       response(grpNameArray);
 ;
@@ -47,13 +47,12 @@ chrome.extension.onMessage.addListener(function(request, sender, response) {
     return true;
   });
 
-// chrome.extension.onMessage.addListener(function(request, sender, response) {
-//   if (request.type === 'popupInit') {
-//     response(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
-//   };
-//   console.log(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
-//   return true;
-// });
+chrome.extension.onMessage.addListener(function(request, sender, response) {
+  if (request.type === 'popupInit') {
+    response(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
+  };
+  return true;
+});
 
 
 

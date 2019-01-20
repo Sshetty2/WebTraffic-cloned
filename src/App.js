@@ -1,10 +1,11 @@
 /*global chrome*/
 import React, { Component } from 'react';
 import './App.css';
-import TrafficContainer from "./components/TrafficContainer";
+
 import {getCurrentTab} from "./common/Utils";
 import Calendar from 'react-calendar';
-import FormMamma from './formmama'
+
+import  Form  from "./form";
 import $ from 'jquery';
 
 class App extends Component {
@@ -52,7 +53,12 @@ class App extends Component {
         return (
           <div className="App">
             <div style={{margin: '20px'}}>
-            <FormMamma date = {this.state.date}/>
+            <React.Fragment>
+                <div>
+                    <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
+                    <Form date = {this.state.date} />
+                </div>
+            </React.Fragment>
             </div>
             {/* <p className="App-intro">
                 <TrafficContainer traffic={this.state.traffic}/>

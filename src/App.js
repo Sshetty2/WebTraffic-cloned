@@ -14,9 +14,19 @@ class App extends Component {
             grpNameArray: [],
             date: new Date()
         };
+        this.onGroupChange.bind(this)
     }
 
+
+
     onChange = date => {console.log(this.state.date); return this.setState({ date })}
+
+    onGroupChange =(event, { newValue }) =>{
+        this.setState({
+            value: newValue
+            
+        });
+    };
 
     componentDidMount() {
         getCurrentTab((tab) => {
@@ -59,7 +69,7 @@ class App extends Component {
             <React.Fragment>
                 <div>
                     <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
-                    <Form date = {dateRendered} />
+                    <Form date = {dateRendered} onGroupChange={this.onGroupChange.bind(this)}/>
                 </div>
             </React.Fragment>
             </div>

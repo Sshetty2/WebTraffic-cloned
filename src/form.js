@@ -32,8 +32,8 @@ export default class Form extends React.Component {
     //   e.persist();
     //   handleChange(e);
     // };
+    console.log(this.props.onGroupChange);
     console.log(this.props.date)
-
 
     return (
 
@@ -43,7 +43,7 @@ export default class Form extends React.Component {
           }}
         >
         <div style={gnamestyle}>
-        <AutosuggestField />
+        <AutosuggestField onGroupChange = {this.props.onGroupChange}/>
         </div>
         <div style={drangestyle}>  
         <TextField

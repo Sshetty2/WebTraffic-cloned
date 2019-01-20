@@ -8,7 +8,6 @@ import './App.css';
 export default class AutosuggestField extends React.Component {
   constructor(props) {
     super(props);
-
     // Autosuggest is a controlled component.
     // This means that you need to provide an input value
     // and an onChange handler that updates this value (see below).
@@ -77,13 +76,13 @@ renderSuggestion = suggestion => (
 
 
 
-  onChange = (event, { newValue }) => {
-    this.setState({
-        value: newValue
+  // onChange = (event, { newValue }) => {
+  //   this.setState({
+  //       value: newValue
         
-    });
-    console.log(this.state.value)
-  };
+  //   });
+  //   console.log(this.state.value)
+  // };
 
 
   // Autosuggest will call this function every time you need to update suggestions.
@@ -107,12 +106,12 @@ renderSuggestion = suggestion => (
 
   render() {
     const { value, suggestions } = this.state;
-
+    console.log(this.props.onGroupChange)
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
       placeholder: 'Type A Group Name',
       value,
-      onChange: this.onChange
+      onChange: this.props.onGroupChange.bind(this)
     };
 
     // Finally, render it!

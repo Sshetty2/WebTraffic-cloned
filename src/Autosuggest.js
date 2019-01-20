@@ -4,72 +4,6 @@ import Autosuggest from 'react-autosuggest';
 import TextField from "@material-ui/core/TextField";
 import './App.css';
 
-// Imagine you have a list of languages that you'd like to autosuggest.
-// Imagine you have a list of languages that you'd like to autosuggest.
-
-
-
-
-// // Teach Autosuggest how to calculate suggestions for any given input value.
-// const getSuggestions = x => {
-//     chrome.storage.local.get(['grpNameArray'], (result) => {
-//         // console.log('Value currently is ' + result.grpNameArray);
-//         // this.setState({
-//         //     suggestions: result.grpNameArray,
-//         // });
-//         // console.log(groupNameArray)
-//         // return result.grpNameArray
-//         console.log(result.grpNameArray)
-//         this.setState({
-//             grpNameArray: result.grpNameArray
-//         });
-//     });
-
-//   const inputValue = x.trim().toLowerCase();
-//   const inputLength = inputValue.length;
-
-//   return inputLength === 0 ? [] : this.state.grpNameArray.filter(y =>
-//     y.toLowerCase().slice(0, inputLength) === inputValue
-//   );
-// };
-
-// // When suggestion is clicked, Autosuggest needs to populate the input
-// // based on the clicked suggestion. Teach Autosuggest how to calculate the
-// // input value for every given suggestion.
-// const getSuggestionValue = suggestion => suggestion.name;
-
-// // const change = (name, e) => {
-// //     e.persist();
-// //     this.props.handleChange(e);
-// //     this.props.setFieldTouched(name, true, false);
-// //   };
-
-
-// const renderInputComponent = inputProps => (
-// <TextField
-//         id="group-name"
-//         name="group-name"
-//         label="Group Name"
-//         //   helperText={this.props.touched.email ? this.props.errors.email : ""}
-//         //   error={this.props.touched.email && Boolean(this.props.errors.email)}
-        
-//         fullWidth
-//         //   value={this.props.date}
-//         //   onChange={change.bind(null, "email")}
-//           {...inputProps} 
-   
-//         />
-// )
-
-// // Use your imagination to render suggestions.
-// const renderSuggestion = suggestion => (
-//   <div>
-//     {suggestion.name}
-//   </div>
-// );
-
-
-
 
 export default class AutosuggestField extends React.Component {
   constructor(props) {
@@ -96,12 +30,6 @@ export default class AutosuggestField extends React.Component {
 // Teach Autosuggest how to calculate suggestions for any given input value.
 getSuggestions = x => {
     chrome.storage.local.get(['grpNameArray'], (result) => {
-        // console.log('Value currently is ' + result.grpNameArray);
-        // this.setState({
-        //     suggestions: result.grpNameArray,
-        // });
-        // console.log(groupNameArray)
-        // return result.grpNameArray
         if(result.grpNameArray){
         this.setState({
             grpNameArray: result.grpNameArray
@@ -123,11 +51,6 @@ getSuggestions = x => {
 // input value for every given suggestion.
 getSuggestionValue = suggestion => suggestion;
 
-// const change = (name, e) => {
-//     e.persist();
-//     this.props.handleChange(e);
-//     this.props.setFieldTouched(name, true, false);
-//   };
 
 
 renderInputComponent = inputProps => (
@@ -159,18 +82,9 @@ renderSuggestion = suggestion => (
         value: newValue
         
     });
-    // chrome.storage.local.get(['grpNameArray'], function(result) {
-    //     console.log('Value currently is ' + result.grpNameArray);
-    //     this.setState({
-    //         suggestions: result.grpNameArray,
-    //     });
-    // }.bind(this));
+    console.log(this.state.value)
   };
 
-
-//   chrome.storage.local.get(['grpNameArray'], function(result) {
-//     console.log('Value currently is ' + result.grpNameArray);
-//   });
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.

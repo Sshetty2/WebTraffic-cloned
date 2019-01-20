@@ -33,6 +33,7 @@ export default class Form extends React.Component {
     //   e.persist();
     //   handleChange(e);
     // };
+    console.log(this.props.date)
 
 
     return (

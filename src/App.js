@@ -52,7 +52,7 @@ class App extends Component {
         return (
           <div className="App">
             <div style={{margin: '20px'}}>
-            <InputForm date = {this.state.date} />
+            <InputForm date = {this.state.date}/>
             </div>
             {/* <p className="App-intro">
                 <TrafficContainer traffic={this.state.traffic}/>

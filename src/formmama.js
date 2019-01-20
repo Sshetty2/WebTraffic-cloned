@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { Formik } from "formik";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Form } from "./form";
+import  Form  from "./form";
 import Paper from "@material-ui/core/Paper";
 import * as Yup from "yup"
 import './App.css';
@@ -41,7 +41,6 @@ const styles = theme => ({
 class InputForm extends Component {
  constructor(props) {
    super(props);
-   this.state = {};
  }
 
  render() {
@@ -50,9 +49,7 @@ class InputForm extends Component {
      <React.Fragment>
           <div className={classes.container}>
             <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
-            <Formik
-                render={props => <Form {...props} date ={this.props.date} />}
-            />
+              <Form date = {this.props.date} />
        </div>
      </React.Fragment>
    );

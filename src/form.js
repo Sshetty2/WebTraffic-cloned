@@ -9,15 +9,16 @@ import $ from 'jquery';
 require("./styles.css");
 
 
-export const Form = props => {
-    const {
-      values: { name, email, password, confirmPassword },
-      errors,
-      touched,
-      handleChange,
-      isValid,
-      setFieldTouched
-    } = props;
+export default class Form extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+
+
+
+  render(){
+
 
     var gnamestyle = {
       paddingTop: '0px',
@@ -28,34 +29,31 @@ export const Form = props => {
       paddingTop: '10px'
     }
 
-   
-    const change = (name, e) => {
-      e.persist();
-      handleChange(e);
-      setFieldTouched(name, true, false);
-    };
+    // const change = (name, e) => {
+    //   e.persist();
+    //   handleChange(e);
+    // };
 
 
     return (
 
         <form
           onSubmit={() => {
-            alert(props.date);
+            alert(this.props.date);
           }}
         >
         <div style={gnamestyle}>
-        <Example {...props} errors={errors}/>
+        <Example />
         </div>
         <div style={drangestyle}>  
         <TextField
           id="date-range"
           name="date-range"
-          helperText={touched.email ? errors.email : ""}
-          error={touched.email && Boolean(errors.email)}
+          // helperText={touched.email ? errors.email : ""}
+          // error={touched.email && Boolean(errors.email)}
           label="Date Range"
           fullWidth
-          value={props.date}
-          onChange={change.bind(null, "email")}
+          value={this.props.date}
           required= {false}
         />
         </div>
@@ -65,7 +63,7 @@ export const Form = props => {
             fullWidth
             variant="raised"
             color="primary"
-            disabled={!isValid}
+            disabled={false}
           >
             Schedule
           </Button>
@@ -73,4 +71,5 @@ export const Form = props => {
       </form>
     );
    };
+  }
    

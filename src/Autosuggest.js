@@ -1,5 +1,5 @@
 /*global chrome*/
-import React from "react";
+import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import TextField from "@material-ui/core/TextField";
 import './App.css';

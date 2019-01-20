@@ -2,7 +2,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import  Example  from "./Autosuggest";
+import  AutosuggestField  from "./Autosuggest";
 
 import $ from 'jquery';
 
@@ -43,7 +43,7 @@ export default class Form extends React.Component {
           }}
         >
         <div style={gnamestyle}>
-        <Example />
+        <AutosuggestField />
         </div>
         <div style={drangestyle}>  
         <TextField

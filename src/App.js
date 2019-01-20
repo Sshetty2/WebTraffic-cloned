@@ -4,7 +4,7 @@ import './App.css';
 import TrafficContainer from "./components/TrafficContainer";
 import {getCurrentTab} from "./common/Utils";
 import Calendar from 'react-calendar';
-import InputForm from './formmama'
+import FormMamma from './formmama'
 import $ from 'jquery';
 
 class App extends Component {
@@ -52,7 +52,7 @@ class App extends Component {
         return (
           <div className="App">
             <div style={{margin: '20px'}}>
-            <InputForm date = {this.state.date}/>
+            <FormMamma date = {this.state.date}/>
             </div>
             {/* <p className="App-intro">
                 <TrafficContainer traffic={this.state.traffic}/>

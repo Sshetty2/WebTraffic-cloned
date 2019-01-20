@@ -71,7 +71,7 @@ import './App.css';
 
 
 
-export default class Example extends React.Component {
+export default class AutosuggestField extends React.Component {
   constructor(props) {
     super(props);
 
@@ -157,8 +157,8 @@ renderSuggestion = suggestion => (
   onChange = (event, { newValue }) => {
     this.setState({
         value: newValue
+        
     });
-
     // chrome.storage.local.get(['grpNameArray'], function(result) {
     //     console.log('Value currently is ' + result.grpNameArray);
     //     this.setState({

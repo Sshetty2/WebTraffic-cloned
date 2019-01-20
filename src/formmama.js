@@ -1,28 +1,10 @@
 /*global chrome*/
 import React, { Component } from "react";
-import { Formik } from "formik";
-import withStyles from "@material-ui/core/styles/withStyles";
+
 import  Form  from "./form";
-import Paper from "@material-ui/core/Paper";
-import * as Yup from "yup"
+
 import './App.css';
 
-const styles = theme => ({
- paper: {
-   marginTop: theme.spacing.unit * 8,
-   display: "flex",
-   flexDirection: "column",
-   alignItems: "center",
-   padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px ${theme
-     .spacing.unit * 5}px`
-
- },
- container: {
-   maxWidth: "200px"
- }
-
-
-});
 
 // const validationSchema = Yup.object({
 //     name: Yup.string("Enter a name")
@@ -38,22 +20,21 @@ const styles = theme => ({
 //     .oneOf([Yup.ref("password")], "Password does not match")
 // })
 
-class InputForm extends Component {
+class FormMamma extends Component {
  constructor(props) {
    super(props);
  }
 
  render() {
-   const classes = this.props;
    return (
      <React.Fragment>
-          <div className={classes.container}>
+          <div>
             <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
               <Form date = {this.props.date} />
-       </div>
+           </div>
      </React.Fragment>
    );
  }
 }
 
-export default withStyles(styles)(InputForm);
+export default FormMamma;

@@ -56,6 +56,7 @@ export const Form = props => {
           fullWidth
           value={props.date}
           onChange={change.bind(null, "email")}
+          required= {false}
         />
         </div>
         <div style={{paddingTop: '20px'}}>

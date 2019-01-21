@@ -65,6 +65,7 @@ renderInputComponent = inputProps => (
         //   value={this.props.date}
         //   onChange={change.bind(null, "email")}
         {...inputProps} 
+        // ref={input => this.textField = input}
 
         />
 )
@@ -74,6 +75,13 @@ renderSuggestion = suggestion => (
 <span className='cav-brush'>{suggestion}</span>
 );
 
+// get value() {
+//   return this.textField
+// }
+
+// set value(inputValue) {
+//   this.refs.textField.value = inputValue
+// }
 
 
 
@@ -106,6 +114,7 @@ renderSuggestion = suggestion => (
   };
 
   render() {
+    // console.log(this.refs.textField.value)
     const { value, suggestions } = this.state;
 
     // Autosuggest will pass through all these props to the input.

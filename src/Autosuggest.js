@@ -21,7 +21,6 @@ export default class AutosuggestField extends React.Component {
       grpNameArray: []
     };
 
-    // Imagine you have a list of languages that you'd like to autosuggest
 
   }
 
@@ -49,6 +48,8 @@ getSuggestions = x => {
 // When suggestion is clicked, Autosuggest needs to populate the input
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
 // input value for every given suggestion.
+// this is extraneous in this particular application because the array was simplified
+
 getSuggestionValue = suggestion => suggestion;
 
 

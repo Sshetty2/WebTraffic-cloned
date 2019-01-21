@@ -28,10 +28,6 @@ export default class Form extends React.Component {
       paddingTop: '10px'
     }
 
-    // const change = (name, e) => {
-    //   e.persist();
-    //   handleChange(e);
-    // };
     console.log(this.props.date)
 
 
@@ -49,8 +45,6 @@ export default class Form extends React.Component {
         <TextField
           id="date-range"
           name="date-range"
-          // helperText={touched.email ? errors.email : ""}
-          // error={touched.email && Boolean(errors.email)}
           label="Date Range"
           fullWidth
           value={this.props.date}

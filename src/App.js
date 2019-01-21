@@ -41,16 +41,6 @@ class App extends Component {
               console.log(request.greeting);
             });
 
-        // can't use jquery from popup app like this
-        // $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-        // var text = $(this).text();
-        // console.log(text);
-        // });
-
-
-        
-    
-
     }
 
     render() {
@@ -68,9 +58,6 @@ class App extends Component {
                 </div>
             </React.Fragment>
             </div>
-            {/* <p className="App-intro">
-                <TrafficContainer traffic={this.state.traffic}/>
-            </p> */}
             <div style={{margin: '20px', paddingBottom: '10px'}}>
                 <Calendar
 

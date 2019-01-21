@@ -18,6 +18,11 @@ class App extends Component {
 
     onChange = date => {console.log(this.state.date); return this.setState({ date })}
 
+    getAutosuggestInput(value){
+        console.log(`the autosuggestion input from the app component is ${value}`);
+        this.setState({textField: value})
+    }
+
     componentDidMount() {
         getCurrentTab((tab) => {
             chrome.runtime.sendMessage({type: 'popupInit', tabId: tab.id}, (response) => {
@@ -59,7 +64,7 @@ class App extends Component {
             <React.Fragment>
                 <div>
                     <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
-                    <Form date = {dateRendered} />
+                    <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} />
                 </div>
             </React.Fragment>
             </div>

@@ -57,16 +57,9 @@ renderInputComponent = inputProps => (
 <TextField
         id="group-name"
         name="group-name"
-        label="Group Name"
-        //   helperText={this.props.touched.email ? this.props.errors.email : ""}
-        //   error={this.props.touched.email && Boolean(this.props.errors.email)}
-        
+        label="Group Name"       
         fullWidth
-        //   value={this.props.date}
-        //   onChange={change.bind(null, "email")}
         {...inputProps} 
-        // ref={input => this.textField = input}
-
         />
 )
 
@@ -75,22 +68,13 @@ renderSuggestion = suggestion => (
 <span className='cav-brush'>{suggestion}</span>
 );
 
-// get value() {
-//   return this.textField
-// }
-
-// set value(inputValue) {
-//   this.refs.textField.value = inputValue
-// }
-
-
 
   onChange = (event, { newValue }) => {
     this.setState({
         value: newValue
         
     });
-    console.log(this.state.value)
+    this.props.getInputData(newValue);
   };
 
 
@@ -114,17 +98,14 @@ renderSuggestion = suggestion => (
   };
 
   render() {
-    // console.log(this.refs.textField.value)
     const { value, suggestions } = this.state;
 
-    // Autosuggest will pass through all these props to the input.
     const inputProps = {
       placeholder: 'Type A Group Name',
       value,
       onChange: this.onChange
     };
 
-    // Finally, render it!
     return (
       <Autosuggest
         suggestions={suggestions}

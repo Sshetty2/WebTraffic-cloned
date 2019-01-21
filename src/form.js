@@ -43,7 +43,7 @@ export default class Form extends React.Component {
           }}
         >
         <div style={gnamestyle}>
-        <AutosuggestField />
+        <AutosuggestField getInputData={this.props.getInputData} />
         </div>
         <div style={drangestyle}>  
         <TextField

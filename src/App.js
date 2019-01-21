@@ -6,7 +6,6 @@ import {getCurrentTab} from "./common/Utils";
 import Calendar from 'react-calendar';
 
 import  Form  from "./form";
-import $ from 'jquery';
 
 class App extends Component {
     constructor(props) {
@@ -17,7 +16,7 @@ class App extends Component {
         };
     }
 
-    onChange = date => this.setState({ date })
+    onChange = date => {console.log(this.state.date); return this.setState({ date })}
 
     componentDidMount() {
         getCurrentTab((tab) => {
@@ -42,13 +41,17 @@ class App extends Component {
         // var text = $(this).text();
         // console.log(text);
         // });
+
+
+        
     
 
     }
 
     render() {
         console.log(this.state.suggestions)
-
+        const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' }
+        const dateRendered = this.state.date.length == 2 ? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` : this.state.date.toLocaleDateString("en-US", options)
 
         return (
           <div className="App">
@@ -56,7 +59,7 @@ class App extends Component {
             <React.Fragment>
                 <div>
                     <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
-                    <Form date = {this.state.date} />
+                    <Form date = {dateRendered} />
                 </div>
             </React.Fragment>
             </div>
@@ -65,6 +68,7 @@ class App extends Component {
             </p> */}
             <div style={{margin: '20px', paddingBottom: '10px'}}>
                 <Calendar
+
                 onChange={this.onChange}
                 value={this.state.date}
                 selectRange={true}

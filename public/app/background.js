@@ -3,6 +3,9 @@ const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
 const redirect_Uri =  'https://jodnpnodmbflogmledmffojgmdjljfmj.chromiumapp.org/'
 const clientSecret = 'tm034sb7uq41r55qeea3etjd28'
 
+
+// pre-token
+
 function makeXhrPostRequest(code, grantType, refreshToken){
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
@@ -29,13 +32,54 @@ function makeXhrPostRequest(code, grantType, refreshToken){
       `client_id=${meetup_client_key}&client_secret=${clientSecret}&grant_type=${grantType}&refresh_token=${refreshToken}` 
       :
       `client_id=${meetup_client_key}&client_secret=${clientSecret}&grant_type=${grantType}&redirect_uri=${redirect_Uri}&code=${code}`
-    console.log(requestBody)
     xhr.send(requestBody)
   })
 }
 
 
+//post-token
 
+function makeXhrRequest(method, url, token) {
+  return new Promise((resolve, reject) => { 
+    let xhr = new XMLHttpRequest(); 
+    xhr.open(method, url, true);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + token)
+    xhr.onload = function(){ 
+      if (xhr.status >= 200 && xhr.status < 300){
+        return resolve(xhr.response);
+      } else {
+        reject(Error({
+          status: xhr.status,
+          statusTextInElse: xhr.statusText
+        }))
+      }
+    }
+    xhr.onerror = function(){
+      reject(Error({
+        status: xhr.status,
+        statusText: xhr.statusText
+      }))
+    }
+    xhr.send()
+  })
+}
+
+//hardcoded group id for now
+const requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=BUILD+WITH+CODE+-+LOS+ANGELES&page=20`
+
+// called after token is received
+
+function makeXhrRequestForGroupId(token) { //.1 
+   //.2
+   let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${groupId}&page=20` 
+    return makeXhrRequest('GET', requestUrl, token) // .10
+    .then((data) => { // .11
+      let parsedData = JSON.parse(data) //.12
+
+      return parsedData //.15
+    })
+
+  }
 
 
 // a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent
@@ -63,7 +107,9 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         makeXhrPostRequest(code, 'authorization_code')
           .then(data => {
             data = JSON.parse(data)
-            console.log(data)
+            makeXhrRequestForGroupId(data.token)
+
+
           })
           .catch(err => console.log(err))
 

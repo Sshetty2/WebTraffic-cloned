@@ -1,4 +1,44 @@
 
+const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
+const redirect_Uri =  'https://jodnpnodmbflogmledmffojgmdjljfmj.chromiumapp.org/'
+const clientSecret = 'tm034sb7uq41r55qeea3etjd28'
+
+function makeXhrPostRequest(code, grantType, refreshToken){
+  return new Promise((resolve, reject) => {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://secure.meetup.com/oauth2/access', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function(){
+      if (xhr.status >= 200 && xhr.status < 300){
+          return resolve(xhr.response);
+      } else {
+        reject(Error({
+          status: xhr.status,
+          statusTextInElse: xhr.statusText
+        }))
+      }
+    }
+    xhr.onerror = function(){
+      reject(Error({
+        status: xhr.status,
+        statusText: xhr.statusText
+      }))
+    }
+    
+     let requestBody = (refreshToken) ?
+      `client_id=${meetup_client_key}&client_secret=${clientSecret}&grant_type=${grantType}&refresh_token=${refreshToken}` 
+      :
+      `client_id=${meetup_client_key}&client_secret=${clientSecret}&grant_type=${grantType}&redirect_uri=${redirect_Uri}&code=${code}`
+    console.log(requestBody)
+    xhr.send(requestBody)
+  })
+}
+
+
+
+
+
+// a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status === 'complete') {
       chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
@@ -6,43 +46,39 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         chrome.storage.local.get(['grpNameArray'], function(result) {
           console.log('Value currently is ' + result.grpNameArray[0]);
           });
-        }
-        
-
-
-     
-        
-      )
-
+        })
       };
     })
 
-    
-
-  
-  // In content_scripts.js
-//  redirect_uri = 'https://koendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
-
- 
- 
-//  api_key = tm034sb7uq41r55qeea3etjd28
- 
+// a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){ //.1
     if (request.action === 'meetupRequest'){ //.2
       chrome.identity.launchWebAuthFlow({ //.3
-        url: 'https://secure.meetup.com/oauth2/authorize' +
-        '?client_id=rd4j2luc2buqrg44s86ka6fhse' +
-        '&response_type=code' +
-        '&redirect_uri=https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/',
+        url: `https://secure.meetup.com/oauth2/authorize?client_id=${meetup_client_key}&response_type=code&redirect_uri=${redirect_Uri}`,
         interactive: true
       },
       function(redirectUrl) { //.4 
-        console.log('redirectUrl')
-        chrome.runtime.sendMessage({type: 'redirectUrl', redirectUrl: redirectUrl}, (response) => {
-          if (response) {
-              console.log(`the response from the client was ${response}`);
-          }
-        });
+        console.log(redirectUrl)
+        let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1)
+        makeXhrPostRequest(code, 'authorization_code')
+          .then(data => {
+            data = JSON.parse(data)
+            console.log(data)
+          })
+          .catch(err => console.log(err))
+
+
+
+
+
+
+
+        // console.log('redirectUrl')
+        // chrome.runtime.sendMessage({type: 'redirectUrl', redirectUrl: redirectUrl}, (response) => {
+        //   if (response) {
+        //       console.log(`the response from the client was ${response}`);
+        //   }
+        // });
         
 
         // let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1) //.5

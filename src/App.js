@@ -49,8 +49,8 @@ class App extends Component {
 
         chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             if (request.type === 'redirectUrl') {
-                console.log(request.redirectUrl)
                 sendResponse('The test Redirect URL Was recieved by the client')
+                console.log(request.redirectUrl)
             };
             return true;
         });

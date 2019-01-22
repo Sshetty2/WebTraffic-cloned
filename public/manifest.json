@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "My Extension",
+  "name": "Meetup-Batch-Event-Set-Tool",
   "description": "This extension is a starting point to create a real Chrome extension",
-  "version": "0.0.1",
+  "version": "0.1.0",
 
   "browser_action": {
     "default_popup": "index.html",

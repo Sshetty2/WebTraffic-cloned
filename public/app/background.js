@@ -21,10 +21,49 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
   
   // In content_scripts.js
+//  redirect_uri = 'https://koendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
+
  
+ 
+//  api_key = tm034sb7uq41r55qeea3etjd28
+ 
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){ //.1
+    if (request.action === 'meetupRequest'){ //.2
+      chrome.identity.launchWebAuthFlow({ //.3
+        url: 'https://secure.meetup.com/oauth2/authorize' +
+        '?client_id=rd4j2luc2buqrg44s86ka6fhse' +
+        '&response_type=code' +
+        '&redirect_uri=https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/',
+        interactive: true
+      },
+      function(redirectUrl) { //.4 
+        console.log(redirectUrl)
+        sendResponse({redirectUrl: redirectUrl})
 
-
-
+        // let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1) //.5
+  
+        // makeXhrPostRequest(code, 'authorization_code') //.6
+        //   .then(data => {
+        //     data = JSON.parse(data) //.7
+        //     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){//.8
+        //       if ( //.9
+        //         changeInfo.status === 'complete' && tab.url.indexOf('spotify') > -1
+        //       || changeInfo.status === 'complete' && tab.url.indexOf('spotify') > -1 && tab.url.indexOf('user') > -1 && tab.url.indexOf('playlists') === -1
+        //     ) {
+        //         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //.10
+        //             chrome.tabs.sendMessage(tabs[0].id, {token: data.access_token}, function (response) { //.11
+        //               console.log('response is ', response) //.12
+        //             });//end chrome send message
+        //         })//end chrome tab query
+        //       }
+        //     })//end onUpdated event listener
+        //     return data //.13
+        //   })//end promise
+        //   .catch(err => console.error(err)) //.14
+      }) //launch web auth flow
+  
+    } //if statment
+  })// exte
 
 
 

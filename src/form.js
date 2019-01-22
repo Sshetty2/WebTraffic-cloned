@@ -28,15 +28,10 @@ export default class Form extends React.Component {
       paddingTop: '10px'
     }
 
-    console.log(this.props.date)
-
-
     return (
 
         <form
-          onSubmit={() => {
-            alert(this.props.date);
-          }}
+          onSubmit={this.props.onFormSubmit}
         >
         <div style={gnamestyle}>
         <AutosuggestField getInputData={this.props.getInputData} />

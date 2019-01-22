@@ -7,6 +7,8 @@ import Calendar from 'react-calendar';
 
 import  Form  from "./form";
 
+import axios from 'axios';
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -22,6 +24,12 @@ class App extends Component {
         console.log(`the autosuggestion input from the app component is ${value}`);
         this.setState({textField: value})
     }
+
+    onFormSubmit=() => {
+        chrome.runtime.sendMessage({ // .2 
+            action: 'meetupRequest'
+          }, response => console.log(response))
+      }
 
     componentDidMount() {
         getCurrentTab((tab) => {
@@ -54,7 +62,7 @@ class App extends Component {
             <React.Fragment>
                 <div>
                     <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
-                    <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} />
+                    <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} onFormSubmit = {this.onFormSubmit.bind(this)} />
                 </div>
             </React.Fragment>
             </div>

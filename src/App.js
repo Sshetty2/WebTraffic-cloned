@@ -7,7 +7,6 @@ import Calendar from 'react-calendar';
 
 import  Form  from "./form";
 
-import axios from 'axios';
 
 class App extends Component {
     constructor(props) {
@@ -35,7 +34,6 @@ class App extends Component {
         getCurrentTab((tab) => {
             chrome.runtime.sendMessage({type: 'popupInit', tabId: tab.id}, (response) => {
                 if (response) {
-                    console.log(`this response from componentDidMount() was ${response}`)
                     this.setState({
                         grpNameArray: response
                     });
@@ -45,9 +43,17 @@ class App extends Component {
 
         chrome.runtime.onMessage.addListener(
             function(request, sender, sendResponse) {
-    
-              console.log(request.greeting);
-            });
+
+            console.log(request.greeting);
+        });
+
+        chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+            if (request.type === 'redirectUrl') {
+                console.log(request.redirectUrl)
+                sendResponse('The test Redirect URL Was recieved by the client')
+            };
+            return true;
+        });
 
     }
 

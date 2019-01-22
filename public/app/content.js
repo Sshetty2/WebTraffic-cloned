@@ -47,7 +47,7 @@ chrome.extension.onMessage.addListener(function(request, sender, response) {
     return true;
   });
 
-chrome.extension.onMessage.addListener(function(request, sender, response) {
+chrome.runtime.onMessage.addListener(function(request, sender, response) {
   if (request.type === 'popupInit') {
     response(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
   };

@@ -37,8 +37,13 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         interactive: true
       },
       function(redirectUrl) { //.4 
-        console.log(redirectUrl)
-        sendResponse({redirectUrl: redirectUrl})
+        console.log('redirectUrl')
+        chrome.runtime.sendMessage({type: 'redirectUrl', redirectUrl: redirectUrl}, (response) => {
+          if (response) {
+              console.log(`the response from the client was ${response}`);
+          }
+        });
+        
 
         // let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1) //.5
   
@@ -62,7 +67,8 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         //   .catch(err => console.error(err)) //.14
       }) //launch web auth flow
   
-    } //if statment
+    }
+    return true; //if statment
   })// exte
 
 

@@ -2,14 +2,16 @@
 const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
 const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
 const clientSecret = 'tm034sb7uq41r55qeea3etjd28'
+const meetupAccessTokenEndPoint = 'https://secure.meetup.com/oauth2/access'
 
 
 // pre-token
+// A generic post request for an access token. The request body may need to be reformatted depending on the API being queried
 
 function makeXhrPostRequest(code, grantType, refreshToken){
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://secure.meetup.com/oauth2/access', true);
+    xhr.open('POST', meetupAccessTokenEndPoint, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function(){
       if (xhr.status >= 200 && xhr.status < 300){
@@ -38,9 +40,7 @@ function makeXhrPostRequest(code, grantType, refreshToken){
 
 
 //post-token
-
-
-
+// A generic XHR request code, requires an HTTP XML request method, a request url, and an access token.
 
 function makeXhrRequest(method, url, token) {
   return new Promise((resolve, reject) => { 
@@ -78,23 +78,35 @@ function makeXhrRequestForGroupId(token) {
   //query local storage for input of text and date 
   //TODO: FORMAT REQUEST URL WITH GROUP NAME INPUT
 
-   let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=BUILD WITH CODE - LOS ANGELES&page=20` 
-    return makeXhrRequest('GET', requestUrl, token) 
-    .then((data) => {
-      let parsedData = JSON.parse(data)
-      let groupId = parsedData["0"].id
-      console.log(`the group ID is ${groupId}`)
-      return groupId
+  chrome.storage.local.get(['dateRangeStart', 'dateRangeEnd', 'grpNameInput'], (result) => {
+    let dateRangeStart = result.dateRangeStart
+    let dateRangeEnd = result.dateRangeEnd
+    let grpNameInput = result.grpNameInput
+  
+
+    let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
+      return makeXhrRequest('GET', requestUrl, token) 
+      .then((data) => {
+        let parsedData = JSON.parse(data)
+        let groupId = parsedData["0"].id
+        console.log(`the group ID is ${groupId}`)
+        return groupId
+      }).then((groupId) => {
+        //TODO : FORMAT REQUEST URL WITH DATE RANGE INPUT AND GROUP ID INPUT
+        requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
+        makeXhrRequest('GET', requestUrl, token)
+        .then((data) => {
+          let parsedData= JSON.parse(data)
+          let results = parsedData["results"]
+          alert(JSON.stringify(results, null, 4));
+        }).catch(err => console.log(err)) // end promise from make XHR reques for events
       
-    }).then((groupId) => {
-      //TODO : FORMAT REQUEST URL WITH DATE RANGE INPUT AND GROUP ID INPUT
-      requestUrl = 'https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=21993357&time=1548219600000,1548306000000&page=20'
-      makeXhrRequest('GET', requestUrl, token)
-      
 
 
 
-    }).catch(err => console.log(err))
+
+      }).catch(err => console.log(err)) // end promise from make XHR request for group ID
+    }) // end local storage callback
   }
 
 
@@ -137,88 +149,3 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
 
 
-
-
-// (function() {
-//     const tabStorage = {};
-//     const networkFilters = {
-//         urls: [
-//             "*://developer.mozilla.org/*"
-//         ]
-//     };
-
-//     chrome.webRequest.onBeforeRequest.addListener((details) => {
-//         const { tabId, requestId, url, timeStamp } = details;
-//         if (!tabStorage.hasOwnProperty(tabId)) {
-//             return;
-//         }
-
-//         tabStorage[tabId].requests[requestId] = {
-//             requestId: requestId,
-//             url: url,
-//             startTime: timeStamp,
-//             status: 'pending'
-//         };
-//         console.log(tabStorage[tabId].requests[requestId]);
-//     }, networkFilters);
-
-//     chrome.webRequest.onCompleted.addListener((details) => {
-//         const { tabId, requestId, timeStamp } = details;
-//         if (!tabStorage.hasOwnProperty(tabId) || !tabStorage[tabId].requests.hasOwnProperty(requestId)) {
-//             return;
-//         }
-
-//         const request = tabStorage[tabId].requests[requestId];
-
-//         Object.assign(request, {
-//             endTime: timeStamp,
-//             requestDuration: timeStamp - request.startTime,
-//             status: 'complete'
-//         });
-//         console.log(tabStorage[tabId].requests[details.requestId]);
-//     }, networkFilters);
-
-//     chrome.webRequest.onErrorOccurred.addListener((details)=> {
-//         const { tabId, requestId, timeStamp } = details;
-//         if (!tabStorage.hasOwnProperty(tabId) || !tabStorage[tabId].requests.hasOwnProperty(requestId)) {
-//             return;
-//         }
-
-//         const request = tabStorage[tabId].requests[requestId];
-//         Object.assign(request, {
-//             endTime: timeStamp,
-//             status: 'error',
-//         });
-//         console.log(tabStorage[tabId].requests[requestId]);
-//     }, networkFilters);
-
-//     chrome.tabs.onActivated.addListener((tab) => {
-//         const tabId = tab ? tab.tabId : chrome.tabs.TAB_ID_NONE;
-//         if (!tabStorage.hasOwnProperty(tabId)) {
-//             tabStorage[tabId] = {
-//                 id: tabId,
-//                 requests: {},
-//                 registerTime: new Date().getTime()
-//             };
-//         }
-//     });
-
-//     chrome.tabs.onRemoved.addListener((tab) => {
-//         const tabId = tab.tabId;
-//         if (!tabStorage.hasOwnProperty(tabId)) {
-//             return;
-//         }
-//         tabStorage[tabId] = null;
-//     });
-
-//     chrome.runtime.onMessage.addListener((msg, sender, response) => {
-//         switch (msg.type) {
-//             case 'popupInit':
-//                 response(tabStorage[msg.tabId]);
-//                 break;
-//             default:
-//                 response('unknown request');
-//                 break;
-//         }
-//     });
-// }());

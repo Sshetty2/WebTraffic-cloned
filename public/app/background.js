@@ -72,13 +72,25 @@ var hardcodedAccessCode = 'b3f438942c1d175b0298612c7bcd8c6b'
 
 function makeXhrRequestForGroupId(token) {
   
-  //query local storage for input 
+  //query local storage for input of text and date 
+  //TODO: FORMAT REQUEST URL WITH GROUP NAME INPUT
+
    let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=BUILD WITH CODE - LOS ANGELES&page=20` 
     return makeXhrRequest('GET', requestUrl, token) 
     .then((data) => {
       let parsedData = JSON.parse(data)
       let groupId = parsedData["0"].id
       console.log(`the group ID is ${groupId}`)
+      return groupId
+      
+    }).then((groupId) => {
+      //TODO : FORMAT REQUEST URL WITH DATE RANGE INPUT AND GROUP ID INPUT
+      requestUrl = 'https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=21993357&time=1548219600000,1548306000000&page=20'
+      makeXhrRequest('GET', requestUrl, token)
+      
+
+
+
     }).catch(err => console.log(err))
   }
 

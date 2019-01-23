@@ -25,6 +25,15 @@ class App extends Component {
     }
 
     onFormSubmit=() => {
+        console.log(this.state.date)
+        let dateRangeStart = this.state.date[0].getTime();
+        let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date[0].getTime() + 86400000;
+        chrome.storage.local.set({grpNameInput: this.state.textField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd}, function() {
+            console.log('the local storage object has been set after the button was clicked with the user input'
+            );
+          })
+
+
         chrome.runtime.sendMessage({ // .2 
             action: 'meetupRequest'
           }, response => console.log(response))

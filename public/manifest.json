@@ -32,5 +32,12 @@
       "matches": ["<all_urls>"]
     }
   ],
-  "web_accessible_resources" : ["/oauth2/*"]
+  "web_accessible_resources" : ["/oauth2/*"],
+  "oauth2": {
+    "client_id": "466748401928-clsj0b12h299emdtcngqcdkon8i8n0nk.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar.events"
+    ]
+  }
 }
+

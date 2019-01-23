@@ -1,4 +1,50 @@
 
+// a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+  if (changeInfo.status === 'complete') {
+    chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
+      console.log(`The response object that was received when we sent the message that ran onUpdated is ${response[0]}`)
+      chrome.storage.local.get(['grpNameArray'], function(result) {
+        console.log('Value currently is ' + result.grpNameArray[0]);
+        });
+      })
+    };
+  })
+
+// a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+  if (request.action === 'meetupRequest'){ 
+    chrome.identity.launchWebAuthFlow({ 
+      url: `https://secure.meetup.com/oauth2/authorize?client_id=${meetup_client_key}&response_type=code&redirect_uri=${redirect_Uri}`,
+      interactive: true
+    },
+    function(redirectUrl) {
+      console.log(`this is the redirectUrl ${redirectUrl}`)
+      let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1)
+      console.log(`the access code prior to making the post request is ${code}`)
+      makeXhrPostRequest(code, 'authorization_code')
+        .then(data => {
+          data = JSON.parse(data)
+          console.log(`the access token that I can use to make API calls is ${data.access_token}`)
+          makeXhrRequestForGroupId(data.access_token)
+        })
+        .catch(err => console.log(err))
+    })
+  }
+  return true;
+})
+
+
+
+
+
+
+
+
+
+
+
+
 const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
 const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
 const clientSecret = 'tm034sb7uq41r55qeea3etjd28'
@@ -146,7 +192,10 @@ function makeXhrRequestForGroupId(token) {
 
 
         }).then(results => {
-          
+          chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
+            console.log(`the access token sent by google is ${token}`)
+            // Use the token.
+          })
         }) // end promise from make XHR request for events
       
 
@@ -158,66 +207,5 @@ function makeXhrRequestForGroupId(token) {
   }
 
 
-// a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if (changeInfo.status === 'complete') {
-      chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
-        console.log(`The response object that was received when we sent the message that ran onUpdated is ${response[0]}`)
-        chrome.storage.local.get(['grpNameArray'], function(result) {
-          console.log('Value currently is ' + result.grpNameArray[0]);
-          });
-        })
-      };
-    })
-
-// a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-    if (request.action === 'meetupRequest'){ 
-      chrome.identity.launchWebAuthFlow({ 
-        url: `https://secure.meetup.com/oauth2/authorize?client_id=${meetup_client_key}&response_type=code&redirect_uri=${redirect_Uri}`,
-        interactive: true
-      },
-      function(redirectUrl) {
-        console.log(`this is the redirectUrl ${redirectUrl}`)
-        let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1)
-        console.log(`the access code prior to making the post request is ${code}`)
-        makeXhrPostRequest(code, 'authorization_code')
-          .then(data => {
-            data = JSON.parse(data)
-            console.log(`the access token that I can use to make API calls is ${data.access_token}`)
-            makeXhrRequestForGroupId(data.access_token)
-          })
-          .catch(err => console.log(err))
-      })
-    }
-    return true;
-  })
 
 
-
-
-
-var googleReferenceObj = 
-{  
-  "end":{  
-    //  add duration to start datetime and convert it
-     "dateTime":"2019-01-23T16:00:00Z",
-     // take timezone straight from meetup API call
-     "timeZone":"US/Eastern"
-  },
-  "start":{  
-    //  use start datetime and convert it
-     "dateTime":"2019-01-23T14:00:00Z",
-     // take timezone straight from meetup API call
-     "timeZone":"US/Eastern"
-  },
-  // create string and use meetup event url 
-  "description":"TEST DESCRIPTION",
-  // use event name from meetup API call
-  "summary":"TEST SUMMARY ",
-  // use location from meetup API call
-  "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
-  "reminders":{  
-     "useDefault":true
-  }
-}

@@ -121,8 +121,8 @@ function makeXhrRequestForGroupId(token) {
   
   chrome.storage.local.get(['dateRangeStart', 'dateRangeEnd', 'grpNameInput'], (result) => {
     let dateRangeStart = result.dateRangeStart
-    let dateRangeEnd = result.dateRangeEnd.getTime()
-    let grpNameInput = result.grpNameInput.getTime()
+    let dateRangeEnd = result.dateRangeEnd
+    let grpNameInput = result.grpNameInput
     
 
     let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 

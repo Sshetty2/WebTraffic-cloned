@@ -49,6 +49,7 @@ const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
 const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
 const clientSecret = 'tm034sb7uq41r55qeea3etjd28'
 const meetupAccessTokenEndPoint = 'https://secure.meetup.com/oauth2/access'
+const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
 
 
 
@@ -56,21 +57,39 @@ const googleReferenceObj =
 {  
   "end":{  
     //  add duration to start datetime and convert it
-     "dateTime":"2019-01-23T16:00:00Z",
+     "dateTime":"2019-01-23T18:30:00Z",
      // take timezone straight from meetup API call
      "timeZone":"US/Eastern"
   },
   "start":{  
     //  use start datetime and convert it
-     "dateTime":"2019-01-23T14:00:00Z",
+     "dateTime":"2019-01-23T16:30:00Z",
      // take timezone straight from meetup API call
      "timeZone":"US/Eastern"
   },
   // create string and use meetup event url 
   "description":"TEST DESCRIPTION",
   // use event name from meetup API call
-  "summary":"TEST SUMMARY ",
+  "summary":"TEST SUMMARY FROM APP",
   // use location from meetup API call
+  "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
+  "reminders":{  
+     "useDefault":true
+  }
+}
+
+const testGoogleReferenceObj = 
+{  
+  "end":{  
+     "dateTime":"2019-01-23T18:00:00Z",
+     "timeZone":"US/Eastern"
+  },
+  "start":{ 
+     "dateTime":"2019-01-23T16:00:00Z",
+     "timeZone":"US/Eastern"
+  },
+  "description":"TEST DESCRIPTION",
+  "summary":"TEST SUMMARY ",
   "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
   "reminders":{  
      "useDefault":true
@@ -157,6 +176,36 @@ function makeXhrRequest(method, url, token) {
   })
 }
 
+
+function gCalXhrRequest(method, url, token, params) {
+  return new Promise((resolve, reject) => { 
+    let xhr = new XMLHttpRequest(); 
+    xhr.open(method, url, true);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + token)
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    xhr.onload = function(){ 
+      if (xhr.status >= 200 && xhr.status < 300){
+        return resolve(xhr.response);
+      } else {
+        reject(Error({
+          status: xhr.status,
+          statusTextInElse: xhr.statusText
+        }))
+      }
+    }
+    xhr.onerror = function(){
+      reject(Error({
+        status: xhr.status,
+        statusText: xhr.statusText
+      }))
+    }
+    let stringifiedParams = JSON.stringify(params)
+    xhr.send(stringifiedParams)
+  })
+}
+
+
+
 //hardcoded group id for now
 
 var hardcodedAccessCode = 'b3f438942c1d175b0298612c7bcd8c6b'
@@ -186,14 +235,10 @@ function makeXhrRequestForGroupId(token) {
           let parsedData= JSON.parse(data)
           let results = parsedData["results"]
           return results
-          //TODO: Connect to google Calendar API and add new calendar items. The results are exactly in the form that i want them. 
-
-
-
-
         }).then(results => {
           chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-            console.log(`the access token sent by google is ${token}`)
+            // must create an array with events from the results then map through this array and create an array of makeXhrRequest promises, then execute with promise all
+            gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${googleAPIKey}`,token,testGoogleReferenceObj)
             // Use the token.
           })
         }) // end promise from make XHR request for events

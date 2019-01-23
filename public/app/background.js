@@ -5,8 +5,52 @@ const clientSecret = 'tm034sb7uq41r55qeea3etjd28'
 const meetupAccessTokenEndPoint = 'https://secure.meetup.com/oauth2/access'
 
 
+
+const googleReferenceObj = 
+{  
+  "end":{  
+    //  add duration to start datetime and convert it
+     "dateTime":"2019-01-23T16:00:00Z",
+     // take timezone straight from meetup API call
+     "timeZone":"US/Eastern"
+  },
+  "start":{  
+    //  use start datetime and convert it
+     "dateTime":"2019-01-23T14:00:00Z",
+     // take timezone straight from meetup API call
+     "timeZone":"US/Eastern"
+  },
+  // create string and use meetup event url 
+  "description":"TEST DESCRIPTION",
+  // use event name from meetup API call
+  "summary":"TEST SUMMARY ",
+  // use location from meetup API call
+  "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
+  "reminders":{  
+     "useDefault":true
+  }
+}
+
+
+
 // pre-token
 // A generic post request for an access token. The request body may need to be reformatted depending on the API being queried
+
+
+//converts Utc milliseconds since the epoch into a format that can be digested by google
+
+function convertToGoogleDTime(utcMilliseconds){
+  var d = new Date(0);
+  d.setUTCMilliseconds(utcMilliseconds);
+  //takes date object
+  function pad(n){return n<10 ? '0'+n : n}
+  return d.getUTCFullYear()+'-'
+       + pad(d.getUTCMonth()+1)+'-'
+       + pad(d.getUTCDate())+'T'
+       + pad(d.getUTCHours())+':'
+       + pad(d.getUTCMinutes())+':'
+       + pad(d.getUTCSeconds())+'Z'}
+
 
 function makeXhrPostRequest(code, grantType, refreshToken){
   return new Promise((resolve, reject) => {
@@ -75,31 +119,35 @@ var hardcodedAccessCode = 'b3f438942c1d175b0298612c7bcd8c6b'
 
 function makeXhrRequestForGroupId(token) {
   
-  //query local storage for input of text and date 
-  //TODO: FORMAT REQUEST URL WITH GROUP NAME INPUT
-
   chrome.storage.local.get(['dateRangeStart', 'dateRangeEnd', 'grpNameInput'], (result) => {
     let dateRangeStart = result.dateRangeStart
-    let dateRangeEnd = result.dateRangeEnd
-    let grpNameInput = result.grpNameInput
-  
+    let dateRangeEnd = result.dateRangeEnd.getTime()
+    let grpNameInput = result.grpNameInput.getTime()
+    
 
     let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
       return makeXhrRequest('GET', requestUrl, token) 
       .then((data) => {
         let parsedData = JSON.parse(data)
         let groupId = parsedData["0"].id
+        let timezone = parsedData["0"].timezone
         console.log(`the group ID is ${groupId}`)
         return groupId
       }).then((groupId) => {
-        //TODO : FORMAT REQUEST URL WITH DATE RANGE INPUT AND GROUP ID INPUT
         requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
         makeXhrRequest('GET', requestUrl, token)
         .then((data) => {
           let parsedData= JSON.parse(data)
           let results = parsedData["results"]
-          alert(JSON.stringify(results, null, 4));
-        }).catch(err => console.log(err)) // end promise from make XHR reques for events
+          return results
+          //TODO: Connect to google Calendar API and add new calendar items. The results are exactly in the form that i want them. 
+
+
+
+
+        }).then(results => {
+          
+        }) // end promise from make XHR request for events
       
 
 
@@ -149,3 +197,27 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
 
 
+var googleReferenceObj = 
+{  
+  "end":{  
+    //  add duration to start datetime and convert it
+     "dateTime":"2019-01-23T16:00:00Z",
+     // take timezone straight from meetup API call
+     "timeZone":"US/Eastern"
+  },
+  "start":{  
+    //  use start datetime and convert it
+     "dateTime":"2019-01-23T14:00:00Z",
+     // take timezone straight from meetup API call
+     "timeZone":"US/Eastern"
+  },
+  // create string and use meetup event url 
+  "description":"TEST DESCRIPTION",
+  // use event name from meetup API call
+  "summary":"TEST SUMMARY ",
+  // use location from meetup API call
+  "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
+  "reminders":{  
+     "useDefault":true
+  }
+}

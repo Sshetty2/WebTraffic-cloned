@@ -1,6 +1,6 @@
 
 const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
-const redirect_Uri =  'https://jodnpnodmbflogmledmffojgmdjljfmj.chromiumapp.org/'
+const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
 const clientSecret = 'tm034sb7uq41r55qeea3etjd28'
 
 
@@ -27,11 +27,11 @@ function makeXhrPostRequest(code, grantType, refreshToken){
         statusText: xhr.statusText
       }))
     }
-    
      let requestBody = (refreshToken) ?
       `client_id=${meetup_client_key}&client_secret=${clientSecret}&grant_type=${grantType}&refresh_token=${refreshToken}` 
       :
       `client_id=${meetup_client_key}&client_secret=${clientSecret}&grant_type=${grantType}&redirect_uri=${redirect_Uri}&code=${code}`
+      console.log(`the request body for the post request is ${requestBody}`)
     xhr.send(requestBody)
   })
 }
@@ -65,20 +65,21 @@ function makeXhrRequest(method, url, token) {
 }
 
 //hardcoded group id for now
-const requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=BUILD+WITH+CODE+-+LOS+ANGELES&page=20`
+
+var hardcodedAccessCode = 'b3f438942c1d175b0298612c7bcd8c6b'
 
 // called after token is received
 
-function makeXhrRequestForGroupId(token) { //.1 
-   //.2
-   let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${groupId}&page=20` 
-    return makeXhrRequest('GET', requestUrl, token) // .10
-    .then((data) => { // .11
-      let parsedData = JSON.parse(data) //.12
-
-      return parsedData //.15
-    })
-
+function makeXhrRequestForGroupId(token) {
+  
+  //query local storage for input 
+   let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=BUILD WITH CODE - LOS ANGELES&page=20` 
+    return makeXhrRequest('GET', requestUrl, token) 
+    .then((data) => {
+      let parsedData = JSON.parse(data)
+      let groupId = parsedData["0"].id
+      console.log(`the group ID is ${groupId}`)
+    }).catch(err => console.log(err))
   }
 
 
@@ -95,63 +96,27 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     })
 
 // a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){ //.1
-    if (request.action === 'meetupRequest'){ //.2
-      chrome.identity.launchWebAuthFlow({ //.3
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
+    if (request.action === 'meetupRequest'){ 
+      chrome.identity.launchWebAuthFlow({ 
         url: `https://secure.meetup.com/oauth2/authorize?client_id=${meetup_client_key}&response_type=code&redirect_uri=${redirect_Uri}`,
         interactive: true
       },
-      function(redirectUrl) { //.4 
-        console.log(redirectUrl)
+      function(redirectUrl) {
+        console.log(`this is the redirectUrl ${redirectUrl}`)
         let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1)
+        console.log(`the access code prior to making the post request is ${code}`)
         makeXhrPostRequest(code, 'authorization_code')
           .then(data => {
             data = JSON.parse(data)
-            makeXhrRequestForGroupId(data.token)
-
-
+            console.log(data.access_token)
+            makeXhrRequestForGroupId(data.access_token)
           })
           .catch(err => console.log(err))
-
-
-
-
-
-
-
-        // console.log('redirectUrl')
-        // chrome.runtime.sendMessage({type: 'redirectUrl', redirectUrl: redirectUrl}, (response) => {
-        //   if (response) {
-        //       console.log(`the response from the client was ${response}`);
-        //   }
-        // });
-        
-
-        // let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1) //.5
-  
-        // makeXhrPostRequest(code, 'authorization_code') //.6
-        //   .then(data => {
-        //     data = JSON.parse(data) //.7
-        //     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){//.8
-        //       if ( //.9
-        //         changeInfo.status === 'complete' && tab.url.indexOf('spotify') > -1
-        //       || changeInfo.status === 'complete' && tab.url.indexOf('spotify') > -1 && tab.url.indexOf('user') > -1 && tab.url.indexOf('playlists') === -1
-        //     ) {
-        //         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){ //.10
-        //             chrome.tabs.sendMessage(tabs[0].id, {token: data.access_token}, function (response) { //.11
-        //               console.log('response is ', response) //.12
-        //             });//end chrome send message
-        //         })//end chrome tab query
-        //       }
-        //     })//end onUpdated event listener
-        //     return data //.13
-        //   })//end promise
-        //   .catch(err => console.error(err)) //.14
-      }) //launch web auth flow
-  
+      })
     }
-    return true; //if statment
-  })// exte
+    return true;
+  })
 
 
 

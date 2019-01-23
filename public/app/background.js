@@ -39,6 +39,9 @@ function makeXhrPostRequest(code, grantType, refreshToken){
 
 //post-token
 
+
+
+
 function makeXhrRequest(method, url, token) {
   return new Promise((resolve, reject) => { 
     let xhr = new XMLHttpRequest(); 
@@ -121,7 +124,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         makeXhrPostRequest(code, 'authorization_code')
           .then(data => {
             data = JSON.parse(data)
-            console.log(data.access_token)
+            console.log(`the access token that I can use to make API calls is ${data.access_token}`)
             makeXhrRequestForGroupId(data.access_token)
           })
           .catch(err => console.log(err))

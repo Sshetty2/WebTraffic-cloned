@@ -17,17 +17,15 @@ class App extends Component {
         };
     }
 
-    onChange = date => {console.log(this.state.date); return this.setState({ date })}
+    onChange = date => this.setState({ date })
 
     getAutosuggestInput(value){
-        console.log(`the autosuggestion input from the app component is ${value}`);
         this.setState({textField: value})
     }
 
     onFormSubmit=() => {
-        console.log(this.state.date)
-        let dateRangeStart = this.state.date[0].getTime();
-        let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date[0].getTime() + 86400000;
+        let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime()
+        let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
         chrome.storage.local.set({grpNameInput: this.state.textField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd}, function() {
             console.log('the local storage object has been set after the button was clicked with the user input'
             );
@@ -67,7 +65,6 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.state.suggestions)
         const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' }
         const dateRendered = this.state.date.length == 2 ? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` : this.state.date.toLocaleDateString("en-US", options)
 

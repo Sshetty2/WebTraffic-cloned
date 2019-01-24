@@ -237,7 +237,7 @@ function makeXhrRequestForGroupId(token) {
                  "dateTime":`${convertToGoogleDTime(x["time"])}`,
                  "timeZone":`${timezone}`
               },
-              "description":`This event is hosted by ${x["venue"]["name"]}                                                                                                                         More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
+              "description":`This event is hosted by ${x["venue"]["name"]}; More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
               "summary":`${x["name"]}`,
               "location":`${checkDefinition(x["venue"]["address_1"])} ${checkDefinition(x["venue"]["address_2"])} - ${checkDefinition(x["venue"]["city"])} ${checkDefinition(x["venue"]["state"])}`,
               "reminders":{  

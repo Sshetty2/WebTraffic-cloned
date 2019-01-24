@@ -192,38 +192,46 @@ function makeXhrRequestForGroupId(token) {
           let parsedData= JSON.parse(data)
           let resultData = parsedData["results"]
           console.log(resultData)
-          return resultData
-        }).then((results) => {
-          let timezone = resultsArr[1]
-          let paramsArr = results.map(x=> (
-            {  
-              "end":{  
-                 "dateTime":`${convertToGoogleDTime(x["time"] + x["duration"])}`,
-                 "timeZone":`${timezone}`
-              },
-              "start":{ 
-                 "dateTime":`${convertToGoogleDTime(x["time"])}`,
-                 "timeZone":`${timezone}`
-              },
-              "description":`This event is hosted by ${x["venue"]["name"]}; More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
-              "summary":`${x["name"]}`,
-              "location":`${checkDefinition(x["venue"]["address_1"])} ${checkDefinition(x["venue"]["address_2"])} - ${checkDefinition(x["venue"]["city"])} ${checkDefinition(x["venue"]["state"])}`,
-              "reminders":{  
-                 "useDefault":true
-              }
-            }) 
-          )
-          console.log(paramsArr) 
-          chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-          return Promise.all(paramsArr.map(x => {
-              return gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${googleAPIKey}`, token, x)
-            })) // end promise all
-          }) // end identity auth token
-        }).catch(err => console.log(err)) // end promise chain from make XHR request for events
-      }).catch(err => console.log(err)) // end promise from make XHR request for group ID
-    }) // end local store get call back
-  } // end makeXhrRequestForGroupId(token) function 
-
-
+          chrome.runtime.sendMessage({type: 'meetupEventData', meetupEventData: resultData}, (response) => {
+            console.log(response)
+          }
+        ) 
+      }).catch(err => console.log(err)) 
+    }).catch(err => console.log(err)) // end promise for  
+  }) // end chrome local storage callback
+ } // end makeXhrRequestForGroupId(token) function 
+        
+  chrome.runtime.onMessage.addListener((request, sendResponse) => {
+    if (request.type === 'confirmationMsg') {
+        let timezone = resultsArr[1]
+        let paramsArr = results.map(x=> (
+          {  
+            "end":{  
+                "dateTime":`${convertToGoogleDTime(x["time"] + x["duration"])}`,
+                "timeZone":`${timezone}`
+            },
+            "start":{ 
+                "dateTime":`${convertToGoogleDTime(x["time"])}`,
+                "timeZone":`${timezone}`
+            },
+            "description":`This event is hosted by ${x["venue"]["name"]}; More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
+            "summary":`${x["name"]}`,
+            "location":`${checkDefinition(x["venue"]["address_1"])} ${checkDefinition(x["venue"]["address_2"])} - ${checkDefinition(x["venue"]["city"])} ${checkDefinition(x["venue"]["state"])}`,
+            "reminders":{  
+                "useDefault":true
+            }
+          }) 
+        )
+        console.log(paramsArr) 
+        chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
+        return Promise.all(paramsArr.map(x => {
+            return gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${googleAPIKey}`, token, x)
+          })).catch(err => sendResponse(err)) // end promise all
+        }) // end identity auth token
+      }; // end if statement nested inside of on message listener
+    }) // end on message listener
+     // end promise from make XHR request for group ID
+    
+     
 
 

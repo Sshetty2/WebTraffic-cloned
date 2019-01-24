@@ -48,6 +48,8 @@ renderInputComponent = inputProps => (
         label="Group Name"       
         fullWidth
         {...inputProps} 
+        refCallback={inputProps.ref}
+        ref={null}
         />
 )
 

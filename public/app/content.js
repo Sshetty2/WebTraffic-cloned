@@ -24,7 +24,7 @@ function buildPropArr(els){
   
 
 
-console.log('content script has been run')
+
 chrome.extension.onMessage.addListener(function(request, sender, response) {
     if (request.type === 'onUpdateFrmEvent') {
       grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
@@ -32,17 +32,6 @@ chrome.extension.onMessage.addListener(function(request, sender, response) {
         console.log('Value is set to ' + grpNameArray[0]);
       })
       response(grpNameArray);
-;
-
-      // chrome.runtime.sendMessage(
-      //   "foo",
-      //   function (response) {
-      //     console.log(response)
-      //   }
-      // )
-
-
-
     };
     return true;
   });
@@ -56,7 +45,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, response) {
 
 
 
-  // main page
 // $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
 //     var text = $(this).text();
 //     console.log(text);

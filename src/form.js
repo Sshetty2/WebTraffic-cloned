@@ -29,8 +29,7 @@ export default class Form extends React.Component {
     }
 
     return (
-        <form onSubmit={this.props.onFormSubmit}
-        >
+      <form onSubmit = {this.props.onFormSubmit}>
         <div style={gnamestyle}>
         <AutosuggestField getInputData={this.props.getInputData} />
         </div>
@@ -51,7 +50,6 @@ export default class Form extends React.Component {
             variant="raised"
             color="primary"
             disabled={false}
-            
           >
             Schedule
           </Button>

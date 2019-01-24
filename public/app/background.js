@@ -1,5 +1,26 @@
+const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
+const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
+const meetupClientSecret = 'tm034sb7uq41r55qeea3etjd28'
+const meetupAccessTokenEndPoint = 'https://secure.meetup.com/oauth2/access'
+const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
 
-import {meetup_client_key, redirect_Uri, meetupClientSecret, meetupAccessTokenEndPoint, googleAPIKey} from "../../src/config"
+const testGoogleReferenceObj = 
+{  
+  "end":{  
+     "dateTime":"2019-01-23T18:00:00Z",
+     "timeZone":"US/Eastern"
+  },
+  "start":{ 
+     "dateTime":"2019-01-23T16:00:00Z",
+     "timeZone":"US/Eastern"
+  },
+  "description":"TEST DESCRIPTION",
+  "summary":"TEST SUMMARY ",
+  "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
+  "reminders":{  
+     "useDefault":true
+  }
+}
 
 
 // a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent

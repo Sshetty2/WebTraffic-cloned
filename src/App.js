@@ -1,14 +1,14 @@
 /*global chrome*/
 import React, { Component } from 'react';
 import './App.css';
-
+import AlertDialogSlide from "./Dialog"
 import {getCurrentTab} from "./common/Utils";
 import Calendar from 'react-calendar';
 
 import  Form  from "./form";
 
 
-class App extends Component {
+export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -72,7 +72,7 @@ class App extends Component {
           <div className="App">
             <div style={{margin: '20px'}}>
                 <div>
-                    <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
+                    <h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>
                     <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} onFormSubmit = {this.onFormSubmit.bind(this)} />
                 </div>
             </div>
@@ -83,12 +83,15 @@ class App extends Component {
                 selectRange={true}
                 />
             </div>
+            <div>
+                <AlertDialogSlide />
+            </div>
           </div>
         );
     }
 }
 
-export default App;
+
 
 // main page
 // $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){

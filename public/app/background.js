@@ -1,4 +1,7 @@
 
+import {meetup_client_key, redirect_Uri, meetupClientSecret, meetupAccessTokenEndPoint, googleAPIKey} from "../../src/config"
+
+
 // a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete') {
@@ -33,62 +36,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   }
   return true;
 })
-
-
-
-
-
-const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
-const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
-const clientSecret = 'tm034sb7uq41r55qeea3etjd28'
-const meetupAccessTokenEndPoint = 'https://secure.meetup.com/oauth2/access'
-const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
-
-
-
-const googleReferenceObj = 
-{  
-  "end":{  
-    //  add duration to start datetime and convert it
-     "dateTime":"2019-01-23T18:30:00Z",
-     // take timezone straight from meetup API call
-     "timeZone":"US/Eastern"
-  },
-  "start":{  
-    //  use start datetime and convert it
-     "dateTime":"2019-01-23T16:30:00Z",
-     // take timezone straight from meetup API call
-     "timeZone":"US/Eastern"
-  },
-  // create string and use meetup event url 
-  "description":"TEST DESCRIPTION",
-  // use event name from meetup API call
-  "summary":"TEST SUMMARY FROM APP",
-  // use location from meetup API call
-  "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
-  "reminders":{  
-     "useDefault":true
-  }
-}
-
-const testGoogleReferenceObj = 
-{  
-  "end":{  
-     "dateTime":"2019-01-23T18:00:00Z",
-     "timeZone":"US/Eastern"
-  },
-  "start":{ 
-     "dateTime":"2019-01-23T16:00:00Z",
-     "timeZone":"US/Eastern"
-  },
-  "description":"TEST DESCRIPTION",
-  "summary":"TEST SUMMARY ",
-  "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
-  "reminders":{  
-     "useDefault":true
-  }
-}
-
 
 
 // pre-token
@@ -132,9 +79,9 @@ function makeXhrPostRequest(code, grantType, refreshToken){
       }))
     }
      let requestBody = (refreshToken) ?
-      `client_id=${meetup_client_key}&client_secret=${clientSecret}&grant_type=${grantType}&refresh_token=${refreshToken}` 
+      `client_id=${meetup_client_key}&client_secret=${meetupClientSecret}&grant_type=${grantType}&refresh_token=${refreshToken}` 
       :
-      `client_id=${meetup_client_key}&client_secret=${clientSecret}&grant_type=${grantType}&redirect_uri=${redirect_Uri}&code=${code}`
+      `client_id=${meetup_client_key}&client_secret=${meetupClientSecret}&grant_type=${grantType}&redirect_uri=${redirect_Uri}&code=${code}`
       console.log(`the request body for the post request is ${requestBody}`)
     xhr.send(requestBody)
   })

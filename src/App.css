@@ -7,7 +7,10 @@
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 19px;
+  color: #3700B3;
+  text-align: center;
+  text-shadow: #FC0 1px 0 10px;
 }
 
 .App-intro {
@@ -17,13 +20,38 @@
 
 .rock-salt{
   font-family: 'Rock Salt', cursive;
-  font-size: 19px;
-  color: #3700B3;
-  text-align: center;
-  text-shadow: #FC0 1px 0 10px;
+
 }
 
-.Rancho{
+.Dialog-header {
+  font-size: 16px;
+  color: #3700B3;
+  text-align: left;
+  /* text-shadow: #3700B3 1px 0 10px; */
+}
+
+.habibi{
+font-family: 'Habibi', serif;
+}
+
+.cag{
+  font-family: 'Cagliostro', sans-serif;
+}
+
+.neohell{
+  font-family: 'GFS Neohellenic', sans-serif;
+}
+
+.rancho{
   font-family: 'Rancho', cursive;
 }
 
+ul{
+  list-style-type: none;
+  padding: 6px;
+  margin: 0px;
+}
+
+li{
+  font-size: 14px
+}

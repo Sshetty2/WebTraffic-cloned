@@ -71,16 +71,13 @@ class App extends Component {
         return (
           <div className="App">
             <div style={{margin: '20px'}}>
-            <React.Fragment>
                 <div>
                     <h1 className='rock-salt'>Meetup Batch Event Set Tool</h1>
                     <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} onFormSubmit = {this.onFormSubmit.bind(this)} />
                 </div>
-            </React.Fragment>
             </div>
             <div style={{margin: '20px', paddingBottom: '10px'}}>
                 <Calendar
-
                 onChange={this.onChange}
                 value={this.state.date}
                 selectRange={true}

@@ -54,7 +54,7 @@ renderInputComponent = inputProps => (
 )
 
 renderSuggestion = suggestion => (
-<span className='cav-brush'>{suggestion}</span>
+<span className='open-sans'>{suggestion}</span>
 );
 
   onChange = (event, { newValue }) => {

@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
       makeXhrPostRequest(code, 'authorization_code')
         .then(data => {
           data = JSON.parse(data)
-          console.log(`the access token that I can use to make API calls is ${data.access_token}`)
+          console.log(`the access token that I can use to make API calls from Meetup is ${data.access_token}`)
           makeXhrRequestForGroupId(data.access_token)
         })
         .catch(err => console.log(err))
@@ -33,13 +33,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   }
   return true;
 })
-
-
-
-
-
-
-
 
 
 
@@ -204,11 +197,7 @@ function gCalXhrRequest(method, url, token, params) {
   })
 }
 
-
-
-//hardcoded group id for now
-
-var hardcodedAccessCode = 'b3f438942c1d175b0298612c7bcd8c6b'
+checkDefinition = value => typeof value == 'undefined' ? "" : value
 
 // called after token is received
 
@@ -219,37 +208,53 @@ function makeXhrRequestForGroupId(token) {
     let dateRangeEnd = result.dateRangeEnd
     let grpNameInput = result.grpNameInput
     
-
     let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
       return makeXhrRequest('GET', requestUrl, token) 
       .then((data) => {
         let parsedData = JSON.parse(data)
-        let groupId = parsedData["0"].id
-        let timezone = parsedData["0"].timezone
-        console.log(`the group ID is ${groupId}`)
-        return groupId
-      }).then((groupId) => {
-        requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
-        makeXhrRequest('GET', requestUrl, token)
+        let resultsArr = []
+        resultsArr.push(parsedData["0"].id, parsedData["0"].timezone);
+        console.log(`the group ID is ${resultsArr[0]}`)
+        return resultsArr
+      }).then((resultsArr) => {
+        requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${resultsArr[0]}&time=${dateRangeStart},${dateRangeEnd}&page=20`
+        console.log(`the request Url being used to query for all events is ${requestUrl}`)
+        return makeXhrRequest('GET', requestUrl, token)
         .then((data) => {
           let parsedData= JSON.parse(data)
-          let results = parsedData["results"]
-          return results
-        }).then(results => {
+          let resultData = parsedData["results"]
+          console.log(resultData)
+          return resultData
+        }).then((results) => {
+          let timezone = resultsArr[1]
+          let paramsArr = results.map(x=> (
+            {  
+              "end":{  
+                 "dateTime":`${convertToGoogleDTime(x["time"] + x["duration"])}`,
+                 "timeZone":`${timezone}`
+              },
+              "start":{ 
+                 "dateTime":`${convertToGoogleDTime(x["time"])}`,
+                 "timeZone":`${timezone}`
+              },
+              "description":`This event is hosted by ${x["venue"]["name"]}                                                                                                                         More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
+              "summary":`${x["name"]}`,
+              "location":`${checkDefinition(x["venue"]["address_1"])} ${checkDefinition(x["venue"]["address_2"])} - ${checkDefinition(x["venue"]["city"])} ${checkDefinition(x["venue"]["state"])}`,
+              "reminders":{  
+                 "useDefault":true
+              }
+            }) 
+          )
+          console.log(paramsArr) 
           chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-            // must create an array with events from the results then map through this array and create an array of makeXhrRequest promises, then execute with promise all
-            gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${googleAPIKey}`,token,testGoogleReferenceObj)
-            // Use the token.
-          })
-        }) // end promise from make XHR request for events
-      
-
-
-
-
+          return Promise.all(paramsArr.map(x => {
+              return gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${googleAPIKey}`, token, x)
+            })) // end promise all
+          }) // end identity auth token
+        }).catch(err => console.log(err)) // end promise chain from make XHR request for events
       }).catch(err => console.log(err)) // end promise from make XHR request for group ID
-    }) // end local storage callback
-  }
+    }) // end local store get call back
+  } // end makeXhrRequestForGroupId(token) function 
 
 
 

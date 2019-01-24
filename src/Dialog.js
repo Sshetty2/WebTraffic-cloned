@@ -12,18 +12,21 @@ function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
 
-export default class AlertDialogSlide extends React.Component {
-  state = {
-    open: false,
-  };
+export default class DialogComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false
+        };
+    }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+// not needed
+//   handleClickOpen = () => {
+//     this.setState({ open: true });
+//   };
+
+
 
   render() {
     return (
@@ -32,7 +35,7 @@ export default class AlertDialogSlide extends React.Component {
           Slide in alert dialog
         </Button> */}
         <Dialog
-          open={true}
+          open={this.props.open}
           TransitionComponent={Transition}
           keepMounted
           onClose={this.handleClose}
@@ -40,7 +43,7 @@ export default class AlertDialogSlide extends React.Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle style={{padding: '20px 24px 6px'}} id="alert-dialog-slide-title">
-           <h1 className='habibi Dialog-header'>{"Heres What I found! .. Are you sure you'd like to schedule the following events?"}</h1>
+           <h1 className='habibi Dialog-header'>{"Heres What I found! . . ."}<br />{"Are you sure you'd like to schedule the following events?"}</h1>
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
@@ -68,10 +71,10 @@ export default class AlertDialogSlide extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.props.dialogClose} color="primary">
               No
             </Button>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.props.handleConfirmation} color="primary">
               Yes
             </Button>
           </DialogActions>

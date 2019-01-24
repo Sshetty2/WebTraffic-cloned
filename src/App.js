@@ -1,7 +1,7 @@
 /*global chrome*/
 import React, { Component } from 'react';
 import './App.css';
-import AlertDialogSlide from "./Dialog"
+import DialogComponent from "./Dialog"
 import {getCurrentTab} from "./common/Utils";
 import Calendar from 'react-calendar';
 
@@ -18,6 +18,8 @@ export default class App extends Component {
     }
 
     onChange = date => this.setState({ date })
+
+
 
     getAutosuggestInput(value){
         this.setState({textField: value})
@@ -36,6 +38,24 @@ export default class App extends Component {
             action: 'meetupRequest'
           }, response => console.log(response))
       }
+    
+
+    // dialogOpen is in the onMessage listener
+
+    dialogClose = () => {
+        this.setState({ open: false });
+      };
+
+    
+    handleConfirmation = (parsedDataObj) =>{
+        // send message with parsed data object back to background script
+        chrome.runtime.sendMessage({ // .2 
+            action: 'googleAuthFlow'
+          }, response => console.log(response))
+        
+        this.setState({ open: false });
+    }
+    
 
     componentDidMount() {
         getCurrentTab((tab) => {
@@ -48,12 +68,6 @@ export default class App extends Component {
             });
         });
 
-        chrome.runtime.onMessage.addListener(
-            function(request, sender, sendResponse) {
-
-            console.log(request.greeting);
-        });
-
         chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             if (request.type === 'redirectUrl') {
                 sendResponse('The test Redirect URL Was recieved by the client')
@@ -62,14 +76,27 @@ export default class App extends Component {
             return true;
         });
 
+        chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+            if (request.type === 'confirmation'){
+                this.setState({ open: true });
+                //TODO accept message from background script that will JSON object with the data then send 
+
+
+
+
+            };
+            return true;
+        });
     }
 
     render() {
-        const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' }
-        const dateRendered = this.state.date.length == 2 ? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` : this.state.date.toLocaleDateString("en-US", options)
+
+        const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+        const dateRendered = this.state.date.length == 2 ? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` : this.state.date.toLocaleDateString("en-US", options);
 
         return (
           <div className="App">
+            <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} />
             <div style={{margin: '20px'}}>
                 <div>
                     <h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>
@@ -82,9 +109,6 @@ export default class App extends Component {
                 value={this.state.date}
                 selectRange={true}
                 />
-            </div>
-            <div>
-                <AlertDialogSlide />
             </div>
           </div>
         );

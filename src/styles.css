@@ -7,6 +7,10 @@
     position: relative;
   }
   
+  ul{
+    padding: 0px;
+    margin: 0px;
+  }
   /* using own input method */
   /* .react-autosuggest__input {
     width: 240px;
@@ -54,9 +58,7 @@
   .react-autosuggest__suggestion {
     cursor: pointer;
     border-style: outset;
-    padding-bottom: 10px;
-    padding-left: 5px;
-    padding-top: 0px;
+    padding: 8px 4px 14px 10px;
   }
   
   .react-autosuggest__suggestion--highlighted {

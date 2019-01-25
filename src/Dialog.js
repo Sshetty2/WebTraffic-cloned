@@ -15,9 +15,6 @@ function Transition(props) {
 export default class DialogComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            open: false
-        };
     }
 
 
@@ -29,6 +26,8 @@ export default class DialogComponent extends React.Component {
 
 
   render() {
+    let meetupEventData = this.props.meetupEventData
+    
     return (
       <div>
         {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>

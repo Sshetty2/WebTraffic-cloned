@@ -13,8 +13,25 @@ export default class App extends Component {
         super(props);
         this.state = {
             grpNameArray: [],
-            date: new Date()
+            date: new Date(),
+            open: false,
+            meetupEventData: [],
+            textField: ""
         };
+    }
+
+
+    
+    componentDidMount() {
+        chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
+            if (response) {
+                this.setState({
+                    grpNameArray: response
+                });
+            }
+        });
+        
+        chrome.runtime.onMessage.addListener(this.handleMessage.bind(this));
     }
 
     onChange = date => this.setState({ date })
@@ -26,6 +43,9 @@ export default class App extends Component {
     }
 
     onFormSubmit=() => {
+        if(this.state.textField.length ===  0){
+            return alert("please enter a valid group name")
+        }
         let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime()
         let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
         chrome.storage.local.set({grpNameInput: this.state.textField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd}, function() {
@@ -57,36 +77,15 @@ export default class App extends Component {
     }
     
 
-    componentDidMount() {
-        getCurrentTab((tab) => {
-            chrome.runtime.sendMessage({type: 'popupInit', tabId: tab.id}, (response) => {
-                if (response) {
-                    this.setState({
-                        grpNameArray: response
-                    });
-                }
+    handleMessage(request) {
+        // Handle received messages
+        if (request.type === 'meetupEventData') {
+            console.log(request.meetupEventData)
+            this.setState({
+                meetupEventData: request.meetupEventData,
+                open: true
             });
-        });
-
-        chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-            if (request.type === 'redirectUrl') {
-                sendResponse('The test Redirect URL Was recieved by the client')
-                console.log(request.redirectUrl)
-            };
-            return true;
-        });
-
-        chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-            if (request.type === 'confirmation'){
-                this.setState({ open: true });
-                //TODO accept message from background script that will JSON object with the data then send 
-
-
-
-
-            };
-            return true;
-        });
+        }
     }
 
     render() {
@@ -96,7 +95,7 @@ export default class App extends Component {
 
         return (
           <div className="App">
-            <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} />
+            <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} meetupEventData = {this.state.meetupEventData} />
             <div style={{margin: '20px'}}>
                 <div>
                     <h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>

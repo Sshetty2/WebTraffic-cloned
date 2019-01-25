@@ -177,14 +177,14 @@ function makeXhrRequestForGroupId(token) {
     let grpNameInput = result.grpNameInput
     
     let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
-      return makeXhrRequest('GET', requestUrl, token) 
-      .then((data) => {
-        let parsedData = JSON.parse(data)
-        let resultsArr = []
-        resultsArr.push(parsedData["0"].id, parsedData["0"].timezone);
-        console.log(`the group ID is ${resultsArr[0]}`)
-        return resultsArr
-      }).then((resultsArr) => {
+    return makeXhrRequest('GET', requestUrl, token) 
+    .then((data) => {
+      let parsedData = JSON.parse(data)
+      let resultsArr = []
+      resultsArr.push(parsedData["0"].id, parsedData["0"].timezone);
+      console.log(`the group ID is ${resultsArr[0]}`)
+      return resultsArr
+    }).then((resultsArr) => {
         requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${resultsArr[0]}&time=${dateRangeStart},${dateRangeEnd}&page=20`
         console.log(`the request Url being used to query for all events is ${requestUrl}`)
         return makeXhrRequest('GET', requestUrl, token)
@@ -194,12 +194,11 @@ function makeXhrRequestForGroupId(token) {
           console.log(resultData)
           chrome.runtime.sendMessage({type: 'meetupEventData', meetupEventData: resultData}, (response) => {
             console.log(response)
-          }
-        ) 
-      }).catch(err => console.log(err)) 
-    }).catch(err => console.log(err)) // end promise for  
-  }) // end chrome local storage callback
- } // end makeXhrRequestForGroupId(token) function 
+          }) 
+        }).catch(err => console.log(err)) 
+      }).catch(err => console.log(err)) // end promise for  
+    }) // end chrome local storage callback
+   } // end makeXhrRequestForGroupId(token) function 
         
   chrome.runtime.onMessage.addListener((request, sendResponse) => {
     if (request.type === 'confirmationMsg') {

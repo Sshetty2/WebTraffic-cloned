@@ -57,7 +57,7 @@ export default class DialogComponent extends React.Component {
             {meetupEventData.map((x,i) =>{
                 return(
                     <div>
-                        <ul key={i}>
+                        <ul key={i} style={{padding:'0px', margin:'0px'}}>
                             <li>{x["venue"]["name"]}</li>
                             <li>{x["name"]}</li>
                             <li>{toReadableDateFormat(x["time"])}</li>

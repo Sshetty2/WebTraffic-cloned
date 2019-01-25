@@ -1,26 +1,8 @@
 const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
-const redirect_Uri =  'https://jodnpnodmbflogmledmffojgmdjljfmj.chromiumapp.org/'
+const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
 const meetupClientSecret = 'tm034sb7uq41r55qeea3etjd28'
 const meetupAccessTokenEndPoint = 'https://secure.meetup.com/oauth2/access'
 const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
-
-const testGoogleReferenceObj = 
-{  
-  "end":{  
-     "dateTime":"2019-01-23T18:00:00Z",
-     "timeZone":"US/Eastern"
-  },
-  "start":{ 
-     "dateTime":"2019-01-23T16:00:00Z",
-     "timeZone":"US/Eastern"
-  },
-  "description":"TEST DESCRIPTION",
-  "summary":"TEST SUMMARY ",
-  "location":"33 Irving Pl - 33 Irving Place - New York, NY, us",
-  "reminders":{  
-     "useDefault":true
-  }
-}
 
 
 // a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent
@@ -43,13 +25,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
       interactive: true
     },
     function(redirectUrl) {
-      console.log(`this is the redirectUrl ${redirectUrl}`)
       let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1)
-      console.log(`the access code prior to making the post request is ${code}`)
       makeXhrPostRequest(code, 'authorization_code')
         .then(data => {
           data = JSON.parse(data)
-          console.log(`the access token that I can use to make API calls from Meetup is ${data.access_token}`)
           makeXhrRequestForGroupId(data.access_token)
         })
         .catch(err => console.log(err))
@@ -103,7 +82,6 @@ function makeXhrPostRequest(code, grantType, refreshToken){
       `client_id=${meetup_client_key}&client_secret=${meetupClientSecret}&grant_type=${grantType}&refresh_token=${refreshToken}` 
       :
       `client_id=${meetup_client_key}&client_secret=${meetupClientSecret}&grant_type=${grantType}&redirect_uri=${redirect_Uri}&code=${code}`
-      console.log(`the request body for the post request is ${requestBody}`)
     xhr.send(requestBody)
   })
 }
@@ -185,12 +163,10 @@ function makeXhrRequestForGroupId(token) {
       return groupId
     }).then((groupId) => {
         requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
-        console.log(`the request Url being used to query for all events is ${requestUrl}`)
         return makeXhrRequest('GET', requestUrl, token)
         .then((data) => {
           let parsedData= JSON.parse(data)
           let resultData = parsedData["results"]
-          console.log(resultData)
           chrome.runtime.sendMessage({type: 'meetupEventData', meetupEventData: resultData}, (response) => {
             console.log(response)
           }) 

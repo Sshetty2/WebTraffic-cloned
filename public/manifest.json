@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Meetup-Batch-Event-Set-Tool",
-  "description": "This extension is a starting point to create a real Chrome extension",
+  "description": "This extension allows you to schedule multiple meetup events at once",
   "version": "1.0.0",
 
   "browser_action": {
@@ -22,13 +22,12 @@
     "identity",
     "tabs",
     "activeTab",
-    "webRequest",
     "http://*.meetup.com/*"
   ],
   "content_scripts": [
     {
       "js": ["app/content.js"],
-      "matches": ["<all_urls>"]
+      "matches": ["https://*.meetup.com/*"]
     }
   ],
   "web_accessible_resources" : ["/oauth2/*"],

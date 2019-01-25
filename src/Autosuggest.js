@@ -32,7 +32,6 @@ getSuggestions = x => {
 
     const inputValue = x.trim().toLowerCase();
     const inputLength = inputValue.length;
-    console.log(this.state.grpNameArray)
 
     return inputLength === 0 ? [] : this.state.grpNameArray.filter(y =>
     y.toLowerCase().slice(0, inputLength) === inputValue

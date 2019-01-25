@@ -227,7 +227,15 @@ function makeXhrRequestForGroupId(token) {
         chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
           return Promise.all(paramsArr.map(x => {
               return gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${googleAPIKey}`, token, x)
-          })).catch(err => sendResponse(err)) // end promise all
+          }))
+            .then(()=>{
+              chrome.runtime.sendMessage({type: 'success'}, (response) => {
+                if (response) {
+                  console.log(response)
+                }
+              });
+            }
+          ).catch(err => sendResponse(err)) // end promise all
         }) // end identity auth token
       })
     }; // end if statement nested inside of on message listener

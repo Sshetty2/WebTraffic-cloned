@@ -74,7 +74,7 @@ export default class App extends Component {
     }
     
 
-    handleMessage(request) {
+    handleMessage(request, sender, sendResponse) {
         // Handle received messages
         if (request.type === 'meetupEventData') {
             console.log(request.meetupEventData)
@@ -82,8 +82,12 @@ export default class App extends Component {
                 meetupEventData: request.meetupEventData,
                 open: true
             });
-        }
+        } else if (request.type === 'success'){
+            sendResponse('we received the success message, thanks')
+            alert('The events were successfully scheduled!');
+        };
     }
+    
 
     render() {
 

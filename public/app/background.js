@@ -1,5 +1,5 @@
 const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
-const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
+const redirect_Uri =  'https://jodnpnodmbflogmledmffojgmdjljfmj.chromiumapp.org/'
 const meetupClientSecret = 'tm034sb7uq41r55qeea3etjd28'
 const meetupAccessTokenEndPoint = 'https://secure.meetup.com/oauth2/access'
 const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
@@ -180,12 +180,11 @@ function makeXhrRequestForGroupId(token) {
     return makeXhrRequest('GET', requestUrl, token) 
     .then((data) => {
       let parsedData = JSON.parse(data)
-      let resultsArr = []
-      resultsArr.push(parsedData["0"].id, parsedData["0"].timezone);
-      console.log(`the group ID is ${resultsArr[0]}`)
-      return resultsArr
-    }).then((resultsArr) => {
-        requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${resultsArr[0]}&time=${dateRangeStart},${dateRangeEnd}&page=20`
+      chrome.storage.local.set({timezone: parsedData["0"].timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedData["0"].timezone}`));
+      let groupId = parsedData["0"].id;
+      return groupId
+    }).then((groupId) => {
+        requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
         console.log(`the request Url being used to query for all events is ${requestUrl}`)
         return makeXhrRequest('GET', requestUrl, token)
         .then((data) => {
@@ -200,9 +199,12 @@ function makeXhrRequestForGroupId(token) {
     }) // end chrome local storage callback
    } // end makeXhrRequestForGroupId(token) function 
         
+
   chrome.runtime.onMessage.addListener((request, sendResponse) => {
-    if (request.type === 'confirmationMsg') {
-        let timezone = resultsArr[1]
+    if (request.type === 'googleAuthFlow') {
+      chrome.storage.local.get(['timezone'], (result) => {
+        let timezone = result.timezone
+        let results = request.parsedDataObj
         let paramsArr = results.map(x=> (
           {  
             "end":{  
@@ -223,13 +225,14 @@ function makeXhrRequestForGroupId(token) {
         )
         console.log(paramsArr) 
         chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-        return Promise.all(paramsArr.map(x => {
-            return gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${googleAPIKey}`, token, x)
+          return Promise.all(paramsArr.map(x => {
+              return gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${googleAPIKey}`, token, x)
           })).catch(err => sendResponse(err)) // end promise all
         }) // end identity auth token
-      }; // end if statement nested inside of on message listener
-    }) // end on message listener
-     // end promise from make XHR request for group ID
+      })
+    }; // end if statement nested inside of on message listener
+  }) // end on message listener
+    // end promise from make XHR request for group ID
     
      
 

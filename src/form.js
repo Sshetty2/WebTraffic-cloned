@@ -29,7 +29,7 @@ export default class Form extends React.Component {
     }
 
     return (
-      <form onSubmit = {this.props.onFormSubmit}>
+      <React.Fragment>
         <div style={gnamestyle}>
         <AutosuggestField getInputData={this.props.getInputData} />
         </div>
@@ -50,11 +50,12 @@ export default class Form extends React.Component {
             variant="raised"
             color="primary"
             disabled={false}
+            onClick={this.props.onFormSubmit}
           >
             Schedule
           </Button>
         </div>
-      </form>
+      </React.Fragment>
     );
    };
   }

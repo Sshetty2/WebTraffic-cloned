@@ -10,7 +10,8 @@
   font-size: 19px;
   color: #3700B3;
   text-align: center;
-  text-shadow: #FC0 1px 0 10px;
+  /* text-shadow: #FC0 1px 0 10px; */
+  text-shadow: #0072ff8c 1px 0 24px;
 }
 
 .App-intro {

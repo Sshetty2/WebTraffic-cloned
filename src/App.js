@@ -67,12 +67,9 @@ export default class App extends Component {
       };
 
     
-    handleConfirmation = (parsedDataObj) =>{
-        // send message with parsed data object back to background script
-        chrome.runtime.sendMessage({ // .2 
-            action: 'googleAuthFlow'
-          }, response => console.log(response))
-        
+    handleConfirmation = () =>{
+        let parsedDataObj = this.state.meetupEventData
+        chrome.runtime.sendMessage({ type: 'googleAuthFlow', parsedDataObj: parsedDataObj}, response => console.log(response))        
         this.setState({ open: false });
     }
     

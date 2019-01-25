@@ -27,7 +27,15 @@ export default class DialogComponent extends React.Component {
 
   render() {
     let meetupEventData = this.props.meetupEventData
-    
+
+    function toReadableDateFormat(utcMilliseconds){
+        var d = new Date(0);
+        d.setUTCMilliseconds(utcMilliseconds)
+        return (d.toLocaleDateString("en-US", options));
+    }
+
+    let options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+    console.log(`the current meetupEventData is ${meetupEventData}`)
     return (
       <div>
         {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
@@ -45,28 +53,18 @@ export default class DialogComponent extends React.Component {
            <h1 className='habibi Dialog-header'>{"Heres What I found! . . ."}<br />{"Are you sure you'd like to schedule the following events?"}</h1>
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-            <div>
-                <ul>
-                    <li>Group Name:</li>
-                    <li>Event Name:</li>
-                    <li>Event Date:</li>
-                </ul>
-            </div> 
-            <div>
-                <ul>
-                    <li>Group Name:</li>
-                    <li>Event Summary:</li>
-                    <li>Event Date:</li>
-                </ul>
-            </div> 
-            <div>
-                <ul>
-                    <li>Group Name:</li>
-                    <li>Event Summary:</li>
-                    <li>Event Date:</li>
-                </ul>
-            </div> 
+          <DialogContentText id="alert-dialog-slide-description">
+            {meetupEventData.map((x,i) =>{
+                return(
+                    <div>
+                        <ul key={i}>
+                            <li>{x["venue"]["name"]}</li>
+                            <li>{x["name"]}</li>
+                            <li>{toReadableDateFormat(x["time"])}</li>
+                        </ul>
+                    </div>
+                )
+            })}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -83,3 +81,10 @@ export default class DialogComponent extends React.Component {
   }
 }
 
+// {meetupEventData.map((x,i) =>{
+    
+//         Name:{x["venue"]["name"]}
+//         Name:{x["name"]}
+//         Date:{toReadableDateFormat(x["time"])}
+    
+// })}

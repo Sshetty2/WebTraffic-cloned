@@ -1,6 +1,6 @@
 const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
 
-const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
+const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
 // production id 
 //const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
 // production client id for chrome app (update manifest) = 466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com

@@ -26,30 +26,34 @@ function buildPropArr(els){
 
 
 chrome.extension.onMessage.addListener(function(request, sender, response) {
-    if (request.type === 'onUpdateFrmEvent') {
-      let pathname = window.location.pathname
-      let groupName
-      // checks current pathname if it has the following strings and if it doesn't and its not empty, then groupName is assigned to the pathname 
-      if(!pathname.match( /(find|login|create|messages|account|members|topics|apps)/ ) && pathname.slice(1)) { 
-        pathname = pathname.slice(1)
-        groupName = pathname.slice(0, pathname.indexOf('/')) 
-      } else {
-        groupName = ""
-      }
-      if(groupName){
-        chrome.runtime.sendMessage({type: 'urlgroupName', urlgroupName: groupName}, (response) => {
-          console.log(response)
-        }) 
-      } else{
-        grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
-        chrome.storage.local.set({grpNameArray: grpNameArray}, function() {
-          console.log('Value is set to ' + grpNameArray[0]);
-        })
-        response(grpNameArray);
-      };
+  if (request.type === 'onUpdateFrmEvent') {
+    //chrome message to set state of textField to empty so that a user can type in it
+    chrome.runtime.sendMessage({type: 'resetTextField'}, (response) => {
+      console.log(response)
+    }) 
+    let pathname = window.location.pathname
+    let groupName
+    // checks current pathname if it has the following strings and if it doesn't and its not empty, then groupName is assigned to the pathname 
+    if(!pathname.match( /(find|login|create|messages|account|members|topics|apps)/ ) && pathname.slice(1)) { 
+      pathname = pathname.slice(1)
+      groupName = pathname.slice(0, pathname.indexOf('/')) 
+    } else {
+      groupName = ""
     }
-    return true;
-  });
+    if(groupName){
+      chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName}, (response) => {
+        console.log(response)
+      }) 
+    } else{
+      grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
+      chrome.storage.local.set({grpNameArray: grpNameArray}, function() {
+        console.log('Value is set to ' + grpNameArray[0]);
+      })
+      response(grpNameArray);
+    };
+  }
+  return true;
+});
 
 chrome.runtime.onMessage.addListener(function(request, sender, response) {
   if (request.type === 'popupInit') {

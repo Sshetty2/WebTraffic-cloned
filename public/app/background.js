@@ -171,7 +171,7 @@ function makeXhrRequestForGroupId(token) {
     let grpNameInput = result.grpNameInput
     let urlPathName = result.urlPathName
     if (urlPathName) {
-      let requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_urlname=${urlPathName}&page=20`
+      let requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_urlname=${urlPathName}&time=${dateRangeStart},${dateRangeEnd}&page=20`
       return makeXhrRequest('GET', requestUrl, token)
       .then((data) => {
         let parsedData= JSON.parse(data)

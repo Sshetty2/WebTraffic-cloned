@@ -14,13 +14,10 @@ const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete') {
     chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
-      console.log(`The response object that was received when we sent the message that ran onUpdated is ${response[0]}`)
-      chrome.storage.local.get(['grpNameArray'], function(result) {
-        console.log('Value currently is ' + result.grpNameArray[0]);
-        });
-      })
-    };
-  })
+      console.log(response)
+    })
+  };
+})
 
 // a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){

@@ -1,5 +1,10 @@
 const meetup_client_key = 'rd4j2luc2buqrg44s86ka6fhse'
-const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
+
+const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
+// production id 
+//const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
+// production client id for chrome app (update manifest) = 466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com
+
 const meetupClientSecret = 'tm034sb7uq41r55qeea3etjd28'
 const meetupAccessTokenEndPoint = 'https://secure.meetup.com/oauth2/access'
 const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'

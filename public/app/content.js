@@ -44,6 +44,9 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     if(groupName){
       chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName}, (response) => {
         console.log(response)
+      })
+      chrome.storage.local.set({urlGroupName: groupName}, function() {
+        console.log('Value is set to ' + groupName);
       }) 
     } else{
       grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))

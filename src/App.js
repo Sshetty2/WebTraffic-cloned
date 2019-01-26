@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import DialogComponent from "./Dialog"
-import {getCurrentTab} from "./common/Utils";
 import Calendar from 'react-calendar';
+import SuccessDialogComponent from "./SuccessDialog"
 
 import  Form  from "./form";
 
@@ -17,7 +17,8 @@ export default class App extends Component {
             open: false,
             meetupEventData: [],
             textField: "",
-            urlGroupName: ""
+            urlGroupName: "",
+            successBox: false
         };
     }
 
@@ -32,7 +33,22 @@ export default class App extends Component {
             }
         });
         
+        chrome.storage.local.get(['urlGroupName'], (result) => {
+            if(result.urlGroupName){
+                this.setState({
+                    textField: result.urlGroupName,
+                    urlGroupName: result.urlGroupName
+                });
+          } else{
+                this.setState({
+                    textField: "",
+                    urlGroupName: ""
+                });
+          }
+        });
+
         chrome.runtime.onMessage.addListener(this.handleMessage.bind(this));
+
     }
 
     onChange = date => this.setState({ date })
@@ -64,14 +80,24 @@ export default class App extends Component {
     // dialogOpen is in the onMessage listener
 
     dialogClose = () => {
-        this.setState({ open: false });
+        this.setState({ 
+            open: false, 
+            date: new Date(), 
+            meetupEventData: [] });
       };
+ 
+    successDialogClose = () => {
+        this.setState({ successBox: false });
+    };
 
     
     handleConfirmation = () =>{
         let parsedDataObj = this.state.meetupEventData
         chrome.runtime.sendMessage({ type: 'googleAuthFlow', parsedDataObj: parsedDataObj}, response => console.log(response))        
-        this.setState({ open: false });
+        this.setState({ 
+            open: false,
+            meetupEventData: []
+        });
     }
     
 
@@ -102,7 +128,9 @@ export default class App extends Component {
             });
         } else if (request.type === 'success'){
             sendResponse('we received the success message, thanks')
-            alert('The events were successfully scheduled!');
+            this.setState({
+                successBox: true
+            })
         };
     }
     
@@ -115,6 +143,7 @@ export default class App extends Component {
         return (
           <div className="App">
             <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} meetupEventData = {this.state.meetupEventData} />
+            <SuccessDialogComponent open = {this.state.successBox} dialogClose = {this.successDialogClose.bind(this)} />
             <div style={{margin: '20px'}}>
                 <div>
                     <h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>

@@ -66,8 +66,8 @@ export default class DialogComponent extends React.Component {
             </DialogContentText>
             
           </DialogContent>
-          <div style={{padding:'0px 10px 0px 17px'}}>
-          <h3>{"Warning: You must be signed into chrome or allow syncing on request for the authentication flow to work properly"}</h3>
+          <div style={{padding:'0px 20px 0px 20px'}}>
+          <h3 style={{fontSize:'13px'}}>{"Warning: You must be signed into chrome or allow syncing on request for the authentication flow to work properly"}</h3>
           </div>
           <DialogActions>
             <Button onClick={this.props.dialogClose} color="primary">

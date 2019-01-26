@@ -27,15 +27,12 @@ export default class DialogComponent extends React.Component {
 
   render() {
     let meetupEventData = this.props.meetupEventData
-
     function toReadableDateFormat(utcMilliseconds){
         var d = new Date(0);
         d.setUTCMilliseconds(utcMilliseconds)
         return (d.toLocaleDateString("en-US", options));
     }
-
     let options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-    console.log(`the current meetupEventData is ${meetupEventData}`)
     return (
       <div>
         {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
@@ -80,11 +77,3 @@ export default class DialogComponent extends React.Component {
     );
   }
 }
-
-// {meetupEventData.map((x,i) =>{
-    
-//         Name:{x["venue"]["name"]}
-//         Name:{x["name"]}
-//         Date:{toReadableDateFormat(x["time"])}
-    
-// })}

@@ -16,7 +16,8 @@ export default class App extends Component {
             date: new Date(),
             open: false,
             meetupEventData: [],
-            textField: ""
+            textField: "",
+            urlGroupName: ""
         };
     }
 
@@ -39,25 +40,31 @@ export default class App extends Component {
 
 
     getAutosuggestInput(value){
+        if (!this.state.urlGroupName){  
         this.setState({textField: value})
+        }
     }
 
     onFormSubmit=() => {
+        let grpNameInputField
+
         if(this.state.textField.length ===  0){
             return alert("please enter a valid group name")
-        }
+        } 
+
+        grpNameInputField = this.state.urlGroupName ? this.state.urlGroupName : this.state.textField
+
         let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime()
         let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
-        chrome.storage.local.set({grpNameInput: this.state.textField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd}, function() {
+        chrome.storage.local.set({grpNameInput: grpNameInputField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd}, function() {
             console.log('the local storage object has been set after the button was clicked with the user input'
             );
-          })
-
+            })
 
         chrome.runtime.sendMessage({ // .2 
             action: 'meetupRequest'
-          }, response => console.log(response))
-      }
+        }, response => console.log(response))
+    }
     
 
     // dialogOpen is in the onMessage listener
@@ -76,7 +83,23 @@ export default class App extends Component {
 
     handleMessage(request, sender, sendResponse) {
         // Handle received messages
-        if (request.type === 'meetupEventData') {
+
+        if (request.type === 'resetTextField' || request.type === 'urlGroupName') {
+            console.log('text field was reset')
+            this.setState({
+                textField: "",
+            });
+
+            if (request.type === 'urlGroupName') {
+                console.log(`the urlGroupName was pulled and set to ${request.urlGroupName}`)
+                this.setState({
+                    urlGroupName: request.urlGroupName,
+                    textField: request.urlGroupName
+                });
+                console.log(`the current value of this.state.textField is ${this.state.textField} `)
+            } 
+
+        } if (request.type === 'meetupEventData') {
             console.log(request.meetupEventData)
             this.setState({
                 meetupEventData: request.meetupEventData,
@@ -100,7 +123,7 @@ export default class App extends Component {
             <div style={{margin: '20px'}}>
                 <div>
                     <h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>
-                    <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} onFormSubmit = {this.onFormSubmit.bind(this)} />
+                    <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} onFormSubmit = {this.onFormSubmit.bind(this)} textFieldValue = {this.state.textField} />
                 </div>
             </div>
             <div style={{margin: '20px', paddingBottom: '10px'}}>

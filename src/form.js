@@ -31,7 +31,7 @@ export default class Form extends React.Component {
     return (
       <React.Fragment>
         <div style={gnamestyle}>
-        <AutosuggestField getInputData={this.props.getInputData} />
+        <AutosuggestField getInputData={this.props.getInputData} textFieldValue = {this.props.textFieldValue} />
         </div>
         <div style={drangestyle}>  
         <TextField

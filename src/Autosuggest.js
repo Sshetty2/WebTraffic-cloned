@@ -18,6 +18,7 @@ export default class AutosuggestField extends React.Component {
 
   }
 
+// this.props.textFieldValue ? this.props.textFieldValue : ""
 
 
 getSuggestions = x => {
@@ -44,7 +45,8 @@ renderInputComponent = inputProps => (
 <TextField
         id="group-name"
         name="group-name"
-        label="Group Name"       
+        label="Group Name"   
+        value = {this.props.textFieldValue}    
         fullWidth
         {...inputProps} 
         refCallback={inputProps.ref}
@@ -80,11 +82,12 @@ renderSuggestion = suggestion => (
   };
 
   render() {
+    console.log(`the value of this.props.value on the autosuggest component is ${this.props.textFieldValue}`)
     const { value, suggestions } = this.state;
 
     const inputProps = {
-      placeholder: 'Type A Group Name',
-      value,
+      placeholder: this.props.textFieldValue ? this.props.textFieldValue : 'Type A Group Name',
+      value: this.props.textFieldValue ? this.props.textFieldValue : '',
       onChange: this.onChange
     };
 

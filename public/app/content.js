@@ -25,8 +25,9 @@ function buildPropArr(els){
 
 
 
-chrome.extension.onMessage.addListener(function(request, sender, response) {
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.type === 'onUpdateFrmEvent') {
+    sendResponse('the the onupdate listener is working correctly and we recieved the message to fire our messages')
     //chrome message to set state of textField to empty so that a user can type in it
     chrome.runtime.sendMessage({type: 'resetTextField'}, (response) => {
       console.log(response)

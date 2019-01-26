@@ -12,11 +12,9 @@ const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
 
 // a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-  if (changeInfo.status === 'complete') {
     chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
       console.log(response)
     })
-  };
 })
 
 // a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    
@@ -151,29 +149,42 @@ checkDefinition = value => typeof value == 'undefined' ? "" : value
 
 function makeXhrRequestForGroupId(token) {
   
-  chrome.storage.local.get(['dateRangeStart', 'dateRangeEnd', 'grpNameInput'], (result) => {
+  chrome.storage.local.get(['dateRangeStart', 'dateRangeEnd', 'grpNameInput', 'urlPathName'], (result) => {
     let dateRangeStart = result.dateRangeStart
     let dateRangeEnd = result.dateRangeEnd
     let grpNameInput = result.grpNameInput
-    
-    let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
-    return makeXhrRequest('GET', requestUrl, token) 
-    .then((data) => {
-      let parsedData = JSON.parse(data)
-      chrome.storage.local.set({timezone: parsedData["0"].timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedData["0"].timezone}`));
-      let groupId = parsedData["0"].id;
-      return groupId
-    }).then((groupId) => {
-        requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
-        return makeXhrRequest('GET', requestUrl, token)
-        .then((data) => {
-          let parsedData= JSON.parse(data)
-          let resultData = parsedData["results"]
-          chrome.runtime.sendMessage({type: 'meetupEventData', meetupEventData: resultData}, (response) => {
-            console.log(response)
-          }) 
-        }).catch(err => console.log(err)) 
-      }).catch(err => console.log(err)) // end promise for  
+    let urlPathName = result.urlPathName
+    if (urlPathName) {
+      let requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_urlname=${urlPathName}&page=20`
+      return makeXhrRequest('GET', requestUrl, token)
+      .then((data) => {
+        let parsedData= JSON.parse(data)
+        let resultData = parsedData["results"]
+        chrome.runtime.sendMessage({type: 'meetupEventData', meetupEventData: resultData}, (response) => {
+          console.log(response)
+        }) 
+      }).catch(err => console.log(err)) 
+      
+    } else {
+      let requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
+      return makeXhrRequest('GET', requestUrl, token) 
+      .then((data) => {
+        let parsedData = JSON.parse(data)
+        chrome.storage.local.set({timezone: parsedData["0"].timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedData["0"].timezone}`));
+        let groupId = parsedData["0"].id;
+        return groupId
+      }).then((groupId) => {
+          requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
+          return makeXhrRequest('GET', requestUrl, token)
+          .then((data) => {
+            let parsedData= JSON.parse(data)
+            let resultData = parsedData["results"]
+            chrome.runtime.sendMessage({type: 'meetupEventData', meetupEventData: resultData}, (response) => {
+              console.log(response)
+            }) 
+          }).catch(err => console.log(err)) 
+        }).catch(err => console.log(err)) // end promise for  
+      }
     }) // end chrome local storage callback
    } // end makeXhrRequestForGroupId(token) function 
         

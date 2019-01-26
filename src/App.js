@@ -28,7 +28,9 @@ export default class App extends Component {
         chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
             if (response) {
                 this.setState({
-                    grpNameArray: response
+                    grpNameArray: response.groupNameArray,
+                    textField: response.groupName,
+                    urlGroupName: response.groupName
                 });
             }
         });

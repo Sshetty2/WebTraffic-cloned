@@ -14,21 +14,23 @@ const googleAPIKey = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
 
 
 // a message is send every time a tab is updated to the content script to be handled called onUpdateFrmEvent
-  chrome.tabs.onUpdated.addListener(function(tabid, changeinfo, tab) {
-    var url = tab.url;
-        if (url !== undefined && changeinfo.status == "complete") {
+//   chrome.tabs.onUpdated.addListener(function(tabid, changeinfo, tab) {
+//     var url = tab.url;
+//         if (url !== undefined && changeinfo.status == "complete") {
 
+//         chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
+//           console.log(response)
+//     })
+//   }
+// });
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+  var url = tab.url;
+    if (url !== undefined && changeInfo.status == "complete"){
     chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
       console.log(response)
     })
-    test();
   }
-});
-
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-  chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
-    console.log(response)
-  })
 })
 
 // a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    

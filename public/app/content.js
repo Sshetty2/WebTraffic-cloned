@@ -41,27 +41,27 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     } else {
       groupName = ""
     }
-    if(groupName){
-      chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName}, (response) => {
-        console.log(response)
-      })
-      chrome.storage.local.set({urlGroupName: groupName}, function() {
-        console.log('Value is set to ' + groupName);
-      }) 
-    } else{
-      grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
-      chrome.storage.local.set({grpNameArray: grpNameArray}, function() {
-        console.log('Value is set to ' + grpNameArray[0]);
-      })
-      response(grpNameArray);
-    };
+    chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName})
+    chrome.storage.local.set({urlGroupName: groupName}, function() {
+    }) 
+    grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
+    chrome.storage.local.set({grpNameArray: grpNameArray})
   }
   return true;
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, response) {
   if (request.type === 'popupInit') {
-    response(buildPropArr(document.getElementsByClassName('text--labelSecondary')));
+    let pathname = window.location.pathname
+    if(!pathname.match( /(find|login|create|messages|account|members|topics|apps)/ ) && pathname.slice(1)) { 
+      pathname = pathname.slice(1)
+      groupName = pathname.slice(0, pathname.indexOf('/')) 
+    } else {
+      groupName = ""
+    }
+    chrome.storage.local.set({urlGroupName: groupName}) 
+    groupNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
+    response({groupName: groupName, groupNameArray: groupNameArray });
   };
   return true;
 });

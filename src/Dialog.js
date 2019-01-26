@@ -49,7 +49,8 @@ export default class DialogComponent extends React.Component {
           <DialogTitle style={{padding: '20px 24px 6px'}} id="alert-dialog-slide-title">
            <h1 className='habibi Dialog-header'>{"Heres What I found! . . ."}<br />{"Are you sure you'd like to schedule the following events?"}</h1>
           </DialogTitle>
-          <DialogContent>
+          
+          <DialogContent style={{padding: '0px 0px 0px 22px'}} >
           <DialogContentText id="alert-dialog-slide-description">
             {meetupEventData.map((x,i) =>{
                 return(
@@ -63,7 +64,11 @@ export default class DialogComponent extends React.Component {
                 )
             })}
             </DialogContentText>
+            
           </DialogContent>
+          <div style={{padding:'0px 10px 0px 17px'}}>
+          <h3>{"Warning: You must be signed into chrome or allow syncing on request for the authentication flow to work properly"}</h3>
+          </div>
           <DialogActions>
             <Button onClick={this.props.dialogClose} color="primary">
               No

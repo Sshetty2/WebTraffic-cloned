@@ -42,10 +42,10 @@ export default class SuccessDialogComponent extends React.Component {
            <h1 className='habibi Dialog-header'></h1>
           </DialogTitle> */}
           <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
+            <DialogContentText id="alert-dialog-slide-description" style={{color:'rgba(0, 0, 0, 0.85)', textShadow:'#ff8a00b5'}}>
               <p>The Items were successfully posted to your Google Calendar!</p>
               <p>Keep in mind that you have only scheduled the events. If you plan on attending, you should RSVP so that they will know you'll be coming :)</p>
-              <p>Thanks for using Meetup-Batch Event Set Tool</p>
+              <p>Thanks you for using Meetup-Batch Event Set Tool!</p>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

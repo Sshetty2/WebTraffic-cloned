@@ -140,7 +140,7 @@ export default class App extends Component {
     render() {
         console.log(`the current state of ${this.state.urlGroupName}`)
         const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-        const dateRendered = this.state.date.length == 2 ? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` : this.state.date.toLocaleDateString("en-US", options);
+        const dateRendered = this.state.date.length === 2 ? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` : this.state.date.toLocaleDateString("en-US", options);
 
         return (
           <div className="App">

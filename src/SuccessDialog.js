@@ -11,30 +11,18 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-export default class SuccessDialogComponent extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+const SuccessDialogComponent = props => {
 
-
-// not needed
-//   handleClickOpen = () => {
-//     this.setState({ open: true });
-//   };
-
-
-
-  render() {
     return (
       <div>
         {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
           Slide in alert dialog
         </Button> */}
         <Dialog
-          open={this.props.open}
-          TransitionComponent={Transition}
+          open={ props.open }
+          TransitionComponent={ Transition }
           keepMounted
-          onClose={this.handleClose}
+          onClose={ props.handleClose }
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
@@ -42,19 +30,21 @@ export default class SuccessDialogComponent extends React.Component {
            <h1 className='habibi Dialog-header'></h1>
           </DialogTitle> */}
           <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description" style={{color:'rgba(0, 0, 0, 0.85)', textShadow:'#ff8a00b5'}}>
+            <DialogContentText id="alert-dialog-slide-description" style={{color:'rgba(0, 0, 0, 0.85)', textShadow:'#0072ff99 1px 0 17px'}}>
               <p>The Items were successfully posted to your Google Calendar!</p>
-              <p>Keep in mind that you have only scheduled the events. If you plan on attending, you should RSVP so that they will know you'll be coming :)</p>
+              <p>Keep in mind that you have only scheduled the events. If you plan on attending, you should RSVP so that they'll know you'll be coming  :)</p>
               <p>Thanks you for using Meetup-Batch Event Set Tool!</p>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.dialogClose} color="primary">
+            <Button onClick={ props.dialogClose } color="primary">
               Thanks
             </Button>
           </DialogActions>
         </Dialog>
       </div>
     );
-  }
+
 }
+
+export default SuccessDialogComponent;

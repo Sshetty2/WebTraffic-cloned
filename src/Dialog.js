@@ -12,21 +12,9 @@ function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
 
-export default class DialogComponent extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+const DialogComponent = props => {
 
-
-// not needed
-//   handleClickOpen = () => {
-//     this.setState({ open: true });
-//   };
-
-
-
-  render() {
-    let meetupEventData = this.props.meetupEventData
+    let meetupEventData = props.meetupEventData
     console.log(meetupEventData)
     function toReadableDateFormat(utcMilliseconds){
         var d = new Date(0);
@@ -34,16 +22,13 @@ export default class DialogComponent extends React.Component {
         return (d.toLocaleDateString("en-US", options));
     }
     let options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+
     return (
-      <div>
-        {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Slide in alert dialog
-        </Button> */}
         <Dialog
-          open={this.props.open}
+          open={props.open}
           TransitionComponent={Transition}
           keepMounted
-          onClose={this.handleClose}
+          onClose={props.handleClose}
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
@@ -57,9 +42,9 @@ export default class DialogComponent extends React.Component {
                 return(
                     <div>
                         <ul key={i} style={{padding:'0px 0px 18px 0px', margin: '0px'}}>
-                            <li style={{color: 'rgba(0, 0, 0, 0.75)'}}>{x["venue"]["name"]}</li>
-                            <li style={{textDecoration: 'underline', color: 'rgba(0, 0, 0, 0.75)'}}><a href={x["event_url"]} target="_blank">{x["name"]}</a></li>
-                            <li style={{color: 'rgba(0, 0, 0, 0.75)'}}>{toReadableDateFormat(x["time"])}</li>
+                            <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{x["venue"]["name"]}</li>
+                            <li style={{textDecoration: 'underline', color: 'rgba(0, 0, 0, 0.85)'}}><a href={x["event_url"]} target="_blank">{x["name"]}</a></li>
+                            <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{toReadableDateFormat(x["time"])}</li>
                         </ul>
                     </div>
                 )
@@ -71,15 +56,15 @@ export default class DialogComponent extends React.Component {
           <h3 style={{fontSize:'13px', textShadow:'#ff8a00bd 1px 0 7px'}}>{"Warning: You must be signed into chrome or allow syncing on request for the authentication flow to work properly"}</h3>
           </div>
           <DialogActions>
-            <Button onClick={this.props.dialogClose} color="primary">
+            <Button onClick={props.dialogClose} color="primary">
               No
             </Button>
-            <Button onClick={this.props.handleConfirmation} color="primary">
+            <Button onClick={props.handleConfirmation} color="primary">
               Yes
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
     );
-  }
 }
+
+export default DialogComponent;

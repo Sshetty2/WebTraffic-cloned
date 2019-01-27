@@ -20,8 +20,8 @@ export default class Form extends React.Component {
 
 
     var gnamestyle = {
-      paddingTop: '0px',
-      paddingBottom:'20px'
+      paddingTop: '5x',
+      paddingBottom:'10px'
     };
 
     var drangestyle = {

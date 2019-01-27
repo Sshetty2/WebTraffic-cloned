@@ -57,9 +57,9 @@ export default class DialogComponent extends React.Component {
                 return(
                     <div>
                         <ul key={i} style={{padding:'0px 0px 18px 0px', margin: '0px'}}>
-                            <li>{x["venue"]["name"]}</li>
-                            <li style={{textDecoration: 'underline'}}><a href={x["event_url"]} target="_blank">{x["name"]}</a></li>
-                            <li>{toReadableDateFormat(x["time"])}</li>
+                            <li style={{color: 'rgba(0, 0, 0, 0.75)'}}>{x["venue"]["name"]}</li>
+                            <li style={{textDecoration: 'underline', color: 'rgba(0, 0, 0, 0.75)'}}><a href={x["event_url"]} target="_blank">{x["name"]}</a></li>
+                            <li style={{color: 'rgba(0, 0, 0, 0.75)'}}>{toReadableDateFormat(x["time"])}</li>
                         </ul>
                     </div>
                 )

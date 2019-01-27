@@ -27,6 +27,7 @@ export default class DialogComponent extends React.Component {
 
   render() {
     let meetupEventData = this.props.meetupEventData
+    console.log(meetupEventData)
     function toReadableDateFormat(utcMilliseconds){
         var d = new Date(0);
         d.setUTCMilliseconds(utcMilliseconds)
@@ -57,7 +58,7 @@ export default class DialogComponent extends React.Component {
                     <div>
                         <ul key={i} style={{padding:'0px 0px 18px 0px', margin: '0px'}}>
                             <li>{x["venue"]["name"]}</li>
-                            <li style={{textDecoration: 'underline'}}>{x["name"]}</li>
+                            <li style={{textDecoration: 'underline'}}><a href={x["event_url"]} target="_blank">{x["name"]}</a></li>
                             <li>{toReadableDateFormat(x["time"])}</li>
                         </ul>
                     </div>

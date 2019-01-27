@@ -240,7 +240,7 @@ function makeXhrRequestForGroupId(token) {
                 }
               });
             }
-          ).catch(err => sendResponse(err)) // end promise all
+          ).catch(err => console.log(err)) // end promise all
         }) // end identity auth token
       })
     }; // end if statement nested inside of on message listener

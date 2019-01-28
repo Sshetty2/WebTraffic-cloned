@@ -135,7 +135,7 @@ export default class App extends Component {
             })
         } else if (request.type === 'error'){
             sendResponse('we received the error message, thanks');
-            typeof(request.error) === 'object' ? alert(`Something went wrong. Try again later, or contact the developer ${JSON.stringify(request.error, null, 4)}`) : alert(`Something went wrong ${request.error}`) 
+            typeof(request.error) === 'object' ? alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code (Object): ${JSON.stringify(request.error, null, 4)}`) : alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${request.error}`) 
         };    
     }
     

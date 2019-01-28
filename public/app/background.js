@@ -1,6 +1,6 @@
 const mCK = 'rd4j2luc2buqrg44s86ka6fhse'
-// const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
-const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
+const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
+// const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
 // production = 466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com
 // development = 466748401928-clsj0b12h299emdtcngqcdkon8i8n0nk.apps.googleusercontent.com
 
@@ -8,6 +8,14 @@ const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/
 const mCS = 'tm034sb7uq41r55qeea3etjd28'
 const gATEP = 'https://secure.meetup.com/oauth2/access'
 const gAK = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
+
+// event listener fires when a tab is updated and sends a message that is received by content script
+
+const errorLog = (err) => {
+  chrome.runtime.sendMessage({type: 'error', error: err}, (response) => {
+    console.log(response)
+  }) 
+}
 
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
@@ -20,6 +28,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 })
 
 // a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   if (request.action === 'meetupRequest'){ 
     chrome.identity.launchWebAuthFlow({ 
@@ -38,12 +47,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   return true;
 })
 
-
-function errorLog(err){
-  chrome.runtime.sendMessage({type: 'error', error: err}, (response) => {
-    console.log(response)
-  }) 
-}
+//
 
 // pre-token
 // A generic post request for an access token. The request body may need to be reformatted depending on the API being queried
@@ -168,7 +172,6 @@ function makeXhrRequestForGroupId(token) {
       console.log(urlPathName)
       return makeXhrRequest('GET', requestUrl, token)
       .then((data) => {
-        console.log(data)
         let parsedData= JSON.parse(data)
         let groupId = parsedData["results"][0]["id"]
         let timezone = parsedData["results"][0]["timezone"]
@@ -178,7 +181,6 @@ function makeXhrRequestForGroupId(token) {
       .then(groupId => {
         requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
         return makeXhrRequest('GET', requestUrl, token)
-        
         .then((data) => {
           let parsedData= JSON.parse(data)
           let resultData = parsedData["results"]
@@ -187,7 +189,6 @@ function makeXhrRequestForGroupId(token) {
           }) 
       }).catch(err => errorLog(err)) 
     }).catch(err => errorLog(err)) 
-    
     } else {
       requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
       return makeXhrRequest('GET', requestUrl, token) 

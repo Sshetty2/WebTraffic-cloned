@@ -133,7 +133,10 @@ export default class App extends Component {
             this.setState({
                 successBox: true
             })
-        };
+        } else if (request.type === 'error'){
+            sendResponse('we received the error message, thanks');
+            typeof(request.error) === 'object' ? alert(JSON.stringify(request.error, null, 4)) : alert(request.error) 
+        };    
     }
     
 

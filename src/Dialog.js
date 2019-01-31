@@ -42,7 +42,7 @@ const DialogComponent = props => {
                 return(
                     <div>
                         <ul key={i} style={{padding:'0px 0px 18px 0px', margin: '0px'}}>
-                            <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{x["venue"]["name"]}</li>
+                            <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: null}</li>
                             <li style={{textDecoration: 'underline', color: 'rgba(0, 0, 0, 0.85)'}}><a href={x["event_url"]} target="_blank">{x["name"]}</a></li>
                             <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{toReadableDateFormat(x["time"])}</li>
                         </ul>

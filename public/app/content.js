@@ -35,7 +35,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     let pathname = window.location.pathname
     let groupName
     // checks current pathname if it has the following strings and if it doesn't and its not empty, then groupName is assigned to the pathname 
-    if(!pathname.match( /(find|login|create|messages|account|members|topics|apps)/ ) && pathname.slice(1)) { 
+    if(!pathname.match( /(find|login|create|messages|account|members|topics|apps|meetup_api)/ ) && pathname.slice(1)) { 
       pathname = pathname.slice(1)
       groupName = pathname.slice(0, pathname.indexOf('/')) 
     } else {

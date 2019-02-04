@@ -1,4 +1,4 @@
-#Meetup Batch-Event-Set Tool
+# Meetup Batch-Event-Set Tool
 
 This project was bootstrapped using Create-React App.
 
@@ -8,7 +8,7 @@ Chrome extensions are created by configuring three essentially containerized Jav
 
 The background script runs in the background in the browser as you are browsing and is loaded when the extension is installed. This script has access to most of Chrome’s platform APIs and can and should be used to register event listeners that will trigger if and when certain events occur in your application.
 
-In this use-case, event listeners that ‘listen’ for when tabs are updated  and when Authentication flow needs to be initiated are registered when the code is first executed and triggered when the respective event occurs. The background script also handles the XML HTTP Requests and data parsing.
+In this use-case, event listeners that ‘listen’ for when tabs are updated  and when Authentication flow needs to be initiated are registered when the code is first executed and triggered when the respective event occurs. The background script also handles the XML HTTP Requests and data parsing. The XML HTTP Requests' response headers needed to be configured with valid authentication tokens and so OAuth is heavily employed to attain redirect uri codes and then authentication tokens to be used within the response headers of the asynchronous XHRs.
 
 The content script is responsible for executing code in the context of the content that is currently being displayed to the user within the browser.Content scripts have access to a limited range of chrome platform APIs including messaging and local storage, however, they are the only scripts that have access to the document object of the displayed page. 
 

@@ -10,12 +10,11 @@ const mCK = 'fa87euorcttsc8kpaks36d06nc'
 
 
 
-const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
-// const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
+// const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
+const redirect_Uri =  'https://jodnpnodmbflogmledmffojgmdjljfmj.chromiumapp.org/'
 // production = 466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com
-// development = 466748401928-clsj0b12h299emdtcngqcdkon8i8n0nk.apps.googleusercontent.com
+// development = 862472925893-gbhuqd7sm97h0fs3dv5p2a9875l95v6d.apps.googleusercontent.com
 
-//dev
 const mCS = 'gimsq0ijqf99brtsbvofrveh5p'
 //prod
 // const mCS = 'tm034sb7uq41r55qeea3etjd28'

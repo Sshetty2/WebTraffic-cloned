@@ -1,28 +1,3 @@
-
-
-
-//dev
-
-const mCK = 'fa87euorcttsc8kpaks36d06nc'
-
-//prod
-// const mCK = 'rd4j2luc2buqrg44s86ka6fhse'
-
-
-
-// const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
-const redirect_Uri =  'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
-// production = 466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com
-// development = 466748401928-clsj0b12h299emdtcngqcdkon8i8n0nk.apps.googleusercontent.com
-
-//dev
-const mCS = 'gimsq0ijqf99brtsbvofrveh5p'
-//prod
-// const mCS = 'tm034sb7uq41r55qeea3etjd28'
-
-const gATEP = 'https://secure.meetup.com/oauth2/access'
-const gAK = 'AIzaSyBDxenr7SA1hbdkm_k-1eP7DZTfKaju-UE'
-
 // event listener fires when a tab is updated and sends a message that is received by content script
 
 const errorLog = (err) => {
@@ -46,12 +21,12 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   if (request.action === 'meetupRequest'){ 
     chrome.identity.launchWebAuthFlow({ 
-      url: `https://secure.meetup.com/oauth2/authorize?client_id=${mCK}&response_type=code&redirect_uri=${redirect_Uri}`,
+      url: `https://secure.meetup.com/oauth2/authorize?client_id=${mCK}&response_type=code&redirect_uri=${redirect_Uri}&scope=rsvp`,
       interactive: true
     },
     function(redirectUrl) {
       let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1)
-      makeXhrPostRequest(code, 'authorization_code')
+      xhrMeetupTokenRequest(code, 'authorization_code')
         .then(async data => {
           data = await JSON.parse(data)
           makeXhrRequestWithGroupId(data.access_token)
@@ -60,113 +35,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   }
   return true;
 })
-
-//
-
-// pre-token
-// A generic post request for an access token. The request body may need to be reformatted depending on the API being queried
-
-
-//converts Utc milliseconds since the epoch into a format that can be digested by google
-
-function convertToGoogleDTime(utcMilliseconds){
-  var d = new Date(0);
-  d.setUTCMilliseconds(utcMilliseconds);
-  //takes date object
-  function pad(n){return n<10 ? '0'+n : n}
-  return d.getUTCFullYear()+'-'
-       + pad(d.getUTCMonth()+1)+'-'
-       + pad(d.getUTCDate())+'T'
-       + pad(d.getUTCHours())+':'
-       + pad(d.getUTCMinutes())+':'
-       + pad(d.getUTCSeconds())+'Z'}
-
-
-function makeXhrPostRequest(code, grantType, refreshToken){
-  return new Promise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', gATEP, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function(){
-      if (xhr.status >= 200 && xhr.status < 300){
-          return resolve(xhr.response);
-      } else {
-        reject(Error({
-          status: xhr.status,
-          statusTextInElse: xhr.statusText
-        }))
-      }
-    }
-    xhr.onerror = function(){
-      reject(Error({
-        status: xhr.status,
-        statusText: xhr.statusText
-      }))
-    }
-     let requestBody = (refreshToken) ?
-      `client_id=${mCK}&client_secret=${mCS}&grant_type=${grantType}&refresh_token=${refreshToken}` 
-      :
-      `client_id=${mCK}&client_secret=${mCS}&grant_type=${grantType}&redirect_uri=${redirect_Uri}&code=${code}`
-    xhr.send(requestBody)
-  })
-}
-
-
-//post-token
-// A generic XHR request code, requires an HTTP XML request method, a request url, and an access token.
-
-function makeXhrRequest(method, url, token) {
-  return new Promise((resolve, reject) => { 
-    let xhr = new XMLHttpRequest(); 
-    xhr.open(method, url, true);
-    xhr.setRequestHeader('Authorization', 'Bearer ' + token)
-    xhr.onload = function(){ 
-      if (xhr.status >= 200 && xhr.status < 300){
-        return resolve(xhr.response);
-      } else {
-        reject(Error({
-          status: xhr.status,
-          statusTextInElse: xhr.statusText
-        }))
-      }
-    }
-    xhr.onerror = function(){
-      reject(Error({
-        status: xhr.status,
-        statusText: xhr.statusText
-      }))
-    }
-    xhr.send()
-  })
-}
-
-
-function gCalXhrRequest(method, url, token, params) {
-  return new Promise((resolve, reject) => { 
-    let xhr = new XMLHttpRequest(); 
-    xhr.open(method, url, true);
-    xhr.setRequestHeader('Authorization', 'Bearer ' + token)
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-    xhr.onload = function(){ 
-      if (xhr.status >= 200 && xhr.status < 300){
-        return resolve(xhr.response);
-      } else {
-        reject(Error({
-          status: xhr.status,
-          statusTextInElse: xhr.statusText
-        }))
-      }
-    }
-    xhr.onerror = function(){
-      reject(Error({
-        status: xhr.status,
-        statusText: xhr.statusText
-      }))
-    }
-    let stringifiedParams = JSON.stringify(params)
-    xhr.send(stringifiedParams)
-  })
-}
 
 checkDefinition = value => typeof value == 'undefined' ? "" : value
 
@@ -182,11 +50,9 @@ function makeXhrRequestWithGroupId(token) {
     let requestUrl
     if (urlPathName) {
       requestUrl = `https://api.meetup.com/2/groups?&sign=true&photo-host=public&group_urlname=${urlPathName}&page=20`
-      console.log(token)
-      return makeXhrRequest('GET', requestUrl, token)
+      return makeXhrRequestGeneric('GET', requestUrl, token)
       .then(async data => { // 
         let parsedData= await JSON.parse(data) // may need to promisify data parsing because an odd error of receiving an empty object response from api
-        console.log(parsedData)
         let groupId = parsedData["results"][0]["id"]
         let timezone = parsedData["results"][0]["timezone"]
         console.log(timezone)
@@ -197,9 +63,8 @@ function makeXhrRequestWithGroupId(token) {
         requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
         console.log(requestUrl)
         try {
-          const data = await makeXhrRequest('GET', requestUrl, token);
+          const data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);
-          console.log(parsedData);
           let resultData = parsedData["results"];
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {
             console.log(response);
@@ -215,7 +80,7 @@ function makeXhrRequestWithGroupId(token) {
 
       } else {
       requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
-      return makeXhrRequest('GET', requestUrl, token) 
+      return makeXhrRequestGeneric('GET', requestUrl, token) 
       .then(async data => {
         let parsedData = await JSON.parse(data)
         let timezone = parsedData["0"].timezone
@@ -226,7 +91,7 @@ function makeXhrRequestWithGroupId(token) {
       .then(async groupId => {
           requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
           try {
-          const data = await makeXhrRequest('GET', requestUrl, token);
+          const data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);
           let resultData = parsedData["results"];
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {
@@ -245,9 +110,18 @@ function makeXhrRequestWithGroupId(token) {
 
   chrome.runtime.onMessage.addListener((request, sendResponse) => {
     if (request.type === 'googleAuthFlow') {
+      let results = request.parsedDataObj
+
+      let eventUrl = results[0]["event_url"]
+      let urlPathName = eventUrl.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0]
+      console.log(urlPathName)
+      let eventId = results[0]["id"]
+      console.log(eventId)
+
+
+
       chrome.storage.local.get(['timezone'], (result) => {
         let timezone = result.timezone
-        let results = request.parsedDataObj
         let paramsArr = results.map(x=> (
           {  
             "end":{  
@@ -266,10 +140,9 @@ function makeXhrRequestWithGroupId(token) {
             }
           }) 
         )
-        console.log(paramsArr) 
         chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
           return Promise.all(paramsArr.map(x => {
-              return gCalXhrRequest('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${gAK}`, token, x)
+              return makeXhrPostRequestJSON('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${gAK}`, token, x)
           }))
             .then(()=>{
               chrome.runtime.sendMessage({type: 'success'}, (response) => {

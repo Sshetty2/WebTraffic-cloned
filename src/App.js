@@ -18,7 +18,8 @@ export default class App extends Component {
             meetupEventData: [],
             textField: "",
             urlGroupName: "",
-            successBox: false
+            successBox: false,
+            disabled: false
         };
     }
 
@@ -64,6 +65,7 @@ export default class App extends Component {
     }
 
     onFormSubmit=() => {
+        this.setState({disabled: true})
         if(this.state.textField.length ===  0){
             return alert("please enter a valid group name")
         } 
@@ -85,6 +87,7 @@ export default class App extends Component {
         this.setState({ 
             open: false, 
             date: new Date(), 
+            disabled: false,
             meetupEventData: [] });
       };
  
@@ -98,7 +101,8 @@ export default class App extends Component {
         chrome.runtime.sendMessage({ type: 'googleAuthFlow', parsedDataObj: parsedDataObj}, response => console.log(response))        
         this.setState({ 
             open: false,
-            meetupEventData: []
+            meetupEventData: [],
+            disabled: true
         });
     }
     
@@ -126,12 +130,14 @@ export default class App extends Component {
             console.log(request.meetupEventData)
             this.setState({
                 meetupEventData: request.meetupEventData,
-                open: true
+                open: true,
+                disabled: false
             });
         } else if (request.type === 'success'){
             sendResponse('we received the success message, thanks')
             this.setState({
-                successBox: true
+                successBox: true,
+                disabled: false
             })
         } else if (request.type === 'error'){
             sendResponse('we received the error message, thanks');
@@ -152,7 +158,7 @@ export default class App extends Component {
             <div style={{margin: '20px'}}>
                 <div>
                     <h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>
-                    <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} onFormSubmit = {this.onFormSubmit.bind(this)} textFieldValue = {this.state.textField} />
+                    <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} onFormSubmit = {this.onFormSubmit.bind(this)} textFieldValue = {this.state.textField} disabled = {this.state.disabled} />
                 </div>
             </div>
             <div style={{margin: '20px', paddingBottom: '10px'}}>

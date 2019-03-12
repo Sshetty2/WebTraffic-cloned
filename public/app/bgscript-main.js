@@ -28,8 +28,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
       let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1)
       xhrMeetupTokenRequest(code, 'authorization_code')
         .then(async data => {
-          data = await JSON.parse(data)
-          makeXhrRequestWithGroupId(data.access_token)
+          data = await JSON.parse(data);
+          let access_token = data.access_token
+          chrome.storage.local.set({access_token: access_token}, () => console.log(`the access token has been set in local storage in the background script`));
+          makeXhrRequestWithGroupId(access_token)
         }).catch(err => errorLog(err))
     })
   }
@@ -110,50 +112,54 @@ function makeXhrRequestWithGroupId(token) {
 
   chrome.runtime.onMessage.addListener((request, sendResponse) => {
     if (request.type === 'googleAuthFlow') {
-      let results = request.parsedDataObj
-
-      let eventUrl = results[0]["event_url"]
-      let urlPathName = eventUrl.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0]
-      console.log(urlPathName)
-      let eventId = results[0]["id"]
-      console.log(eventId)
-
-
-
-      chrome.storage.local.get(['timezone'], (result) => {
-        let timezone = result.timezone
-        let paramsArr = results.map(x=> (
-          {  
-            "end":{  
-                "dateTime":`${convertToGoogleDTime(x["time"] + x["duration"])}`,
-                "timeZone":`${timezone}`
-            },
-            "start":{ 
-                "dateTime":`${convertToGoogleDTime(x["time"])}`,
-                "timeZone":`${timezone}`
-            },
-            "description":`This event is hosted by ${x["group"]["name"]} at ${ typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: "N/A"}; More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
-            "summary":`${x["name"]}`,
-            "location":`${ typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["address_1"]): ""} ${typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["address_2"]) : ""} - ${typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["city"]): ""} ${ typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["state"]): ""}`,
-            "reminders":{  
-                "useDefault":true
-            }
-          }) 
-        )
-        chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-          return Promise.all(paramsArr.map(x => {
-              return makeXhrPostRequestJSON('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${gAK}`, token, x)
-          }))
-            .then(()=>{
-              chrome.runtime.sendMessage({type: 'success'}, (response) => {
-                if (response) {
-                  console.log(response)
+      chrome.storage.local.get(['access_token'], (result) => {
+        let access_token = result.access_token
+        let results = request.parsedDataObj
+        let eventUrl, urlPathName, eventId
+        console.log(results)
+        return Promise.all(results.map(x => {
+          eventUrl = x["event_url"]
+          urlPathName = eventUrl.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0]
+          eventId = x["id"]
+          return makeXhrPostRequestJSON('POST', `https://api.meetup.com/${urlPathName}/events/${eventId}/rsvps?&sign=true&photo-host=public&response=yes`, access_token)
+        }))
+        .then(() => {
+          chrome.storage.local.get(['timezone'], (result) => {
+            let timezone = result.timezone
+            let paramsArr = results.map(x=> (
+              {  
+                "end":{  
+                    "dateTime":`${convertToGoogleDTime(x["time"] + x["duration"])}`,
+                    "timeZone":`${timezone}`
+                },
+                "start":{ 
+                    "dateTime":`${convertToGoogleDTime(x["time"])}`,
+                    "timeZone":`${timezone}`
+                },
+                "description":`This event is hosted by ${x["group"]["name"]} at ${ typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: "N/A"}; More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
+                "summary":`${x["name"]}`,
+                "location":`${ typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["address_1"]): ""} ${typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["address_2"]) : ""} - ${typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["city"]): ""} ${ typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["state"]): ""}`,
+                "reminders":{  
+                    "useDefault":true
                 }
-              });
-            }
-          ).catch(err => errorLog(err)) // end promise all
-        }) // end identity auth token
-      })
+              }) 
+            )
+            chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
+              return Promise.all(paramsArr.map(x => {
+                  return makeXhrPostRequestJSON('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${gAK}`, token, x)
+              }))
+                .then(()=>{
+                  chrome.runtime.sendMessage({type: 'success'}, (response) => {
+                    if (response) {
+                      console.log(response)
+                    }
+                  });
+                }
+              ).catch(err => errorLog(err)) // end promise all
+            }) // end identity auth token
+          }) // end chrome storage api callback
+        }) // end chained promise that begins the calls to google calendar api
+      }) // end chrome local storage call back for access token for the meetup api post request
     }; // end if statement nested inside of on message listener
   }) // end on message listener
     // end promise from make XHR request for group ID

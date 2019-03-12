@@ -59,7 +59,7 @@ function makeXhrRequestGeneric(method, url, token) {
 }
 
 
-function makeXhrPostRequestJSON(method, url, token, params) {
+function makeXhrPostRequestJSON(method, url, token, params = null) {
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
         xhr.open(method, url, true);

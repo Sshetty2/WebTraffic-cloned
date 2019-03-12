@@ -41,7 +41,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   }
 })
 
-// a new event listener is registered to listen for a message called meetupRequest which call the authentication api to redirect the user.    
+// a new event listener is registered to listen for a message called meetupRequest which makes a call to the authentication api to redirect the user.     
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   if (request.action === 'meetupRequest'){ 
@@ -182,12 +182,10 @@ function makeXhrRequestWithGroupId(token) {
     let requestUrl
     if (urlPathName) {
       requestUrl = `https://api.meetup.com/2/groups?&sign=true&photo-host=public&group_urlname=${urlPathName}&page=20`
-      console.log(requestUrl)
-      console.log(urlPathName)
       console.log(token)
       return makeXhrRequest('GET', requestUrl, token)
-      .then((data) => { // NO DATA IS RECIEVED AND YET THE QUERY IS VALID PER THE MEETUP API CONSOLE AND OTHER QUERIES SUCCEED WITH DIFFERENT SEARCH PARAMETERS EMPTY OBJECT SUGGESTS THAT THE PROMISE IS STRUCTURED INCORRECTLY
-        let parsedData= JSON.parse(data)
+      .then((data) => { // 
+        let parsedData= JSON.parse(data) // may need to promisify data parsing because an odd error of receiving an empty object response from api
         console.log(parsedData)
         let groupId = parsedData["results"][0]["id"]
         let timezone = parsedData["results"][0]["timezone"]

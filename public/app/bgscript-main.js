@@ -121,6 +121,7 @@ function makeXhrRequestWithGroupId(token) {
           eventUrl = x["event_url"]
           urlPathName = eventUrl.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0]
           eventId = x["id"]
+          if (!(/\d/.test(eventId))) // checks to see if there is NOT number in the string (numbers mean the event has passed)
           return makeXhrPostRequestJSON('POST', `https://api.meetup.com/${urlPathName}/events/${eventId}/rsvps?&sign=true&photo-host=public&response=yes`, access_token)
         }))
         .then(() => {

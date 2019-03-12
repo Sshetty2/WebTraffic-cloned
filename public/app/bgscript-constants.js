@@ -7,7 +7,7 @@ const mCK = 'rd4j2luc2buqrg44s86ka6fhse'
 const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
 // const redirect_Uri = 'https://mkoendagbaclehcbfngejdkecaplledj.chromiumapp.org/'
 
-production = 466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com
+// production = 466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com
 // development = 466748401928-clsj0b12h299emdtcngqcdkon8i8n0nk.apps.googleusercontent.com
 
 //dev

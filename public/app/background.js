@@ -52,8 +52,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
     function(redirectUrl) {
       let code = redirectUrl.slice(redirectUrl.indexOf('=') + 1)
       makeXhrPostRequest(code, 'authorization_code')
-        .then(data => {
-          data = JSON.parse(data)
+        .then(async data => {
+          data = await JSON.parse(data)
           makeXhrRequestWithGroupId(data.access_token)
         }).catch(err => errorLog(err))
     })
@@ -184,8 +184,8 @@ function makeXhrRequestWithGroupId(token) {
       requestUrl = `https://api.meetup.com/2/groups?&sign=true&photo-host=public&group_urlname=${urlPathName}&page=20`
       console.log(token)
       return makeXhrRequest('GET', requestUrl, token)
-      .then((data) => { // 
-        let parsedData= JSON.parse(data) // may need to promisify data parsing because an odd error of receiving an empty object response from api
+      .then(async data => { // 
+        let parsedData= await JSON.parse(data) // may need to promisify data parsing because an odd error of receiving an empty object response from api
         console.log(parsedData)
         let groupId = parsedData["results"][0]["id"]
         let timezone = parsedData["results"][0]["timezone"]
@@ -198,7 +198,7 @@ function makeXhrRequestWithGroupId(token) {
         console.log(requestUrl)
         try {
           const data = await makeXhrRequest('GET', requestUrl, token);
-          let parsedData = JSON.parse(data);
+          let parsedData = await JSON.parse(data);
           console.log(parsedData);
           let resultData = parsedData["results"];
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {
@@ -216,8 +216,8 @@ function makeXhrRequestWithGroupId(token) {
       } else {
       requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
       return makeXhrRequest('GET', requestUrl, token) 
-      .then((data) => {
-        let parsedData = JSON.parse(data)
+      .then(async data => {
+        let parsedData = await JSON.parse(data)
         let timezone = parsedData["0"].timezone
         chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedData["0"].timezone}`));
         let groupId = parsedData["0"].id;
@@ -227,7 +227,7 @@ function makeXhrRequestWithGroupId(token) {
           requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
           try {
           const data = await makeXhrRequest('GET', requestUrl, token);
-          let parsedData = JSON.parse(data);
+          let parsedData = await JSON.parse(data);
           let resultData = parsedData["results"];
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {
             console.log(response);

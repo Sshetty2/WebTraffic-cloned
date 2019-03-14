@@ -4,13 +4,14 @@
 ![MBEST Youtube vid](https://i.imgur.com/j2E8Y1s.png)](https://www.youtube.com/watch?v=SrPmpsEeKl0)
 
 
-* [Introduction](##introduction)
-	* [Download Link](###download-link)
-* [Summary](##summary)
-* [The Background Script](##the-background-script)
-* [The Content Script](##the-content-script)
-* [The Application/Content Script](##the-application/popup-script)
-	* [Other Notes Regarding React View Layer](###other-notes-regarding-react-view-layer)
+##Table of Contents
+  - [Introduction](##introduction)
+    - [Download Link](###download-link)
+  - [Summary](#summary)
+  - [The Background Script](#the-background-script)
+  - [The Content Script](#the-content-script)
+  - [The Application/Popup Script](#the-application-popup-script)
+  - [Other notes regarding React View Layer](#other-notes-regarding-react-view-layer)
 
 ##**Introduction** 
 

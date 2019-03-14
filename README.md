@@ -1,5 +1,6 @@
 
 
+
 # Meetup Batch-Event-Set Tool !
 [
 ![MBEST Youtube vid](https://i.imgur.com/j2E8Y1s.png)](https://www.youtube.com/watch?v=SrPmpsEeKl0)
@@ -13,6 +14,7 @@
   - [The Content Script](#the-content-script)
   - [The Application Script](#the-application-script)
   - [Other notes regarding React View Layer](#other-notes-regarding-react-view-layer)
+  - [Development](#development)
 
 ## **Introduction** 
 
@@ -119,6 +121,13 @@ In this use-case, the popup script houses the react application and the listener
 
 The React part of the application utilizes a collection of different components that help to separate workflow and essentially make the input fields more dynamic. It uses a calendar component borrowed from react-calendar, an Autosuggest component borrowed from react-autosuggest and collection of styled input components borrowed from Google's material ui. No state management library was implemented in this project because the number of components being utilized was relatively small. 
 
+## Development
 
-
-
+ 1. clone/fork repository
+ 2. yarn install
+ 3. yarn build
+ 4. navigate to [chrome://extensions/](chrome://extensions/) (must be using Google Chrome)
+ 5. enable 'Developer Mode'
+ 6. click 'load unpacked'
+ 7. navigate to repository directory
+ 8. load the entire build folder

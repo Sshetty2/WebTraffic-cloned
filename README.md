@@ -11,7 +11,7 @@
   - [Summary](#summary)
   - [The Background Script](#the-background-script)
   - [The Content Script](#the-content-script)
-  - [The Application Script](#the-application-popup-script)
+  - [The Application Script](#the-application-script)
   - [Other notes regarding React View Layer](#other-notes-regarding-react-view-layer)
 
 ## **Introduction** 

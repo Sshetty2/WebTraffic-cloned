@@ -4,7 +4,7 @@
 ![MBEST Youtube vid](https://i.imgur.com/j2E8Y1s.png)](https://www.youtube.com/watch?v=SrPmpsEeKl0)
 
 
-##Table of Contents
+## Table of Contents
   - [Introduction](##introduction)
     - [Download Link](###download-link)
   - [Summary](#summary)
@@ -13,17 +13,17 @@
   - [The Application/Popup Script](#the-application-popup-script)
   - [Other notes regarding React View Layer](#other-notes-regarding-react-view-layer)
 
-##**Introduction** 
+## **Introduction** 
 
 This project is a chrome extension that uses React for the user-interface. It allows the user to schedule multiple Meetup.com events to their Google Calendar and RSVP for them at one time by inputting a group name and selecting a date range and clicking 'schedule'. 
 
-###**Download Link**
+### **Download Link**
 
 You can download it here from the chrome extension store! 
 
 https://chrome.google.com/webstore/detail/meetup-batch-event-set-to/cabfodbfjmgloaallchcnnkgcfpnobem
 
-##**Summary** 
+## **Summary** 
 
 Chrome extensions are created by configuring three essentially containerized Javascript environments that communicate with each other through Google Chrome's messaging platform API; the content script,  application/popup script, and the background script. 
 
@@ -46,7 +46,7 @@ These three scripts are separated from one another to prevent from cross-scripti
 ![Imgur](https://i.imgur.com/c8zZt9M.png)
 
 
-##**The Background Script**
+## **The Background Script**
 
 The background script runs in the background of the browser as you are browsing and is loaded when the extension is installed. This script has access to most of Chrome’s platform APIs and can and should be used to register event listeners that will trigger if and when certain events occur in your application.
 
@@ -58,7 +58,7 @@ In this use-case, event listeners that ‘listen’ for when tabs are updated  a
 
 *NOTE: Please refer to the background script for further explanation of the various XHR's and API calls. The scripts are heavily annotated.*
 
-##**The Content Script**
+## **The Content Script**
 
 The content script is responsible for executing code in the context of the content that is currently being displayed to the user within the browser.Content scripts have access to a limited range of chrome platform APIs including messaging and local storage, however, they are the only scripts that have access to the document object of the displayed page. 
 
@@ -93,7 +93,7 @@ see snippet below:
 
 
 
-##**The Application/Popup Script**
+## **The Application/Popup Script**
 
 
 The Application/Popup script runs in the context of the running extension application. This script has a limited access to chrome’s platform APIs and is not readily aware of the current tab opened. In order for your underlying application logic to be dynamic and communicate with the rest of the internet, the user must grant explicit permissions that will have been stated in the manifest.json file. Messages will need to be sent or listeners will need to be registered in order to communicate with either the content or background script in order to request or send information using chrome’s messaging platform API.

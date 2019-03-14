@@ -11,7 +11,7 @@
   - [Summary](#summary)
   - [The Background Script](#the-background-script)
   - [The Content Script](#the-content-script)
-  - [The Application/Popup Script](#the-application/popup-script)
+  - [The Application Script](#the-application-popup-script)
   - [Other notes regarding React View Layer](#other-notes-regarding-react-view-layer)
 
 ## **Introduction** 
@@ -94,7 +94,7 @@ see snippet below:
 
 
 
-## **The Application/Popup Script**
+## **The Application Script**
 
 
 The Application/Popup script runs in the context of the running extension application. This script has a limited access to chrome’s platform APIs and is not readily aware of the current tab opened. In order for your underlying application logic to be dynamic and communicate with the rest of the internet, the user must grant explicit permissions that will have been stated in the manifest.json file. Messages will need to be sent or listeners will need to be registered in order to communicate with either the content or background script in order to request or send information using chrome’s messaging platform API.

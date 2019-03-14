@@ -1,4 +1,5 @@
 
+
 # Meetup Batch-Event-Set Tool !
 [
 ![MBEST Youtube vid](https://i.imgur.com/j2E8Y1s.png)](https://www.youtube.com/watch?v=SrPmpsEeKl0)
@@ -7,11 +8,11 @@
 ## Table of Contents
   - [Introduction](##introduction)
     - [Download Link](###download-link)
-  - [Summary](#summary)
-  - [The Background Script](#the-background-script)
-  - [The Content Script](#the-content-script)
-  - [The Application/Popup Script](#the-application-popup-script)
-  - [Other notes regarding React View Layer](#other-notes-regarding-react-view-layer)
+  - [Summary](##summary)
+  - [The Background Script](##the-background-script)
+  - [The Content Script](##the-content-script)
+  - [The Application/Popup Script](##the-application-popup-script)
+  - [Other notes regarding React View Layer](###other-notes-regarding-react-view-layer)
 
 ## **Introduction** 
 
@@ -114,7 +115,7 @@ In this use-case, the popup script houses the react application and the listener
 		...{other messages and component methods}
 		});
 
-###**Other notes regarding React View Layer**
+### **Other notes regarding React View Layer**
 
 The React part of the application utilizes a collection of different components that help to separate workflow and essentially make the input fields more dynamic. It uses a calendar component borrowed from react-calendar, an Autosuggest component borrowed from react-autosuggest and collection of styled input components borrowed from Google's material ui. No state management library was implemented in this project because the number of components being utilized was relatively small. 
 

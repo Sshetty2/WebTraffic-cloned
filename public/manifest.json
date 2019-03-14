@@ -15,12 +15,7 @@
     "128": "meetup-logo-small.png"
   },
   "background": {
-    "scripts": [
-      "app/bgscript-constants.js",
-      "app/bgscript-utils.js",
-      "app/bgscript-xhrs.js",
-      "app/bgscript-main.js"
-    ]
+    "scripts": ["app/background.js"]
   },
   "permissions": [
     "storage",

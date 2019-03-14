@@ -49,7 +49,7 @@ export default class Form extends React.Component {
             fullWidth
             variant="raised"
             color="primary"
-            disabled={this.props.disabled}
+            disabled={false}
             onClick={this.props.onFormSubmit}
           >
             Schedule

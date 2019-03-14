@@ -1,6 +1,7 @@
 
 # Meetup Batch-Event-Set Tool !
-![Imgur](https://i.imgur.com/lrZO7Ft.png)
+[
+![MBEST Youtube vid](https://i.imgur.com/j2E8Y1s.png)](https://www.youtube.com/watch?v=SrPmpsEeKl0)
 
 **Introduction** 
 

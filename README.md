@@ -1,8 +1,10 @@
 # Meetup Batch-Event-Set Tool
 
-This project was bootstrapped using Create-React App.
+This project is a chrome extension that uses React for the user-interface. It allows the user to schedule multiple Meetup.com events to their Google Calendar and RSVP for them at one time by inputting a group name and selecting a date range and clicking 'schedule'. 
 
-This project is a chrome extension that uses React for the user-interface. It allows the user to schedule multiple Meetup.com events at one time by inputting a group name and selecting a date range and clicking 'schedule'. 
+You can download it here from the chrome extension store! 
+
+https://chrome.google.com/webstore/detail/meetup-batch-event-set-to/cabfodbfjmgloaallchcnnkgcfpnobem
 
 Chrome extensions are created by configuring three essentially containerized Javascript environments that will eventually work together; the content script,  application/popup script, and the background script. These three scripts are separated from one another to prevent from cross-scripting attacks within the browser during run time. They are allowed different types of permissions and communicate with eachother using Chrome's messaging platform API. Several other Chrome platform API's are also available to assist with development as well. Most of these API's are only available, however, on the background script. 
 

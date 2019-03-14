@@ -6,13 +6,13 @@
 
 
 ## Table of Contents
-  - [Introduction](##introduction)
-    - [Download Link](###download-link)
-  - [Summary](##summary)
-  - [The Background Script](##the-background-script)
-  - [The Content Script](##the-content-script)
-  - [The Application/Popup Script](##the-application-popup-script)
-  - [Other notes regarding React View Layer](###other-notes-regarding-react-view-layer)
+  - [Introduction](#introduction)
+    - [Download Link](#download-link)
+  - [Summary](#summary)
+  - [The Background Script](#the-background-script)
+  - [The Content Script](#the-content-script)
+  - [The Application/Popup Script](#the-application-popup-script)
+  - [Other notes regarding React View Layer](#other-notes-regarding-react-view-layer)
 
 ## **Introduction** 
 

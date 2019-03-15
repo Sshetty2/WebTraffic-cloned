@@ -8,9 +8,11 @@
 
 ## Table of Contents
   - [Introduction](#introduction)
-    - [Download Link](#download-link)
+    + [Download Link](#download-link)
   - [Summary](#summary)
+    + [visual representation of scripts' interactions](#visual-representation-of-scripts-interactions)
   - [The Background Script](#the-background-script)
+    + [visual representation of OAuth Flow](#visual-representation-of-oauth-flow)
   - [The Content Script](#the-content-script)
   - [The Application Script](#the-application-script)
   - [Other notes regarding React View Layer](#other-notes-regarding-react-view-layer)
@@ -44,7 +46,7 @@ Chrome extensions are created by configuring three essentially containerized Jav
 
 These three scripts are separated from one another to prevent from cross-scripting attacks within the browser during run-time. They are allowed different types of permissions and must be configured separately. Several Chrome platform API's are  available to assist with development though they can only be run in specific contexts that will be explained in detail. 
 
-*visual representation of the interaction of scripts:*
+#### *visual representation of scripts interactions*
 
 ![Imgur](https://i.imgur.com/c8zZt9M.png)
 
@@ -55,7 +57,7 @@ The background script runs in the background of the browser as you are browsing 
 
 In this use-case, event listeners that ‘listen’ for when tabs are updated  and when Authentication flow needs to be initiated are registered when the code is first executed and triggered when the respective event occurs. The background script also handles the XML HTTP Requests and data parsing. The XML HTTP Requests' response headers needed to be configured with valid authentication tokens and so OAuth is heavily employed to attain redirect uri codes and then authentication tokens to be used within the response headers of the asynchronous XHRs.
 
-*visual representation of OAuth Flow:*
+#### *visual representation of OAuth Flow:*
 
 ![Imgur](https://i.imgur.com/Zv6vLiT.png)
 

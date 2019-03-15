@@ -57,7 +57,7 @@ In this use-case, event listeners that ‘listen’ for when tabs are updated  a
 
 *visual representation of OAuth Flow:*
 
-![Imgur](https://i.imgur.com/jFWfVU4.png)
+![Imgur](https://i.imgur.com/Zv6vLiT.png)
 
 *NOTE: Please refer to the background script for further explanation of the various XHR's and API calls. The scripts are heavily annotated.*
 

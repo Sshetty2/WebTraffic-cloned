@@ -3,7 +3,7 @@
 
 # Meetup Batch-Event-Set Tool !
 [
-![MBEST Youtube vid]((https://i.imgur.com/UvNbgOR.png))](https://www.youtube.com/watch?v=SrPmpsEeKl0)
+![MBEST Youtube vid](https://i.imgur.com/UvNbgOR.png)](https://www.youtube.com/watch?v=SrPmpsEeKl0)
 
 
 ## Table of Contents

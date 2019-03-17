@@ -75,26 +75,25 @@ see snippet below:
 
      chrome.extension.onMessage.addListener(function(request, sender, sendResponse) { 
 	    if (request.type === 'onUpdateFrmEvent') { 
-		    chrome.runtime.sendMessage({type: 'resetTextField'}, (response) => {
-		    console.log(response)
-	    }) 
-	    let pathname = window.location.pathname
-	    let groupName 
-	    if(!pathname.match(/(find|login|create|messages|account|members|topics|apps|meetup_api)/) && pathname.slice(1)) {
-		    pathname = pathname.slice(1)
-		    groupName = pathname.slice(0, pathname.indexOf('/')) 
-	    } else {
-	      groupName = ""
-	    }
-	    chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName})
-	    chrome.storage.local.set({urlGroupName: groupName}) 
-	    grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
-	    chrome.storage.local.set({grpNameArray: grpNameArray})
-	    }
+	    	sendResponse('the the onupdate listener is working correctly and we recieved the message to fire our messages')
+		chrome.runtime.sendMessage({type: 'resetTextField'}, (response) => {
+		console.log(response)
+	    	}) 
+	    	let pathname = window.location.pathname
+	    	let groupName 
+	    	if(!pathname.match(/(find|login|create|messages|account|members|topics|apps|meetup_api)/) && pathname.slice(1)) {
+		    	pathname = pathname.slice(1)
+		   	groupName = pathname.slice(0, pathname.indexOf('/')) 
+	    	} else {
+			groupName = ""
+	    	}
+	    	chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName})
+	    	chrome.storage.local.set({urlGroupName: groupName}) 
+	    	grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
+	    	chrome.storage.local.set({grpNameArray: grpNameArray})
+	   }
 	    return true;
 	});
-
-
 
 
 

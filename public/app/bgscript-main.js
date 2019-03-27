@@ -128,41 +128,42 @@ function makeXhrRequestWithGroupId(token) {
           }))
         } catch (err) {
           console.log(err)
-        } 
-        chrome.storage.local.get(['timezone'], (result) => {
-          let timezone = result.timezone
-          let paramsArr = results.map(x=> (
-            {  
-              "end":{  
-                  "dateTime":`${convertToGoogleDTime(x["time"] + x["duration"])}`,
-                  "timeZone":`${timezone}`
-              },
-              "start":{ 
-                  "dateTime":`${convertToGoogleDTime(x["time"])}`,
-                  "timeZone":`${timezone}`
-              },
-              "description":`This event is hosted by ${x["group"]["name"]} at ${ typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: "N/A"}; More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
-              "summary":`${x["name"]}`,
-              "location":`${ typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["address_1"]): ""} ${typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["address_2"]) : ""} - ${typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["city"]): ""} ${ typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["state"]): ""}`,
-              "reminders":{  
-                  "useDefault":true
-              }
-            }) 
-          )
-          chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-            return Promise.all(paramsArr.map(x => {
-                return makeXhrPostRequestJSON('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${gAK}`, token, x)
-            }))
-              .then(()=>{
-                chrome.runtime.sendMessage({type: 'success'}, (response) => {
-                  if (response) {
-                    console.log(response)
-                  }
-                });
-              }
-            ).catch(err => errorLog(err)) // end promise all
-          }) // end identity auth token
-        }) // end chrome storage api callback
+        } finally {
+          chrome.storage.local.get(['timezone'], (result) => {
+            let timezone = result.timezone
+            let paramsArr = results.map(x=> (
+              {  
+                "end":{  
+                    "dateTime":`${convertToGoogleDTime(x["time"] + x["duration"])}`,
+                    "timeZone":`${timezone}`
+                },
+                "start":{ 
+                    "dateTime":`${convertToGoogleDTime(x["time"])}`,
+                    "timeZone":`${timezone}`
+                },
+                "description":`This event is hosted by ${x["group"]["name"]} at ${ typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: "N/A"}; More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
+                "summary":`${x["name"]}`,
+                "location":`${ typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["address_1"]): ""} ${typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["address_2"]) : ""} - ${typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["city"]): ""} ${ typeof x["venue"] !== 'undefined' ? checkDefinition(x["venue"]["state"]): ""}`,
+                "reminders":{  
+                    "useDefault":true
+                }
+              }) 
+            )
+            chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
+              return Promise.all(paramsArr.map(x => {
+                  return makeXhrPostRequestJSON('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${gAK}`, token, x)
+              }))
+                .then(()=>{
+                  chrome.runtime.sendMessage({type: 'success'}, (response) => {
+                    if (response) {
+                      console.log(response)
+                    }
+                  });
+                }
+              ).catch(err => errorLog(err)) // end promise all
+            }) // end identity auth token
+          }) // end chrome storage api callback
+        } // end finally block that is attached to the catch try that will try to make the RSVPs 
       }) // end chrome local storage call back for access token for the meetup api post request
     }; // end if statement nested inside of on message listener
   }) // end on message listener

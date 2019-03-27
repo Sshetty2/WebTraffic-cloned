@@ -117,14 +117,18 @@ function makeXhrRequestWithGroupId(token) {
         let results = request.parsedDataObj
         let eventUrl, urlPathName, eventId
         console.log(results)
-        return Promise.all(results.map(x => {
-          eventUrl = x["event_url"]
-          urlPathName = eventUrl.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0]
-          eventId = x["id"]
-          if (!(/\d/.test(eventId))) // checks to see if there is NOT number in the string (numbers mean the event has passed)
-          return makeXhrPostRequestJSON('POST', `https://api.meetup.com/${urlPathName}/events/${eventId}/rsvps?&sign=true&photo-host=public&response=yes`, access_token)
-        }))
-        .then(() => {
+        // try to RSVP for events with Meetup API using returned JSON data from client else catch error and log it
+        try {
+          return Promise.all(results.map(x => {
+            eventUrl = x["event_url"]
+            urlPathName = eventUrl.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0]
+            eventId = x["id"]
+            if (!(/\d/.test(eventId))) // checks to see if there is NOT number in the string (numbers mean the event has passed)
+            return makeXhrPostRequestJSON('POST', `https://api.meetup.com/${urlPathName}/events/${eventId}/rsvps?&sign=true&photo-host=public&response=yes`, access_token)
+          }))
+        } catch (err) {
+          console.log(err)
+        } finally {
           chrome.storage.local.get(['timezone'], (result) => {
             let timezone = result.timezone
             let paramsArr = results.map(x=> (
@@ -159,11 +163,10 @@ function makeXhrRequestWithGroupId(token) {
               ).catch(err => errorLog(err)) // end promise all
             }) // end identity auth token
           }) // end chrome storage api callback
-        }) // end chained promise that begins the calls to google calendar api
+        } // end finally block that is attached to the catch try that will try to make the RSVPs 
       }) // end chrome local storage call back for access token for the meetup api post request
     }; // end if statement nested inside of on message listener
   }) // end on message listener
-    // end promise from make XHR request for group ID
     
      
 

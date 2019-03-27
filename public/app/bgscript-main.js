@@ -117,6 +117,7 @@ function makeXhrRequestWithGroupId(token) {
         let results = request.parsedDataObj
         let eventUrl, urlPathName, eventId
         console.log(results)
+        // try to RSVP for events with Meetup API using returned JSON data from client else catch error and log it
         try {
           return Promise.all(results.map(x => {
             eventUrl = x["event_url"]

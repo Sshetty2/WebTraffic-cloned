@@ -11,6 +11,10 @@
 //     console.log(response.farewell);
 //   });
 
+const column = document.getElementById('simple-event-filter-column')
+const block_to_insert = document.createElement( 'div' );
+block_to_insert.id = 'meetup-batch-event-set'
+column.appendChild( block_to_insert );
 
 function buildPropArr(els){
   let propArr = []

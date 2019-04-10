@@ -37,6 +37,11 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.runtime.sendMessage({type: 'resetTextField'}, (response) => {
       console.log(response)
     }) 
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { type: 'resetTextField' }, (response) => {
+        console.log(response);
+      });
+    });
     let pathname = window.location.pathname
     let groupName, grpNameArray;
     // checks current pathname if it has the following strings and if it doesn't and its not empty, then groupName is assigned to the pathname 
@@ -70,7 +75,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, response) {
     response({groupName: groupName, groupNameArray: groupNameArray });
   };
   // set styles rq
-  if(document.getElementsByClassName('rock-salt')[0]) document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 10px 0px 10px");
+  if(document.getElementsByClassName('rock-salt')[0]) document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 10px 0px 10px; padding-bottom: 20px; line-height: 26pt");
   return true;
 });
 

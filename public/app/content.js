@@ -26,11 +26,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.runtime.sendMessage({type: 'resetTextField'}, (response) => {
       //console.log(response)
     }) 
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, { type: 'resetTextField' }, (response) => {
-        //console.log(response);
-      });
-    });
+
     let pathname = window.location.pathname
     let groupName, grpNameArray;
     // checks current pathname if it has the following strings and if it doesn't and its not empty, then groupName is assigned to the pathname 
@@ -55,6 +51,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   let groupName, groupNameArray;
   if (request.type === 'popupInit') {
     let pathname = window.location.pathname
+    console.log('popupinit')
     if(!pathname.match( /(find|login|create|messages|account|members|topics|apps)/ ) && pathname.slice(1)) { 
       pathname = pathname.slice(1)
       groupName = pathname.slice(0, pathname.indexOf('/')) 

@@ -35,7 +35,6 @@ export default class App extends Component {
                 });
             }
         });
-        
         chrome.storage.local.get(['urlGroupName'], (result) => {
             if(result.urlGroupName){
                 this.setState({
@@ -75,7 +74,7 @@ export default class App extends Component {
             console.log('the local storage object has been set after the button was clicked with the user input'
             );
         })
-        chrome.runtime.sendMessage({ // .2 
+        chrome.runtime.sendMessage({ 
             action: 'meetupRequest'
         }, response => console.log(response))
     }
@@ -128,6 +127,7 @@ export default class App extends Component {
 
         } if (request.type === 'meetupEventData') {
             console.log(request.meetupEventData)
+            sendResponse('we received the meetupEventData request, thanks')
             this.setState({
                 meetupEventData: request.meetupEventData,
                 open: true,

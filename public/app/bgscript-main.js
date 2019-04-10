@@ -40,6 +40,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   return true;
 })
 
+// reset text field relay; I cant send messages from the content script to the application thats injected into the content script before rerouting it through the background script
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.type === "resetTextField") {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { type: 'resetTextField' }, (response) => {
+        console.log(response);
+      });
+    });
+  }
+});
+
 let checkDefinition = value => typeof value === 'undefined' ? "" : value
 
 // called after token is received

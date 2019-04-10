@@ -1,23 +1,12 @@
 /*global chrome*/
 
-// var textArray = []
-// var text = $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-//     var text = $(this).text();
-//     if (!textArray.includes(text)) textArray.push(text)
-// });
-
-
-
-// chrome.runtime.sendMessage({greeting: textArray}, function(response) {
-//     console.log(response.farewell);
-//   });
 
 if (document.getElementById('simple-cal-export')) document.getElementById('simple-cal-export').setAttribute("style", "height:0px; margin-left: 78.5px");
 
 
+// build array of group names from meetup homepage using doc selectors
 
-
-function buildPropArr(els){
+function buildGroupArray(els){
   let propArr = []
   let innerText
       for(let i = 0; i < els.length; i++)  {
@@ -28,18 +17,18 @@ function buildPropArr(els){
   }
   
 
-
+// event listener that listens for messages from bg script everytime the page is reloaded
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.type === 'onUpdateFrmEvent') {
     sendResponse('the the onupdate listener is working correctly and we recieved the message to fire our messages')
     //chrome message to set state of textField to empty so that a user can type in it
     chrome.runtime.sendMessage({type: 'resetTextField'}, (response) => {
-      console.log(response)
+      //console.log(response)
     }) 
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, { type: 'resetTextField' }, (response) => {
-        console.log(response);
+        //console.log(response);
       });
     });
     let pathname = window.location.pathname
@@ -53,16 +42,18 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     }
     chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName})
     chrome.storage.local.set({urlGroupName: groupName}) 
-    grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'));
+    grpNameArray = buildGroupArray(document.getElementsByClassName('text--labelSecondary'));
+    console.log(`the value of the grpNameArray is ${grpNameArray}`)
     chrome.storage.local.set({grpNameArray: grpNameArray})
   }
   return true;
 });
 
-chrome.runtime.onMessage.addListener(function(request, sender, response) {
+// event listener that listens for messages that come from the application script 
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   let groupName, groupNameArray;
   if (request.type === 'popupInit') {
-    console.log('message listener activated for popupInit')
     let pathname = window.location.pathname
     if(!pathname.match( /(find|login|create|messages|account|members|topics|apps)/ ) && pathname.slice(1)) { 
       pathname = pathname.slice(1)
@@ -71,26 +62,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, response) {
       groupName = ""
     }
     chrome.storage.local.set({urlGroupName: groupName}) 
-    groupNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
-    response({groupName: groupName, groupNameArray: groupNameArray });
+    groupNameArray = buildGroupArray(document.getElementsByClassName('text--labelSecondary'))
+    console.log(`the value of the groupNameArray is ${groupNameArray}`)
+    sendResponse({groupName: groupName, groupNameArray: groupNameArray });
   };
   // set styles rq
   if(document.getElementsByClassName('rock-salt')[0]) document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 10px 0px 10px; padding-bottom: 20px; line-height: 26pt");
   return true;
 });
 
-
-
-// $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-//     var text = $(this).text();
-//     console.log(text);
-// });
-
-// group page
-// $(('.groupHomeHeader-groupName'), '.groupHomeHeader-groupNameLink').textContent
-
-
-
-// event page
-// $('.event-info-group--groupName').textContent
 

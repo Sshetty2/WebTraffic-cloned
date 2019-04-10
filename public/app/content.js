@@ -47,8 +47,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
       groupName = ""
     }
     chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName})
-    chrome.storage.local.set({urlGroupName: groupName}, function() {
-    }) 
+    chrome.storage.local.set({urlGroupName: groupName}) 
     grpNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'));
     chrome.storage.local.set({grpNameArray: grpNameArray})
   }

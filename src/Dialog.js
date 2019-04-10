@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import uniqueId from 'lodash/uniqueId';
 import './App.css';
 
 function Transition(props) {
@@ -15,7 +16,21 @@ function Transition(props) {
 const DialogComponent = props => {
 
     let meetupEventData = props.meetupEventData
-    console.log(meetupEventData)
+    meetupEventData = meetupEventData.map(event => ({ ...event, checked: false, id: uniqueId() }));
+    
+
+    const onCheck = (e) => {
+      console.log(e.target.id)
+      const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
+      let meetupEvent = meetupEventData.filter(event => event.id === e.target.id)
+      meetupEvent = meetupEvent[0]
+      let updatedEvent = { ...meetupEvent , checked: !meetupEvent.checked };
+      meetupEventData = 
+      // console.log(`meetup event after updated ${JSON.stringify(updatedEvent, null, 4)}`)
+      // this.setState({ items: [updatedItem, ...otherItems] });
+    } 
+
+
     function toReadableDateFormat(utcMilliseconds){
         var d = new Date(0);
         d.setUTCMilliseconds(utcMilliseconds)
@@ -42,7 +57,16 @@ const DialogComponent = props => {
                 return(
                     <div>
                         <ul key={i} style={{padding:'0px 0px 18px 0px', margin: '0px'}}>
-                            <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: null}</li>
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                              <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: null}</li>
+                              <input
+                                  style={{marginRight: '15px'}}
+                                  type="checkbox"
+                                  checked= {x["checked"]}
+                                  onChange = {onCheck}
+                                  id = {x["id"]}
+                              />
+                            </div>
                             <li style={{textDecoration: 'underline', color: 'rgba(0, 0, 0, 0.85)'}}><a href={x["event_url"]} target="_blank">{x["name"]}</a></li>
                             <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{toReadableDateFormat(x["time"])}</li>
                         </ul>

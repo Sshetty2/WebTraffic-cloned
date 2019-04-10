@@ -27,6 +27,7 @@ export default class App extends Component {
     
     componentDidMount() {
         chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
+            console.log('sent popupinit')
             if (response) {
                 this.setState({
                     grpNameArray: response.groupNameArray,

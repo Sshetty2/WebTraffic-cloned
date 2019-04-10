@@ -1,3 +1,4 @@
+/*global chrome*/
 // event listener fires when a tab is updated and sends a message that is received by content script
 
 const errorLog = (err) => {
@@ -9,7 +10,7 @@ const errorLog = (err) => {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   var url = tab.url;
-    if (url !== undefined && changeInfo.status == "complete"){
+    if (url !== undefined && changeInfo.url === undefined){
     chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
       console.log(response)
     })
@@ -38,7 +39,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   return true;
 })
 
-checkDefinition = value => typeof value == 'undefined' ? "" : value
+let checkDefinition = value => typeof value === 'undefined' ? "" : value
 
 // called after token is received
 
@@ -68,9 +69,19 @@ function makeXhrRequestWithGroupId(token) {
           const data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);
           let resultData = parsedData["results"];
+
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {
             console.log(response);
-          }); 
+          });
+
+          chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'meetupEventData', meetupEventData: resultData }, (response) => {
+              console.log(response);
+            });
+          });
+
+          
+          
         } // end try block to make query and then parse JSON data and set it in local storage using chrome's platform API --THIS WILL WORK--
         catch (err) {
           console.log(err);
@@ -96,9 +107,21 @@ function makeXhrRequestWithGroupId(token) {
           const data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);
           let resultData = parsedData["results"];
+
+
+
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {
             console.log(response);
           });
+
+
+          chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'meetupEventData', meetupEventData: resultData }, (response) => {
+              console.log(response);
+            });
+          });
+
+          
         } // end try block to make query and then parse JSON data and set it in local storage using chrome's platform API --THIS WILL WORK--
         catch (err) {
           console.log(err);
@@ -116,7 +139,6 @@ function makeXhrRequestWithGroupId(token) {
         let access_token = result.access_token
         let results = request.parsedDataObj
         let eventUrl, urlPathName, eventId
-        console.log(results)
         // try to RSVP for events with Meetup API using returned JSON data from client else catch error and log it
         try {
           return Promise.all(results.map(x => {
@@ -154,6 +176,15 @@ function makeXhrRequestWithGroupId(token) {
                   return makeXhrPostRequestJSON('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${gAK}`, token, x)
               }))
                 .then(()=>{
+
+                  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {type: 'success'}, (response) => {
+                       if (response) {
+                         console.log(response)
+                       }
+                      });
+                   });
+
                   chrome.runtime.sendMessage({type: 'success'}, (response) => {
                     if (response) {
                       console.log(response)

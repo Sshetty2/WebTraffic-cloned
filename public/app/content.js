@@ -12,7 +12,9 @@
 //     console.log(response.farewell);
 //   });
 
-document.getElementById('simple-cal-export').setAttribute("style", "height:0px; margin-left: 78.5px");
+if (document.getElementById('simple-cal-export')) document.getElementById('simple-cal-export').setAttribute("style", "height:0px; margin-left: 78.5px");
+
+
 
 
 function buildPropArr(els){
@@ -56,6 +58,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 chrome.runtime.onMessage.addListener(function(request, sender, response) {
   let groupName, groupNameArray;
   if (request.type === 'popupInit') {
+    console.log('message listener activated for popupInit')
     let pathname = window.location.pathname
     if(!pathname.match( /(find|login|create|messages|account|members|topics|apps)/ ) && pathname.slice(1)) { 
       pathname = pathname.slice(1)
@@ -67,6 +70,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, response) {
     groupNameArray = buildPropArr(document.getElementsByClassName('text--labelSecondary'))
     response({groupName: groupName, groupNameArray: groupNameArray });
   };
+  // set styles rq
+  if(document.getElementsByClassName('rock-salt')[0]) document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 10px 0px 10px");
   return true;
 });
 
@@ -84,3 +89,4 @@ chrome.runtime.onMessage.addListener(function(request, sender, response) {
 
 // event page
 // $('.event-info-group--groupName').textContent
+

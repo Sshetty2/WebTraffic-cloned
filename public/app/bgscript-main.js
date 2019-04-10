@@ -1,15 +1,17 @@
 /*global chrome*/
-// event listener fires when a tab is updated and sends a message that is received by content script
 
+// function declaration to send errors back to application 
 const errorLog = (err) => {
   chrome.runtime.sendMessage({type: 'error', error: err}, (response) => {
     console.log(response)
   }) 
 }
 
+// event listener fires when a tab is updated and sends a message that is received by content script
+
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   var url = tab.url;
-    if (url !== undefined && changeInfo.status === "complete"){
+  if (url !== undefined && changeInfo.status === "complete"){
     chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
       console.log(response)
     })
@@ -57,13 +59,11 @@ function makeXhrRequestWithGroupId(token) {
         let parsedData= await JSON.parse(data) // may need to promisify data parsing because an odd error of receiving an empty object response from api
         let groupId = parsedData["results"][0]["id"]
         let timezone = parsedData["results"][0]["timezone"]
-        console.log(timezone)
         chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage in the background script`));
         return groupId
       })  // end promise to take data from xhr request promise and set the timezone in local storage using chrome\s local storage platform API and then return the groupId
       .then(async groupId => {
         requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
-        console.log(requestUrl)
         try {
           const data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);

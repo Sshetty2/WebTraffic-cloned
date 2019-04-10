@@ -4,7 +4,7 @@ import './App.css';
 import DialogComponent from "./Dialog"
 import Calendar from 'react-calendar';
 import SuccessDialogComponent from "./SuccessDialog"
-
+import { uniqueId } from 'lodash/uniqueId'
 import  Form  from "./form";
 
 
@@ -56,6 +56,17 @@ export default class App extends Component {
 
     onChange = date => this.setState({ date })
 
+    onCheck = (e) => {
+        console.log(e.target.id)
+        let { meetupEventData } = this.state 
+        const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
+        let meetupEvent = meetupEventData.filter(event => event.id === e.target.id)
+        meetupEvent = meetupEvent[0]
+        let updatedEvent = { ...meetupEvent , checked: !meetupEvent.checked };
+        // meetupEventData = 
+        // console.log(`meetup event after updated ${JSON.stringify(updatedEvent, null, 4)}`)
+        // this.setState({ items: [updatedItem, ...otherItems] });
+      } 
 
 
     getAutosuggestInput(value){
@@ -154,7 +165,7 @@ export default class App extends Component {
 
         return (
           <div className="App">
-            <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} meetupEventData = {this.state.meetupEventData} />
+            <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} meetupEventData = {this.state.meetupEventData} onCheck={this.onCheck.bind(this)} />
             <SuccessDialogComponent open = {this.state.successBox} dialogClose = {this.successDialogClose.bind(this)} />
             <div style={{margin: '20px'}}>
                 <div>

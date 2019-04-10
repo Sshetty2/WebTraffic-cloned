@@ -7,10 +7,9 @@ const errorLog = (err) => {
   }) 
 }
 
-
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   var url = tab.url;
-    if (url !== undefined && changeInfo.url === undefined){
+    if (url !== undefined && changeInfo.status === "complete"){
     chrome.tabs.sendMessage(tabId, {type: 'onUpdateFrmEvent'}, function (response) {
       console.log(response)
     })

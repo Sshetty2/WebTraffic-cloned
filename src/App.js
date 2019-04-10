@@ -174,17 +174,3 @@ export default class App extends Component {
 }
 
 
-
-// main page
-// $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-//     var text = $(this).text();
-//     console.log(text);
-// });
-
-// group page
-// $(('.groupHomeHeader-groupName'), '.groupHomeHeader-groupNameLink').textContent
-
-
-
-// event page
-// $('.event-info-group--groupName').textContent

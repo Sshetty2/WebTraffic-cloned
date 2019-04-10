@@ -1,4 +1,3 @@
-/*global chrome*/
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -9,12 +8,6 @@ require("./styles.css");
 
 
 export default class Form extends React.Component {
-  constructor(props) {
-    super(props);
-
-  }
-
-
 
   render(){
 

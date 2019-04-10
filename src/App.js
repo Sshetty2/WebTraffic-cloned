@@ -4,7 +4,7 @@ import './App.css';
 import DialogComponent from "./Dialog"
 import Calendar from 'react-calendar';
 import SuccessDialogComponent from "./SuccessDialog"
-
+import { uniqueId } from 'lodash/uniqueId'
 import  Form  from "./form";
 
 
@@ -27,6 +27,7 @@ export default class App extends Component {
     
     componentDidMount() {
         chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
+            console.log('sent popupinit')
             if (response) {
                 this.setState({
                     grpNameArray: response.groupNameArray,
@@ -35,7 +36,6 @@ export default class App extends Component {
                 });
             }
         });
-        
         chrome.storage.local.get(['urlGroupName'], (result) => {
             if(result.urlGroupName){
                 this.setState({
@@ -56,6 +56,17 @@ export default class App extends Component {
 
     onChange = date => this.setState({ date })
 
+    onCheck = (e) => {
+        console.log(e.target.id)
+        let { meetupEventData } = this.state 
+        const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
+        let meetupEvent = meetupEventData.filter(event => event.id === e.target.id)
+        meetupEvent = meetupEvent[0]
+        let updatedEvent = { ...meetupEvent , checked: !meetupEvent.checked };
+        // meetupEventData = 
+        // console.log(`meetup event after updated ${JSON.stringify(updatedEvent, null, 4)}`)
+        // this.setState({ items: [updatedItem, ...otherItems] });
+      } 
 
 
     getAutosuggestInput(value){
@@ -75,7 +86,7 @@ export default class App extends Component {
             console.log('the local storage object has been set after the button was clicked with the user input'
             );
         })
-        chrome.runtime.sendMessage({ // .2 
+        chrome.runtime.sendMessage({ 
             action: 'meetupRequest'
         }, response => console.log(response))
     }
@@ -128,6 +139,7 @@ export default class App extends Component {
 
         } if (request.type === 'meetupEventData') {
             console.log(request.meetupEventData)
+            sendResponse('we received the meetupEventData request, thanks')
             this.setState({
                 meetupEventData: request.meetupEventData,
                 open: true,
@@ -153,7 +165,7 @@ export default class App extends Component {
 
         return (
           <div className="App">
-            <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} meetupEventData = {this.state.meetupEventData} />
+            <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} meetupEventData = {this.state.meetupEventData} onCheck={this.onCheck.bind(this)} />
             <SuccessDialogComponent open = {this.state.successBox} dialogClose = {this.successDialogClose.bind(this)} />
             <div style={{margin: '20px'}}>
                 <div>
@@ -174,17 +186,3 @@ export default class App extends Component {
 }
 
 
-
-// main page
-// $(('[itemprop="name"]'), '.text--labelSecondary').each(function(){
-//     var text = $(this).text();
-//     console.log(text);
-// });
-
-// group page
-// $(('.groupHomeHeader-groupName'), '.groupHomeHeader-groupNameLink').textContent
-
-
-
-// event page
-// $('.event-info-group--groupName').textContent

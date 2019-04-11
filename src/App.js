@@ -89,7 +89,7 @@ export default class App extends Component {
     }
 
     onFormSubmit=() => {
-        this.setState({disabled: true})
+        //this.setState({disabled: true})
         if(this.state.textField.length ===  0){
             return alert("please enter a valid group name")
         } 
@@ -111,7 +111,7 @@ export default class App extends Component {
         this.setState({ 
             open: false, 
             date: new Date(), 
-            disabled: false,
+            //disabled: false,
             meetupEventData: [] });
       };
  
@@ -127,7 +127,7 @@ export default class App extends Component {
         this.setState({ 
             open: false,
             meetupEventData: [],
-            disabled: true
+            //disabled: true
         });
     }
     
@@ -155,13 +155,13 @@ export default class App extends Component {
             this.setState({
                 meetupEventData: meetupEventData,
                 open: true,
-                disabled: false
+                //disabled: false
             });
         } else if (request.type === 'success'){
             sendResponse('we received the success message, thanks')
             this.setState({
                 successBox: true,
-                disabled: false
+                //disabled: false
             })
         } else if (request.type === 'error'){
             sendResponse('we received the error message, thanks');

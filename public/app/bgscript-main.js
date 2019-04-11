@@ -67,7 +67,7 @@ function makeXhrRequestWithGroupId(token) {
       requestUrl = `https://api.meetup.com/2/groups?&sign=true&photo-host=public&group_urlname=${urlPathName}&page=20`
       return makeXhrRequestGeneric('GET', requestUrl, token)
       .then(async data => { // 
-        let parsedData= await JSON.parse(data) // may need to promisify data parsing because an odd error of receiving an empty object response from api
+        let parsedData= await JSON.parse(data)
         let groupId = parsedData["results"][0]["id"]
         let timezone = parsedData["results"][0]["timezone"]
         chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage in the background script`));
@@ -79,7 +79,6 @@ function makeXhrRequestWithGroupId(token) {
           const data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);
           let resultData = parsedData["results"];
-
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {
             console.log(response);
           });
@@ -106,9 +105,13 @@ function makeXhrRequestWithGroupId(token) {
       return makeXhrRequestGeneric('GET', requestUrl, token) 
       .then(async data => {
         let parsedData = await JSON.parse(data)
-        let timezone = parsedData["0"].timezone
-        chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedData["0"].timezone}`));
-        let groupId = parsedData["0"].id;
+        console.log(parsedData)
+        // filter results for actual data or if it's not found then take the first result from the data object
+        let parsedDataRefined =  parsedData.filter(x => x.name.toLowerCase() === grpNameInput.toLowerCase())
+        parsedDataRefined = parsedDataRefined ? parsedDataRefined["0"] :  parsedData["0"]
+        let timezone = parsedDataRefined.timezone
+        chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedDataRefined.timezone}`));
+        let groupId = parsedDataRefined.id;
         return groupId
       }) // end promise to make query for groupId using raw search text
       .then(async groupId => {

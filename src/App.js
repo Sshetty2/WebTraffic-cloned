@@ -27,7 +27,6 @@ export default class App extends Component {
     
     componentDidMount() {
         chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
-            console.log('sent popupinit')
             if (response) {
                 this.setState({
                     grpNameArray: response.groupNameArray,
@@ -57,15 +56,15 @@ export default class App extends Component {
     onChange = date => this.setState({ date })
 
     onCheck = (e) => {
-        console.log(e.target.id)
         let { meetupEventData } = this.state 
+        console.log(e.target)
         const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
+        console.log(`these are the other events ${otherEvents}`)
         let meetupEvent = meetupEventData.filter(event => event.id === e.target.id)
+        console.log(`this is the meetup event ${meetupEvent}`)
         meetupEvent = meetupEvent[0]
-        let updatedEvent = { ...meetupEvent , checked: !meetupEvent.checked };
-        // meetupEventData = 
-        // console.log(`meetup event after updated ${JSON.stringify(updatedEvent, null, 4)}`)
-        // this.setState({ items: [updatedItem, ...otherItems] });
+        let updatedEvent = { ...meetupEvent , checked: !meetupEvent.checked }; 
+        this.setState({ meetupEventData: [updatedEvent, ...otherEvents] });
       } 
 
 
@@ -122,14 +121,12 @@ export default class App extends Component {
         // Handle received messages
 
         if (request.type === 'resetTextField' || request.type === 'urlGroupName') {
-            console.log('text field was reset')
             this.setState({
                 textField: "",
                 urlGroupName:""
             });
 
             if (request.type === 'urlGroupName') {
-                console.log(`the urlGroupName was pulled and set to ${request.urlGroupName}`)
                 this.setState({
                     urlGroupName: request.urlGroupName,
                     textField: request.urlGroupName
@@ -138,10 +135,10 @@ export default class App extends Component {
             } 
 
         } if (request.type === 'meetupEventData') {
-            console.log(request.meetupEventData)
+            let meetupEventData = request.meetupEventData.map(event => ({ ...event, checked: true }));
             sendResponse('we received the meetupEventData request, thanks')
             this.setState({
-                meetupEventData: request.meetupEventData,
+                meetupEventData: meetupEventData,
                 open: true,
                 disabled: false
             });
@@ -159,7 +156,6 @@ export default class App extends Component {
     
 
     render() {
-        console.log(`the current state of ${this.state.urlGroupName}`)
         const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
         const dateRendered = this.state.date.length === 2 ? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` : this.state.date.toLocaleDateString("en-US", options);
 

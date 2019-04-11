@@ -55,6 +55,20 @@ export default class App extends Component {
 
     onChange = date => this.setState({ date })
 
+// sort the data after the two meetupdata obj has been pieced back together so that the order of the data won't change
+
+    sortByTime(dataObj){
+        return dataObj.sort( (a,b) => {
+            let newDate1 = new Date(0);
+            let newDate2 = new Date(0);
+            a = newDate1.setUTCMilliseconds(a.time);
+            console.log(`value of a ${a}`)
+            b = newDate2.setUTCMilliseconds(b.time);
+            console.log(`value of a ${b}`)
+            return a-b
+            })
+    }
+
     onCheck = (e) => {
         let { meetupEventData } = this.state 
         console.log(e.target)
@@ -63,8 +77,10 @@ export default class App extends Component {
         let meetupEvent = meetupEventData.filter(event => event.id === e.target.id)
         console.log(`this is the meetup event ${meetupEvent}`)
         meetupEvent = meetupEvent[0]
-        let updatedEvent = { ...meetupEvent , checked: !meetupEvent.checked }; 
-        this.setState({ meetupEventData: [updatedEvent, ...otherEvents] });
+        let updatedEvent = { ...meetupEvent , checked: !meetupEvent.checked };
+        meetupEventData = [updatedEvent, ...otherEvents]
+        meetupEventData = this.sortByTime(meetupEventData)
+        this.setState({ meetupEventData: meetupEventData });
       } 
 
 
@@ -107,7 +123,8 @@ export default class App extends Component {
 
     
     handleConfirmation = () =>{
-        let parsedDataObj = this.state.meetupEventData
+        // only takes events with the checked attribute set to true
+        let parsedDataObj = this.state.meetupEventData.filter(x => x.checked === true)
         chrome.runtime.sendMessage({ type: 'googleAuthFlow', parsedDataObj: parsedDataObj}, response => console.log(response))        
         this.setState({ 
             open: false,

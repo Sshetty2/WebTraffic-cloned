@@ -62,9 +62,7 @@ export default class App extends Component {
             let newDate1 = new Date(0);
             let newDate2 = new Date(0);
             a = newDate1.setUTCMilliseconds(a.time);
-            console.log(`value of a ${a}`)
             b = newDate2.setUTCMilliseconds(b.time);
-            console.log(`value of a ${b}`)
             return a-b
             })
     }

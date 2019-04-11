@@ -64,8 +64,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     sendResponse({groupName: groupName, groupNameArray: groupNameArray });
   };
   // set styles rq
-  if(document.getElementsByClassName('rock-salt')[0]) document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 10px 0px 10px; padding-bottom: 20px; line-height: 26pt");
-  return true;
+  if(document.getElementsByClassName('rock-salt')[0]) {
+    document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 10px 0px 10px; padding-bottom: 20px; line-height: 26pt");
+  }
+    return true;
 });
 
-
+// messing around with making the injected app sticky.. for some reason the app is sticky at that bottom and the top so it wont move down beyond a certain pixel range. more experimentation is needed
+// document.getElementById('meetup-batch-event-set').setAttribute("style", 'position: -webkit-sticky; position: sticky; top: 500px;');

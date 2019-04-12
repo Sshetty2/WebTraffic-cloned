@@ -90,8 +90,6 @@ function makeXhrRequestWithGroupId(token) {
             });
           });
 
-          
-          
         } // end try block to make query and then parse JSON data and set it in local storage using chrome's platform API --THIS WILL WORK--
         catch (err) {
           console.log(err);
@@ -108,12 +106,20 @@ function makeXhrRequestWithGroupId(token) {
         let parsedData = await JSON.parse(data)
         console.log(parsedData)
         // filter results for actual data or if it's not found then take the first result from the data object
+        let dummyObj = 
+        [
+          {
+            "id": 555,
+            "timezone": "US/Eastern"
+          }
+        ]
         let parsedDataRefined =  parsedData.filter(x => x.name.toLowerCase() === grpNameInput.toLowerCase())
-        parsedDataRefined = parsedDataRefined.length ? parsedDataRefined["0"] :  parsedData["0"]
+        parsedDataRefined = parsedDataRefined.length ? parsedDataRefined["0"] :  parsedData["0"] ? parsedData["0"] : dummyObj["0"]
         console.log(parsedDataRefined)
         let timezone = parsedDataRefined.timezone
         chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedDataRefined.timezone}`));
         let groupId = parsedDataRefined.id;
+        
         return groupId
       }) // end promise to make query for groupId using raw search text
       .then(async groupId => {
@@ -122,7 +128,7 @@ function makeXhrRequestWithGroupId(token) {
           const data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);
           let resultData = parsedData["results"];
-
+          
 
 
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {

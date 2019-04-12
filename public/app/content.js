@@ -15,6 +15,30 @@ function buildGroupArray(els){
        }
   return propArr
   }
+
+
+// modified buildGroupArray to build a list of tuples of both the urlpathname uniqueid and the GroupName so that this can be used instead of doing a roundabout search for the groupname
+
+// function buildGroupArray(els){  
+//   let combinedArr = []
+//   let hrefArr = []
+//   let href, grpName  
+//       for(let i = 0; i < els.length; i++)  {
+//           let tempArr = []
+//           href = els[i].children[1].children[0].children[1].href.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0]
+//           if (!(hrefArr.indexOf(href) !== -1 )) { 
+//           hrefArr.push(href)
+//           console.log(hrefArr)
+//           tempArr.push(href)
+//           grpName = els[i].children[1].children[0].children[0].getElementsByTagName('span')[0].innerText;
+//           tempArr.push(grpName)
+//           combinedArr.push(tempArr)
+//           }
+//        }
+//   return combinedArr
+//   }
+
+// buildGroupArray(document.getElementsByClassName('row event-listing clearfix doc-padding'))
   
 
 // event listener that listens for messages from bg script everytime the page is reloaded

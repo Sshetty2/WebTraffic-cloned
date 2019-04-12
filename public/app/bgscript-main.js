@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /*global chrome*/
 
 // function declaration to send errors back to application 

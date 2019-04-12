@@ -113,7 +113,7 @@ function makeXhrRequestWithGroupId(token) {
             "timezone": "US/Eastern"
           }
         ]
-        let parsedDataRefined =  parsedData.filter(x => x.name.toLowerCase() === grpNameInput.toLowerCase())
+        let parsedDataRefined = await parsedData.filter(x => x.name.toLowerCase() === grpNameInput.toLowerCase())
         parsedDataRefined = parsedDataRefined.length ? parsedDataRefined["0"] :  parsedData["0"] ? parsedData["0"] : dummyObj["0"]
         console.log(parsedDataRefined)
         let timezone = parsedDataRefined.timezone

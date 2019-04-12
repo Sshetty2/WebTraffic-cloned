@@ -4,7 +4,6 @@ import './App.css';
 import DialogComponent from "./Dialog"
 import Calendar from 'react-calendar';
 import SuccessDialogComponent from "./SuccessDialog"
-import { uniqueId } from 'lodash/uniqueId'
 import  Form  from "./form";
 
 

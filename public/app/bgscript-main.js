@@ -109,7 +109,8 @@ function makeXhrRequestWithGroupId(token) {
         console.log(parsedData)
         // filter results for actual data or if it's not found then take the first result from the data object
         let parsedDataRefined =  parsedData.filter(x => x.name.toLowerCase() === grpNameInput.toLowerCase())
-        parsedDataRefined = parsedDataRefined ? parsedDataRefined["0"] :  parsedData["0"]
+        parsedDataRefined = parsedDataRefined.length ? parsedDataRefined["0"] :  parsedData["0"]
+        console.log(parsedDataRefined)
         let timezone = parsedDataRefined.timezone
         chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedDataRefined.timezone}`));
         let groupId = parsedDataRefined.id;

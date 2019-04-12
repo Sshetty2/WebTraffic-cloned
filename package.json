@@ -1,6 +1,6 @@
 {
   "name": "Meetup-Batch-Event-Set-Tool",
-  "version": "6.0.0",
+  "version": "6.1.2",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.0",

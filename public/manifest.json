@@ -39,7 +39,7 @@
   ],
   "web_accessible_resources" : ["/oauth2/*"],
   "oauth2": {
-    "client_id": "466748401928-7hgv6idtmp9dolbvedg85oahappoprel.apps.googleusercontent.com",
+    "client_id": "466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar.events"
     ]

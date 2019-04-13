@@ -28,6 +28,7 @@ export default class App extends Component {
         chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
             if (response) {
                 this.setState({
+                    // take incoming response data and set state
                     grpNameArray: response.groupNameArray,
                     textField: response.groupName,
                     urlGroupName: response.groupName
@@ -82,6 +83,7 @@ export default class App extends Component {
 
 
     getAutosuggestInput(value){
+        // the input value of the autosuggest component which essentially controls the text field will be set to the value of the text field onchange if there is no urlGrpName in state
         if (!this.state.urlGroupName){  
         this.setState({textField: value})
         }
@@ -89,9 +91,23 @@ export default class App extends Component {
 
     onFormSubmit=() => {
         this.setState({disabled: true})
+        let urlPathName
         if(this.state.textField.length ===  0){
             return alert("please enter a valid group name")
         } 
+        try {
+            // try setting the state of the urlGroupName to the url group name that was part of the url Group Name array if the value of the textfield exists in the group Name array pulled from the content script after its been set in local storage
+            chrome.storage.local.get(['grpNameArray'], (result) => {
+                if(result.grpNameArray){
+                    result.grpNameArray.map(x=>console.log(x[1].toLowerCase(), this.state.textField.toLowerCase()))
+                    urlPathName = result.grpNameArray.filter(x=> x[1].toLowerCase() === this.state.textField.toLowerCase())[0][0];
+                    chrome.storage.local.set({urlPathName: urlPathName})
+                    console.log(`the urlgrpName was set to ${urlPathName}`)
+                }
+            })
+        } catch(err) {
+            console.log('there was an error and the urlGroupName was not set')
+        }
         let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime()
         let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
         chrome.storage.local.set({grpNameInput: this.state.textField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd, urlPathName: this.state.urlGroupName}, function() {

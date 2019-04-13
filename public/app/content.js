@@ -1,9 +1,10 @@
 /*global chrome*/
 
 
-if (document.getElementById('simple-cal-export')) document.getElementById('simple-cal-export').setAttribute("style", "height:50px; margin-left: 78.5px");
-
-
+if (document.getElementById('simple-cal-export')) {
+  // style injection
+  document.getElementById('simple-cal-export').setAttribute("style", "height:50px; margin-left: 78.5px");
+}
 // build array of group names from meetup homepage using doc selectors
 
 function buildGroupArray(els){
@@ -87,19 +88,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log(`the value of the groupNameArray is ${groupNameArray}`)
     sendResponse({groupName: groupName, groupNameArray: groupNameArray });
   };
-  // set styles rq
+  // style injections
   if(document.getElementsByClassName('rock-salt')[0]) {
     document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 0px 0px 0px; padding-bottom: 15px; line-height: 26pt; font-family: \"Graphik Meetup\",helvetica,arial,sans-serif ; font-size: 28px; color: #00455d");
-    document.getElementById('mbest-form-button').setAttribute("style", "background-color: #00455d;");
-    document.getElementsByClassName('App')[0].setAttribute("style", 'position: -webkit-sticky; position: sticky; top: 500px; padding-top: 10px;padding-bottom: 0px;#e4e6e6; padding-bottom: 5px; box-shadow: 0px 0px 17px -7px rgba(0,0,0,0.63);');
     document.getElementsByClassName('react-calendar react-calendar--selectRange')[0].setAttribute("style", '#beige; border-radius: 10px;');
+    document.getElementById('mbest-form-button').setAttribute("style", "background-color: #00455d;");
+  // get the height of the document by querying the node where all of the meetup events reside
+    const docHeight = document.getElementsByClassName('searchResults')[0].scrollHeight
+    document.getElementById('meetup-batch-event-set').setAttribute("style", 'position: -webkit-sticky; position: sticky; top: 135px; padding-bottom: 0px#b5d2c8; padding-bottom: 5px; box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.64)');    document.getElementsByClassName('App')[0].setAttribute("style", 'padding-top: 10px;padding-bottom: 0px;#e4e6e6; padding-bottom: 5px; box-shadow: 0px 0px 17px -7px rgba(0,0,0,0.63);');
+    document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`)
   }
     return true;
 });
 
-document.getElementById('meetup-batch-event-set').setAttribute("style", 'position: -webkit-sticky; position: sticky; top: 500px; padding-bottom: 0px#b5d2c8; padding-bottom: 5px; box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.64)');
-
-// messing around with making the injected app sticky.. for some reason the app is sticky at that bottom and the top so it wont move down beyond a certain pixel range. more experimentation is needed
-// document.getElementById('meetup-batch-event-set').setAttribute("style", 'position: -webkit-sticky; position: sticky; top: 500px; padding-bottom: 0px#b5d2c8; padding-bottom: 5px; box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.64)');
-
-// #beige;     border-radius: 10px; 

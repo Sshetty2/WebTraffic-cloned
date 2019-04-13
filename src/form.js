@@ -44,6 +44,7 @@ export default class Form extends React.Component {
             color="primary"
             disabled= {this.props.disabled}
             onClick={this.props.onFormSubmit}
+            id= 'mbest-form-button'
           >
             Schedule
           </Button>

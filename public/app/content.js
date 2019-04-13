@@ -20,28 +20,31 @@ function buildGroupArray(els){
 
 // modified buildGroupArray to build a list of tuples of both the urlpathname uniqueid and the GroupName so that this can be used instead of doing a roundabout search for the groupname
 
-// function buildGroupArray(els){  
-//   let combinedArr = []
-//   let hrefArr = []
-//   let href, grpName  
-//       for(let i = 0; i < els.length; i++)  {
-//           let tempArr = []
-//           href = els[i].children[1].children[0].children[1].href.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0]
-//           if (!(hrefArr.indexOf(href) !== -1 )) { 
-//           hrefArr.push(href)
-//           console.log(hrefArr)
-//           tempArr.push(href)
-//           grpName = els[i].children[1].children[0].children[0].getElementsByTagName('span')[0].innerText;
-//           tempArr.push(grpName)
-//           combinedArr.push(tempArr)
-//           }
-//        }
-//   return combinedArr
-//   }
+function buildGroupArray(els){  
+  let combinedArr = []
+  let hrefArr = []
+  let href, grpName  
+      for(let i = 0; i < els.length; i++)  {
+          let tempArr = []
+          try {
+            href = els[i].children[1].children[0].children[1].href.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/)/)[0]
+          } catch(err) {
+              href = ""
+          }
+          if (!(hrefArr.indexOf(href) !== -1 )) { 
+          hrefArr.push(href)
+          console.log(hrefArr)
+          tempArr.push(href)
+          grpName = els[i].children[1].children[0].children[0].getElementsByTagName('span')[0].innerText;
+          tempArr.push(grpName)
+          combinedArr.push(tempArr)
+          }
+       }
+  return combinedArr
+  }
 
-// buildGroupArray(document.getElementsByClassName('row event-listing clearfix doc-padding'))
+buildGroupArray(document.getElementsByClassName('row event-listing clearfix doc-padding'))
   
-
 // event listener that listens for messages from bg script everytime the page is reloaded
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
@@ -86,6 +89,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.storage.local.set({urlGroupName: groupName}) 
     groupNameArray = buildGroupArray(document.getElementsByClassName('text--labelSecondary'))
     console.log(`the value of the groupNameArray is ${groupNameArray}`)
+    // a message is sent back to the App with the valid groupName if user has navigated to a valid Meetup url with the groups name in the path AND the groupNameArray pulled from the dom if they are currently on the homepage
     sendResponse({groupName: groupName, groupNameArray: groupNameArray });
   };
   // style injections

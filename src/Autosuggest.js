@@ -8,14 +8,11 @@ import './App.css';
 export default class AutosuggestField extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       value: '',
       suggestions: [],
       grpNameArray: []
     };
-
-
   }
 
 // this.props.textFieldValue ? this.props.textFieldValue : ""
@@ -26,7 +23,13 @@ getSuggestions = x => {
     chrome.storage.local.get(['grpNameArray'], (result) => {
         if(result.grpNameArray){
         this.setState({
-            grpNameArray: result.grpNameArray
+            // the grpNameArray received by the content script will have a list of tuples, the actual array must contain a filtered list
+            suggestions: result.grpNameArray.reduce(
+              (accumulator, currentValue) => {
+                return accumulator.concat(currentValue[1]);
+              },
+              []
+            )
         });
       }
     });
@@ -34,7 +37,7 @@ getSuggestions = x => {
     const inputValue = x.trim().toLowerCase();
     const inputLength = inputValue.length;
 
-    return inputLength === 0 ? [] : this.state.grpNameArray.filter(y =>
+    return inputLength === 0 ? [] : this.state.suggestions.filter(y =>
     y.toLowerCase().slice(0, inputLength) === inputValue
   );
 };
@@ -82,9 +85,7 @@ renderSuggestion = suggestion => (
   };
 
   render() {
-    console.log(`the value of this.props.value on the autosuggest component is ${this.props.textFieldValue}`)
     const { value, suggestions } = this.state;
-
     const inputProps = {
       placeholder: this.props.textFieldValue ? this.props.textFieldValue : 'Type A Group Name',
       value: this.props.textFieldValue ? this.props.textFieldValue : '',

@@ -27,8 +27,10 @@ export default class DialogComponent extends Component {
     
 
   render(){
-    let { open, handleClose, dialogClose, handleConfirmation } = this.props
-    let { meetupEventData, onCheck } = this.props
+    let { open, handleClose, dialogClose, handleConfirmation } = this.props;
+    let { meetupEventData, onCheck } = this.props;
+    let greeting = meetupEventData.length > 0 ? `Here's what I found for ${meetupEventData[0]['group']['name']}!` : "I couldn't find anything! Please try searching a different group name.";
+    let followUp = meetupEventData.length > 0 ? "Are you sure you'd like to schedule the following events?" : null;
     return (
         <Dialog
           open={open}
@@ -39,9 +41,8 @@ export default class DialogComponent extends Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle style={{padding: '20px 24px 6px'}} id="alert-dialog-slide-title">
-          <h1 className='habibi Dialog-header'>{"Heres What I found! . . ."}<br />{"Are you sure you'd like to schedule the following events?"}</h1>
+            <h1 className='habibi Dialog-header'>{greeting}<br />{followUp}</h1>
           </DialogTitle>
-          
           <DialogContent style={{padding: '0px 0px 0px 22px'}} >
           <DialogContentText id="alert-dialog-slide-description">
             {meetupEventData.map((x,i) =>{

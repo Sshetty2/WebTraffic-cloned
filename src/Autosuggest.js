@@ -12,7 +12,6 @@ export default class AutosuggestField extends React.Component {
     this.state = {
       value: '',
       suggestions: [],
-      grpNameArray: []
     };
 
 
@@ -21,50 +20,55 @@ export default class AutosuggestField extends React.Component {
 // this.props.textFieldValue ? this.props.textFieldValue : ""
 
 
-getSuggestions = x => {
-// gets suggestions array from chrome local storage after it has been set in the content script which was initiated through a message from the background script when a tab is updated
-    chrome.storage.local.get(['grpNameArray'], (result) => {
-        if(result.grpNameArray){
-        this.setState({
-            grpNameArray: result.grpNameArray
-        });
-      }
-    });
+  getSuggestions = x => {
+  // gets suggestions array from chrome local storage after it has been set in the content script which was initiated through a message from the background script when a tab is updated
+      chrome.storage.local.get(['grpNameArray'], (result) => {
+          if(result.grpNameArray){
+          this.setState({
+              grpNameArray: result.grpNameArray
+          });
+        }
 
-    const inputValue = x.trim().toLowerCase();
-    const inputLength = inputValue.length;
-
-    return inputLength === 0 ? [] : this.state.grpNameArray.filter(y =>
-    y.toLowerCase().slice(0, inputLength) === inputValue
-  );
-};
-
-getSuggestionValue = suggestion => suggestion;
-
-renderInputComponent = inputProps => (
-<TextField
-        id="group-name"
-        name="group-name"
-        label="Group Name"   
-        value = {this.props.textFieldValue}    
-        fullWidth
-        {...inputProps} 
-        refCallback={inputProps.ref}
-        ref={null}
-        />
-)
-
-renderSuggestion = suggestion => (
-<span className='open-sans'>{suggestion}</span>
-);
-
-  onChange = (event, { newValue }) => {
-    this.setState({
-        value: newValue
         
-    });
-    this.props.getInputData(newValue);
+      });
+      
+      const inputValue = x.trim().toLowerCase();
+      const inputLength = inputValue.length;
+      try{
+      console.log(this.state.grpNameArray[1][1])
+      return inputLength === 0 ? [] : this.state.grpNameArray.filter(y =>
+      y[1].toLowerCase().slice(0, inputLength) === inputValue.toLowerCase());
+      } catch(err) {
+        return []
+      }
   };
+
+  getSuggestionValue = suggestion => suggestion[1];
+
+  renderInputComponent = inputProps => (
+    <TextField
+            id="group-name"
+            name="group-name"
+            label="Group Name"   
+            value = {this.props.textFieldValue}    
+            fullWidth
+            {...inputProps} 
+            refCallback={inputProps.ref}
+            ref={null}
+            />
+   )
+
+  renderSuggestion = suggestion => (
+  <span className='open-sans'>{suggestion[1]}</span>
+   );
+  
+  onChange = (event, { newValue }) => {
+      this.setState({
+          value: newValue
+          
+      });
+      this.props.getInputData(newValue);
+    };
 
 
   onSuggestionsFetchRequested = ({ value }) => {
@@ -82,7 +86,7 @@ renderSuggestion = suggestion => (
   };
 
   render() {
-    console.log(`the value of this.props.value on the autosuggest component is ${this.props.textFieldValue}`)
+    // console.log(`the value of this.props.value on the autosuggest component is ${this.state.grpNameArray[1][1]}`)
     const { value, suggestions } = this.state;
 
     const inputProps = {

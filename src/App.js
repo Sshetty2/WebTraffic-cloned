@@ -69,11 +69,8 @@ export default class App extends Component {
 
     onCheck = (e) => {
         let { meetupEventData } = this.state 
-        console.log(e.target)
         const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
-        console.log(`these are the other events ${otherEvents}`)
         let meetupEvent = meetupEventData.filter(event => event.id === e.target.id)
-        console.log(`this is the meetup event ${meetupEvent}`)
         meetupEvent = meetupEvent[0]
         let updatedEvent = { ...meetupEvent , checked: !meetupEvent.checked };
         meetupEventData = [updatedEvent, ...otherEvents]
@@ -99,21 +96,18 @@ export default class App extends Component {
             // try setting the state of the urlGroupName to the url group name that was part of the url Group Name array if the value of the textfield exists in the group Name array pulled from the content script after its been set in local storage
             chrome.storage.local.get(['grpNameArray'], (result) => {
                 if(result.grpNameArray){
-                    result.grpNameArray.map(x=>console.log(x[1].toLowerCase(), this.state.textField.toLowerCase()))
                     urlPathName = result.grpNameArray.filter(x=> x[1].toLowerCase() === this.state.textField.toLowerCase())[0][0];
                     chrome.storage.local.set({urlPathName: urlPathName})
-                    console.log(`the urlgrpName was set to ${urlPathName}`)
+                    console.log(`the urlPathName was set to ${urlPathName}`)
                 }
             })
         } catch(err) {
-            console.log('there was an error and the urlGroupName was not set')
+            console.log('there was an error and the urlPathName was not set')
         }
+        console.log('proceeding')
         let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime()
         let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
-        chrome.storage.local.set({grpNameInput: this.state.textField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd, urlPathName: this.state.urlGroupName}, function() {
-            console.log('the local storage object has been set after the button was clicked with the user input'
-            );
-        })
+        chrome.storage.local.set({grpNameInput: this.state.textField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd, urlPathName: this.state.urlGroupName})
         chrome.runtime.sendMessage({ 
             action: 'meetupRequest'
         }, response => console.log(response))
@@ -161,7 +155,6 @@ export default class App extends Component {
                     urlGroupName: request.urlGroupName,
                     textField: request.urlGroupName
                 });
-                console.log(`the current value of this.state.textField is ${this.state.textField} `)
             } 
 
         } if (request.type === 'meetupEventData') {
@@ -180,7 +173,8 @@ export default class App extends Component {
             })
         } else if (request.type === 'error'){
             sendResponse('we received the error message, thanks');
-            typeof(request.error) === 'object' ? alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code (Object): ${JSON.stringify(request.error, null, 4)}`) : alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${request.error}`) 
+            typeof(request.error) === 'object' ? alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code (Object): ${JSON.stringify(request.error, null, 4)}`) 
+            : alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${request.error}`) 
         };    
     }
     

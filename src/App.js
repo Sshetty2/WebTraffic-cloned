@@ -105,6 +105,7 @@ export default class App extends Component {
             console.log('there was an error and the urlPathName was not set')
         }
         console.log('proceeding')
+        // sets date range start and end in UTC milliseconds since the epoch
         let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime()
         let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
         chrome.storage.local.set({grpNameInput: this.state.textField, dateRangeStart: dateRangeStart, dateRangeEnd: dateRangeEnd, urlPathName: this.state.urlGroupName})

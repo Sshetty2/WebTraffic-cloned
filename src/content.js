@@ -6,18 +6,6 @@ import App from './App';
 
 
 
-
-class Main extends React.Component {
-    render() {
-        return (
-            <div className={'my-extension'}>
-                <h1>Hello world - My first Extension</h1>
-            </div>
-        )
-    }
-}
-
-
 let column = document.getElementById('simple-event-filter-column') || ''
 let block_to_insert = document.createElement( 'div' );
 block_to_insert.id = 'meetup-batch-event-set'

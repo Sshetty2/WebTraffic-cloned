@@ -17,6 +17,10 @@ function convertToGoogleDTime(utcMilliseconds) {
 
 function formatDateToIsoString(utcMilliseconds){
     var d = new Date(0);
+    let newDateStr, newDateStrIndexOfZ
     d.setUTCMilliseconds(utcMilliseconds);
-    return d.toISOString()
+    newDateStr =  d.toISOString()
+    newDateStrIndexOfZ = newDateStr.indexOf('Z')
+    newDateStr = newDateStr.slice(0, newDateStrIndexOfZ)
+    return newDateStr
 }

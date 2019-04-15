@@ -35,7 +35,6 @@ export default class AutosuggestField extends React.Component {
       const inputValue = x.trim().toLowerCase();
       const inputLength = inputValue.length;
       try{
-      console.log(this.state.grpNameArray[1][1])
       return inputLength === 0 ? [] : this.state.grpNameArray.filter(y =>
       y[1].toLowerCase().slice(0, inputLength) === inputValue.toLowerCase());
       } catch(err) {

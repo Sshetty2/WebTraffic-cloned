@@ -96,7 +96,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   // style injections
   if(document.getElementsByClassName('rock-salt')[0]) {
     document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 0px 0px 0px; padding-bottom: 15px; line-height: 26pt; font-family: \"Graphik Meetup\",helvetica,arial,sans-serif ; font-size: 28px; color: #00455d");
-    document.getElementsByClassName('react-calendar')[0].setAttribute("style", '#beige; border-radius: 10px;');
+    document.getElementsByClassName('react-calendar')[0].setAttribute("style", 'background-color: #f5f5dc; border-radius: 10px;');
     document.getElementById('mbest-form-button').setAttribute("style", "background-color: #0f1721;");
   // get the height of the document by querying the node where all of the meetup events reside
     const docHeight = document.getElementsByClassName('searchResults')[0].scrollHeight

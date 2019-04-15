@@ -92,9 +92,14 @@ function makeXhrRequestWithGroupId(token) {
       console.log(`${formattedDateRangeStart} ${formattedDateRangeEnd}`)
       return makeXhrRequestGeneric('GET', requestUrl, token)
       .then(async data => { // 
-        if(data.length){
+        let dummyObj = 
+        [
+          {
+            "timezone": "US/Eastern"
+          }
+        ]
         let parsedData= await JSON.parse(data)
-        let timezone = parsedData[0]["group"]["timezone"]
+        let timezone = parsedData.length ? parsedData[0]["group"]["timezone"] : dummyObj[0]["timezone"]
         chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage in the background script`));
         chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: parsedData }, (response) => {
           console.log(response);
@@ -104,7 +109,6 @@ function makeXhrRequestWithGroupId(token) {
             console.log(response);
           });
         });
-      } else {throw new Error("Meetup's api gave us back an empty object.. Please complain to them")}
       }).catch(err => {console.log(err); return errorLog(err)}) // end promise + async/await to query meetup's API with the group Id, date range start and date range end for meetup event data  
    
     // spaces for readability

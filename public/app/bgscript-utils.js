@@ -14,3 +14,9 @@ function convertToGoogleDTime(utcMilliseconds) {
         pad(d.getUTCMinutes()) + ':' +
         pad(d.getUTCSeconds()) + 'Z'
 }
+
+function formatDateToIsoString(utcMilliseconds){
+    var d = new Date(0);
+    d.setUTCMilliseconds(utcMilliseconds);
+    return d.toISOString()
+}

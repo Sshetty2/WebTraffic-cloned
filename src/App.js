@@ -174,7 +174,7 @@ export default class App extends Component {
             })
         } else if (request.type === 'error'){
             sendResponse('we received the error message, thanks');
-            typeof(request.error) === 'object' ? alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. 4/15/19: Some Meetup API queries will result in a random unknown empty object error... You will have to tweak the date range. Error Code (Object): ${JSON.stringify(request.error)}`) 
+            typeof(request.error) === 'object' ? alert(`Something went wrong. Try tweaking the date range, contacting the developer, restarting the browser, or, try again later... Error Code (Object): ${JSON.stringify(request.error)}`) 
             : alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${request.error}`);
             this.setState({
                 disabled: false

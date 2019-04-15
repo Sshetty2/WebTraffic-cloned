@@ -64,7 +64,9 @@ function makeXhrRequestWithGroupId(token) {
     let grpNameInput = result.grpNameInput
     let urlPathName = result.urlPathName
     let requestUrl
+    console.log(`the urlPathName after it has been pulled from local storage is ${urlPathName}`)
     if (urlPathName) {
+      console.log(`making request with the url path name which is ${urlPathName}`)
       requestUrl = `https://api.meetup.com/2/groups?&sign=true&photo-host=public&group_urlname=${urlPathName}&page=20`
       return makeXhrRequestGeneric('GET', requestUrl, token)
       .then(async data => { // 
@@ -100,11 +102,11 @@ function makeXhrRequestWithGroupId(token) {
     // spaces for readability
 
       } else {
+      console.log(`not making the request with the url path name which is ${urlPathName}`)
       requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20` 
       return makeXhrRequestGeneric('GET', requestUrl, token) 
       .then(async data => {
         let parsedData = await JSON.parse(data)
-        console.log(parsedData)
         // filter results for actual data or if it's not found then take the first result from the data object
         let dummyObj = 
         [
@@ -115,7 +117,6 @@ function makeXhrRequestWithGroupId(token) {
         ]
         let parsedDataRefined = await parsedData.filter(x => x.name.toLowerCase() === grpNameInput.toLowerCase())
         parsedDataRefined = parsedDataRefined.length ? parsedDataRefined["0"] :  parsedData["0"] ? parsedData["0"] : dummyObj["0"]
-        console.log(parsedDataRefined)
         let timezone = parsedDataRefined.timezone
         chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedDataRefined.timezone}`));
         let groupId = parsedDataRefined.id;

@@ -49,7 +49,7 @@ export default class DialogComponent extends Component {
                     <div>
                         <ul key={i} style={{padding:'0px 0px 18px 0px', margin: '0px'}}>
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                              <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: null}</li>
+                              <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{typeof x["venue"] !== 'undefined' ? x["venue"]["name"]: x["group"]["name"]}</li>
                               <input
                                   style={{marginRight: '15px'}}
                                   type="checkbox"
@@ -58,7 +58,7 @@ export default class DialogComponent extends Component {
                                   id = {x["id"]}
                               />
                             </div>
-                            <li style={{textDecoration: 'underline', color: 'rgba(0, 0, 0, 0.85)'}}><a href={x["event_url"]} target="_blank">{x["name"]}</a></li>
+                            <li style={{textDecoration: 'underline', color: 'rgba(0, 0, 0, 0.85)'}}><a href={x["link"]} target="_blank">{x["name"]}</a></li>
                             <li style={{color: 'rgba(0, 0, 0, 0.85)'}}>{this.toReadableDateFormat(x["time"])}</li>
                         </ul>
                     </div>

@@ -6,6 +6,12 @@ const errorLog = (err) => {
   chrome.runtime.sendMessage({type: 'error', error: err}, (response) => {
     console.log(response)
   }) 
+
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { type: 'error', error: err }, (response) => {
+      console.log(response);
+    });
+  });
 }
 
 // event listener fires when a tab is updated and sends a message that is received by content script
@@ -71,7 +77,6 @@ let checkDefinition = value => typeof value === 'undefined' ? "" : value
 // called after token is received
 
 function makeXhrRequestWithGroupId(token) {
-  
   chrome.storage.local.get(['dateRangeStart', 'dateRangeEnd', 'grpNameInput', 'urlPathName'], (result) => {
     let dateRangeStart = result.dateRangeStart
     let dateRangeEnd = result.dateRangeEnd
@@ -84,8 +89,10 @@ function makeXhrRequestWithGroupId(token) {
     if (urlPathName) {
       console.log(`making request with the url path name which is ${urlPathName}`)
       requestUrl = `https://api.meetup.com/${urlPathName}/events?&sign=true&photo-host=public&no_later_than=${formattedDateRangeEnd}&no_earlier_than=${formattedDateRangeStart}&page=20`
+      console.log(`${formattedDateRangeStart} ${formattedDateRangeEnd}`)
       return makeXhrRequestGeneric('GET', requestUrl, token)
       .then(async data => { // 
+        if(data.length){
         let parsedData= await JSON.parse(data)
         let timezone = parsedData[0]["group"]["timezone"]
         chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage in the background script`));
@@ -97,6 +104,7 @@ function makeXhrRequestWithGroupId(token) {
             console.log(response);
           });
         });
+      } else {throw new Error("Meetup's api gave us back an empty object.. Please complain to them")}
       }).catch(err => {console.log(err); return errorLog(err)}) // end promise + async/await to query meetup's API with the group Id, date range start and date range end for meetup event data  
    
     // spaces for readability

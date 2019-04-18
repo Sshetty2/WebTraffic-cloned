@@ -72,14 +72,12 @@ export default class AutosuggestField extends React.Component {
   };
 
   render() {
-    // console.log(`the value of this.props.value on the autosuggest component is ${this.state.grpNameArray[1][1]}`)
-    const { value, suggestions } = this.state;
+    const { suggestions } = this.state;
     const inputProps = {
       placeholder: this.props.textFieldValue ? this.props.textFieldValue : 'Type A Group Name',
       value: this.props.textFieldValue ? this.props.textFieldValue : '',
       onChange: this.onChange
     };
-
     return (
       <Autosuggest
         suggestions={suggestions}

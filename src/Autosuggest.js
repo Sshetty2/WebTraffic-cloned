@@ -8,17 +8,11 @@ import './App.css';
 export default class AutosuggestField extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       value: '',
       suggestions: [],
     };
-
-
   }
-
-// this.props.textFieldValue ? this.props.textFieldValue : ""
-
 
   getSuggestions = x => {
   // gets suggestions array from chrome local storage after it has been set in the content script which was initiated through a message from the background script when a tab is updated
@@ -28,15 +22,12 @@ export default class AutosuggestField extends React.Component {
               grpNameArray: result.grpNameArray
           });
         }
-
-        
       });
-      
       const inputValue = x.trim().toLowerCase();
       const inputLength = inputValue.length;
       try{
-      return inputLength === 0 ? [] : this.state.grpNameArray.filter(y =>
-      y[1].toLowerCase().slice(0, inputLength) === inputValue.toLowerCase());
+        return inputLength === 0 ? [] : this.state.grpNameArray.filter(group =>
+        group[1].toLowerCase().slice(0, inputLength) === inputValue.toLowerCase());
       } catch(err) {
         return []
       }
@@ -64,19 +55,15 @@ export default class AutosuggestField extends React.Component {
   onChange = (event, { newValue }) => {
       this.setState({
           value: newValue
-          
       });
       this.props.getInputData(newValue);
     };
-
 
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({
       suggestions: this.getSuggestions(value)
     });
   };
-
-
 
   onSuggestionsClearRequested = () => {
     this.setState({
@@ -87,7 +74,6 @@ export default class AutosuggestField extends React.Component {
   render() {
     // console.log(`the value of this.props.value on the autosuggest component is ${this.state.grpNameArray[1][1]}`)
     const { value, suggestions } = this.state;
-
     const inputProps = {
       placeholder: this.props.textFieldValue ? this.props.textFieldValue : 'Type A Group Name',
       value: this.props.textFieldValue ? this.props.textFieldValue : '',

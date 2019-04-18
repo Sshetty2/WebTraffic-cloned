@@ -12,7 +12,6 @@ function Transition(props) {
 }
 
 const SuccessDialogComponent = props => {
-
     return (
       <div>
         {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>

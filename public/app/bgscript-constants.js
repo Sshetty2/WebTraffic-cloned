@@ -5,7 +5,6 @@ const mCK = 'gh7mcktjlopdddno5sv8ufcu80'
 //prod
 // const mCK = 'rd4j2luc2buqrg44s86ka6fhse'
 
-
 //prod 
 // const redirect_Uri =  'https://cabfodbfjmgloaallchcnnkgcfpnobem.chromiumapp.org/'
 // dev laptop 

@@ -194,7 +194,7 @@ function makeXhrRequestWithGroupId(token) {
                   return makeXhrPostRequestJSON('POST', `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${gAK}`, token, x)
               }))
                 .then(()=>{
-
+                  // a message is sent to the content script
                   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                     chrome.tabs.sendMessage(tabs[0].id, {type: 'success'}, (response) => {
                        if (response) {
@@ -202,7 +202,7 @@ function makeXhrRequestWithGroupId(token) {
                        }
                       });
                    });
-
+                  // a message is sent to the background script
                   chrome.runtime.sendMessage({type: 'success'}, (response) => {
                     if (response) {
                       console.log(response)

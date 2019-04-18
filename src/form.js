@@ -6,12 +6,9 @@ import  AutosuggestField  from "./Autosuggest";
 
 require("./styles.css");
 
-
 export default class Form extends React.Component {
 
   render(){
-
-
     var gnamestyle = {
       paddingTop: '10x',
       paddingBottom:'10px'
@@ -20,7 +17,6 @@ export default class Form extends React.Component {
     var drangestyle = {
       paddingTop: '10px'
     }
-
     return (
       <React.Fragment>
         <div style={gnamestyle}>

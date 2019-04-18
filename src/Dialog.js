@@ -15,9 +15,6 @@ function Transition(props) {
 
 export default class DialogComponent extends Component {
 
-  
-
-
   toReadableDateFormat(utcMilliseconds){
       var d = new Date(0);
       d.setUTCMilliseconds(utcMilliseconds)
@@ -25,7 +22,6 @@ export default class DialogComponent extends Component {
       return (d.toLocaleDateString("en-US", options));
   }
     
-
   render(){
     let { open, handleClose, dialogClose, handleConfirmation } = this.props;
     let { meetupEventData, onCheck } = this.props;
@@ -66,7 +62,6 @@ export default class DialogComponent extends Component {
                 )
             })}
             </DialogContentText>
-            
           </DialogContent>
           <div style={{padding:'0px 20px 0px 20px'}}>
           <h3 style={{fontSize:'13px', textShadow:'#ff8a00bd 1px 0 7px'}}>{"Warning: You must be signed into chrome or allow syncing on request for the authentication flow to work properly"}</h3>

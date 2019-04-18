@@ -22,9 +22,8 @@ export default class App extends Component {
         };
     }
 
-
-    
     componentDidMount() {
+        // the main lifecycle method sends a message to the content script that will initiate several different actions including style injections and dom element data extraction
         chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
             if (response) {
                 this.setState({
@@ -48,9 +47,7 @@ export default class App extends Component {
                 });
           }
         });
-
         chrome.runtime.onMessage.addListener(this.handleMessage.bind(this));
-
     }
 
     onChange = date => this.setState({ date })
@@ -77,7 +74,6 @@ export default class App extends Component {
         meetupEventData = this.sortByTime(meetupEventData)
         this.setState({ meetupEventData: meetupEventData });
       } 
-
 
     getAutosuggestInput(value){
         // the input value of the autosuggest component which essentially controls the text field will be set to the value of the text field onchange if there is no urlGrpName in state
@@ -114,8 +110,7 @@ export default class App extends Component {
         }, response => console.log(response))
     }
     
-
-    // dialogOpen is in the onMessage listener
+    // the various event handlers will be bound to dialog onClicks.. None have to be bound to this due to the use of the arrow function here
 
     dialogClose = () => {
         this.setState({ 
@@ -129,7 +124,6 @@ export default class App extends Component {
         this.setState({ successBox: false });
     };
 
-    
     handleConfirmation = () =>{
         // only takes events with the checked attribute set to true
         let parsedDataObj = this.state.meetupEventData.filter(x => x.checked === true)
@@ -141,23 +135,21 @@ export default class App extends Component {
         });
     }
     
-
     handleMessage(request, sender, sendResponse) {
-        // Handle received messages
-
+        // Handle received messages.. earlier this was tied to a the chrome messaging onmessage event handler declared in the component did mount lifecycle method
+        // TODO: convert to switch statement
+        // incoming messages from the content script and the background script will be handled here
         if (request.type === 'resetTextField' || request.type === 'urlGroupName') {
             this.setState({
                 textField: "",
                 urlGroupName:""
             });
-
             if (request.type === 'urlGroupName') {
                 this.setState({
                     urlGroupName: request.urlGroupName,
                     textField: request.urlGroupName
                 });
-            } 
-
+            }
         } if (request.type === 'meetupEventData') {
             let meetupEventData = request.meetupEventData.map(event => ({ ...event, checked: true }));
             sendResponse('we received the meetupEventData request, thanks')
@@ -173,6 +165,7 @@ export default class App extends Component {
                 disabled: false
             })
         } else if (request.type === 'error'){
+            // the main error response handler is simply an window alert.. all errors will be funneled here
             sendResponse('we received the error message, thanks');
             typeof(request.error) === 'object' ? alert(`Something went wrong. Try tweaking the date range, contacting the developer, restarting the browser, or, try again later... Error Code (Object): ${JSON.stringify(request.error)}`) 
             : alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${request.error}`);
@@ -181,20 +174,36 @@ export default class App extends Component {
             })
         };    
     }
-    
 
     render() {
         const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-        const dateRendered = this.state.date.length === 2 ? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` : this.state.date.toLocaleDateString("en-US", options);
-
+        // if the length of date array in state is currently 1 render only 1 date or if it is 2 then render a range
+        const dateRendered = this.state.date.length === 2 ? 
+        `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}` 
+        : this.state.date.toLocaleDateString("en-US", options);
         return (
           <div className="App">
-            <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} meetupEventData = {this.state.meetupEventData} onCheck={this.onCheck.bind(this)} />
-            <SuccessDialogComponent open = {this.state.successBox} dialogClose = {this.successDialogClose.bind(this)} />
+            <DialogComponent 
+                open = {this.state.open} 
+                handleConfirmation = {this.handleConfirmation.bind(this)} 
+                dialogClose = {this.dialogClose.bind(this)} 
+                meetupEventData = {this.state.meetupEventData} 
+                onCheck={this.onCheck.bind(this)} 
+            />
+            <SuccessDialogComponent 
+                open = {this.state.successBox} 
+                dialogClose = {this.successDialogClose.bind(this)} 
+            />
             <div style={{margin: '20px'}}>
                 <div>
                     <h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>
-                    <Form date = {dateRendered} getInputData={this.getAutosuggestInput.bind(this)} onFormSubmit = {this.onFormSubmit.bind(this)} textFieldValue = {this.state.textField} disabled = {this.state.disabled} />
+                    <Form 
+                        date = {dateRendered} 
+                        getInputData={this.getAutosuggestInput.bind(this)} 
+                        onFormSubmit = {this.onFormSubmit.bind(this)} 
+                        textFieldValue = {this.state.textField} 
+                        disabled = {this.state.disabled} 
+                    />
                 </div>
             </div>
             <div style={{margin: '20px', paddingBottom: '10px'}}>

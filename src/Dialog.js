@@ -25,21 +25,26 @@ export default class DialogComponent extends Component {
   render(){
     let { open, handleClose, dialogClose, handleConfirmation } = this.props;
     let { meetupEventData, onCheck } = this.props;
-    let greeting = meetupEventData.length > 0 ? `Here's what I found for ${meetupEventData[0]['group']['name']}!` : "I couldn't find anything! Please try searching a different group name or select a different date range";
-    let followUp = meetupEventData.length > 0 ? "Are you sure you'd like to schedule the following events?" : null;
+    let greeting = meetupEventData.length > 0 ? 
+    `Here's what I found for ${meetupEventData[0]['group']['name']}!` 
+    : "I couldn't find anything! Please try searching a different group name or select a different date range";
+    let followUp = meetupEventData.length > 0 ? 
+    "Are you sure you'd like to schedule the following events?" 
+    : null;
+    // the meetup event data that was set in state after it was pulled by the xhr request after the schedule button was clicked is mapped over to give a styled representation of all of the events during the given date range
     return (
-        <Dialog
-          open={open}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-slide-title"
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle style={{padding: '20px 24px 6px'}} id="alert-dialog-slide-title">
-            <h1 className='habibi Dialog-header'>{greeting}<br />{followUp}</h1>
-          </DialogTitle>
-          <DialogContent style={{padding: '0px 0px 0px 22px'}} >
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle style={{padding: '20px 24px 6px'}} id="alert-dialog-slide-title">
+          <h1 className='habibi Dialog-header'>{greeting}<br />{followUp}</h1>
+        </DialogTitle>
+        <DialogContent style={{padding: '0px 0px 0px 22px'}} >
           <DialogContentText id="alert-dialog-slide-description">
             {meetupEventData.map((x,i) =>{
                 return(
@@ -61,20 +66,20 @@ export default class DialogComponent extends Component {
                     </div>
                 )
             })}
-            </DialogContentText>
-          </DialogContent>
-          <div style={{padding:'0px 20px 0px 20px'}}>
+          </DialogContentText>
+        </DialogContent>
+        <div style={{padding:'0px 20px 0px 20px'}}>
           <h3 style={{fontSize:'13px', textShadow:'#ff8a00bd 1px 0 7px'}}>{"Warning: You must be signed into chrome or allow syncing on request for the authentication flow to work properly"}</h3>
-          </div>
-          <DialogActions>
-            <Button onClick={dialogClose} color="primary">
-              No
-            </Button>
-            <Button onClick={handleConfirmation} color="primary">
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
+        </div>
+        <DialogActions>
+          <Button onClick={dialogClose} color="primary">
+            No
+          </Button>
+          <Button onClick={handleConfirmation} color="primary">
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

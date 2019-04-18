@@ -25,20 +25,6 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   }
 })
 
-
-// chrome.webNavigation.onHistoryStateUpdated.addListener(function(details) {
-//   if(details.frameId === 0) {
-//       // Fires only when details.url === currentTab.url
-//       chrome.tabs.get(details.tabId, function(tab) {
-//           if(tab.url === details.url) {
-//             chrome.tabs.sendMessage(details.tabId, {type: 'onUpdateFrmEvent'}, function (response) {
-//               console.log(response)
-//             })
-//           }
-//       });
-//   }
-// });
-
 // a new event listener is registered to listen for a message called meetupRequest which makes a call to the authentication api to redirect the user.     
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
@@ -61,7 +47,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   return true;
 })
 
-// reset text field relay; I cant send messages from the content script to the application thats injected into the content script before rerouting it through the background script
+// reset text field relay; messages cant be sent from the content script to the application thats injected into the content script before rerouting it through the background script
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.type === "resetTextField") {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -110,8 +97,9 @@ function makeXhrRequestWithGroupId(token) {
           });
         });
       }).catch(err => {console.log(err); return errorLog(err)}) // end promise + async/await to query meetup's API with the group Id, date range start and date range end for meetup event data  
-   
-    // spaces for readability
+
+// TODO : Split for separation of concerns
+// spaces for readability
 
       } else {
       console.log(`not making the request with the url path name which is ${urlPathName}`)
@@ -119,7 +107,7 @@ function makeXhrRequestWithGroupId(token) {
       return makeXhrRequestGeneric('GET', requestUrl, token) 
       .then(async data => {
         let parsedData = await JSON.parse(data)
-        // filter results for actual data or if it's not found then take the first result from the data object
+// filter results for actual data or if it's not found then take the first result from the data object
         let dummyObj = 
         [
           {
@@ -128,9 +116,11 @@ function makeXhrRequestWithGroupId(token) {
           }
         ]
         let parsedDataRefined = await parsedData.filter(x => x.name.toLowerCase() === grpNameInput.toLowerCase())
-        parsedDataRefined = parsedDataRefined.length ? parsedDataRefined["0"] :  parsedData["0"] ? parsedData["0"] : dummyObj["0"]
+        parsedDataRefined = parsedDataRefined.length ? parsedDataRefined["0"] 
+        : parsedData["0"] ? parsedData["0"] 
+        : dummyObj["0"]
         let timezone = parsedDataRefined.timezone
-        chrome.storage.local.set({timezone: timezone},()=>console.log(`timezone has been set in bg local storage to ${parsedDataRefined.timezone}`));
+        chrome.storage.local.set({timezone: timezone});
         let groupId = parsedDataRefined.id;
         
         return groupId
@@ -141,18 +131,15 @@ function makeXhrRequestWithGroupId(token) {
           const data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);
           let resultData = parsedData["results"];
+          // messages need to be fired to both the content script and extension script because the application has been injected into the page
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {
             console.log(response);
           });
-
-
           chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.tabs.sendMessage(tabs[0].id, { type: 'meetupEventData', meetupEventData: resultData }, (response) => {
               console.log(response);
             });
           });
-
-          
         } // end try block to make query and then parse JSON data and set it in local storage using chrome's platform API --THIS WILL WORK--
         catch (err) {
           console.log(err);

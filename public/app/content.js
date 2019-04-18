@@ -1,47 +1,35 @@
 /* eslint-disable no-useless-escape */
 /*global chrome*/
 
-
+// style injection to decrease the size of the 'export calendar' div if it exists
 if (document.getElementById('simple-cal-export')) {
-  // style injection
   document.getElementById('simple-cal-export').setAttribute("style", "height:50px; margin-left: 78.5px");
 }
 // build array of group names from meetup homepage using doc selectors
-
-// function buildGroupArray(els){
-//   let propArr = []
-//   let innerText
-//       for(let i = 0; i < els.length; i++)  {
-//           innerText = els[i].getElementsByTagName('span')[0].innerText;
-//               if (!(propArr.includes(innerText))) propArr.push(innerText)
-//        }
-//   return propArr
-//   }
-
-
 // modified buildGroupArray to build a list of tuples of both the urlpathname uniqueid and the GroupName so that this can be used instead of doing a roundabout search for the groupname
 
-function buildGroupArray(els){  
+function buildGroupArray(){  
+  let grpNameCollection = document.getElementsByClassName('row event-listing clearfix doc-padding');
   let combinedArr = []
   let hrefArr = []
   let href, grpName  
-      for(let i = 0; i < els.length; i++)  {
+      for(let i = 0; i < grpNameCollection.length; i++)  {
           let tempArr = []
           try {
-            href = els[i].children[1].children[0].children[1].href.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/)/)[0]
+            href = grpNameCollection[i].children[1].children[0].children[1].href.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/)/)[0]
           } catch(err) {
               href = ""
           }
           if (!(hrefArr.indexOf(href) !== -1 )) { 
           hrefArr.push(href)
           tempArr.push(href)
-          grpName = els[i].children[1].children[0].children[0].getElementsByTagName('span')[0].innerText;
+          grpName = grpNameCollection[i].children[1].children[0].children[0].getElementsByTagName('span')[0].innerText;
           tempArr.push(grpName)
           combinedArr.push(tempArr)
           }
        }
   return combinedArr
-  }
+}
 
 // buildGroupArray(document.getElementsByClassName('row event-listing clearfix doc-padding'))
   
@@ -51,12 +39,9 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.type === 'onUpdateFrmEvent') {
     sendResponse('the the onupdate listener is working correctly and we recieved the message to fire our messages')
     //chrome message to set state of textField to empty so that a user can type in it
-    chrome.runtime.sendMessage({type: 'resetTextField'}, (response) => {
-      //console.log(response)
-    }) 
-
+    chrome.runtime.sendMessage({type: 'resetTextField'}) 
     let pathname = window.location.pathname
-    let groupName, grpNameArray, grpNameCollection
+    let groupName, grpNameArray
     // checks current pathname if it has the following strings and if it doesn't and its not empty, then groupName is assigned to the pathname 
     if(!pathname.match( /(find|login|create|messages|account|members|topics|apps|meetup_api)/ ) && pathname.slice(1)) { 
       pathname = pathname.slice(1)
@@ -64,21 +49,20 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     } else {
       groupName = ""
     }
+
+    // a message is sent to the extension script just in case it needs to be imperatively set in the text field and the chrome local storage object is updated so that it can be pulled when the API request is being made
     chrome.runtime.sendMessage({type: 'urlGroupName', urlGroupName: groupName})
     chrome.storage.local.set({urlGroupName: groupName})
-    grpNameCollection = document.getElementsByClassName('row event-listing clearfix doc-padding');
-    grpNameArray = buildGroupArray(grpNameCollection)
+    // A new array of tuples is built using the current page's dom nodes. the tuples include the url path group name (api unique id) as the first entry and the formal capitalized version of the group name as second entry
+    grpNameArray = buildGroupArray()
+    // set the array of tuples in the local storage object to be accessed whenever needed
     chrome.storage.local.set({grpNameArray: grpNameArray})
 
-
-// button(s) injection script after the app has been loaded
-
+    // button(s) injection script after the app has been loaded
     let columnContainerCollection = document.getElementsByClassName('row event-listing clearfix doc-padding')
-
     let columnContainerCollectionArray = [...columnContainerCollection]
 
-// initialize onClick to set date time start to todays date and the current time and the date range end to one day from today 
-
+    // initialize onClick to set date time start to todays date and the current time and the date range end to one day from today 
     function onClick(){
         let urlPathName = this.id.split(' ')[0]
         let startTime = this.id.split(' ')[1]
@@ -89,9 +73,9 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
         }, response => console.log(response))
     }
 
-      // having an issue where the button injection script will fail because the page hasn't loaded completely yet, and the chome platform api will not catch this because the loading is happening with Iframes. The easiest solution is to set a timeout
-
-      //check to see if any of the buttons exist then if one of them doesn't then try to add the button injection script
+    // having an issue where the button injection script will fail because the page hasn't loaded completely yet, and the chome platform api will not catch this because the loading is happening with Iframes. Setting a timeout will not work...
+    // check to see if any of the buttons exist then if one of them doesn't then try to add the button injection script
+    
     if (document.getElementsByClassName('row-item row-item--shrink friend-container')[0].childElementCount === 1){
       try{
         columnContainerCollectionArray.map(x => {
@@ -107,15 +91,10 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
           x.children[2].appendChild(block_to_insert)
           x.children[2].setAttribute("style", 'display: flex; flex-direction: column;');
           x.children[2].children[0].setAttribute("style", 'margin-bottom: auto;');
-          return
-      })
+          return 
+        })
       }catch(err){return null}
     }
-
-
-
-
-
   }
   return true;
 });
@@ -126,7 +105,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   let groupName, grpNameArray, grpNameCollection;
   if (request.type === 'popupInit') {
     let pathname = window.location.pathname
-    console.log('popupinit')
     if(!pathname.match( /(find|login|create|messages|account|members|topics|apps)/ ) && pathname.slice(1)) { 
       pathname = pathname.slice(1)
       groupName = pathname.slice(0, pathname.indexOf('/')) 

@@ -6,7 +6,6 @@ import Calendar from 'react-calendar';
 import SuccessDialogComponent from "./SuccessDialog"
 import  Form  from "./form";
 
-
 export default class App extends Component {
     constructor(props) {
         super(props);

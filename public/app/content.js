@@ -3,21 +3,21 @@
 
 
 if (document.getElementById('simple-cal-export')) {
-  // style injection
+  // style injection; reduces the height of the div container holding the 'calendar export function'
   document.getElementById('simple-cal-export').setAttribute("style", "height:50px; margin-left: 78.5px");
 }
-// build array of group names from meetup homepage using doc selectors
 
-// function buildGroupArray(els){
-//   let propArr = []
-//   let innerText
-//       for(let i = 0; i < els.length; i++)  {
-//           innerText = els[i].getElementsByTagName('span')[0].innerText;
-//               if (!(propArr.includes(innerText))) propArr.push(innerText)
-//        }
-//   return propArr
-//   }
+// this mutation observer will listen for anytime the height of the main container is changed and then inject that same height into the right container where the application is injected
+var observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutationRecord) {
+    const docHeight = mutationRecord.target.scrollHeight
+    document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`)
+  });    
+});
 
+// instantiating the mutation observer
+var target = document.getElementsByClassName('searchResults')[0];
+observer.observe(target, { attributes : true });
 
 // modified buildGroupArray to build a list of tuples of both the urlpathname uniqueid and the GroupName so that this can be used instead of doing a roundabout search for the groupname
 
@@ -42,8 +42,6 @@ function buildGroupArray(els){
        }
   return combinedArr
   }
-
-// buildGroupArray(document.getElementsByClassName('row event-listing clearfix doc-padding'))
   
 // event listener that listens for messages from bg script everytime the page is reloaded
 

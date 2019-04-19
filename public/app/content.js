@@ -88,7 +88,8 @@ function buttonInjection(){
 var observer = new MutationObserver(function(mutations) {
   mutations.forEach(function(mutationRecord) {
     const docHeight = mutationRecord.target.scrollHeight
-    document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`)
+    document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`);
+    buttonInjection();
   });    
 });
 

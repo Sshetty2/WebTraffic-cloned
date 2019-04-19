@@ -26,19 +26,6 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 })
 
 
-// chrome.webNavigation.onHistoryStateUpdated.addListener(function(details) {
-//   if(details.frameId === 0) {
-//       // Fires only when details.url === currentTab.url
-//       chrome.tabs.get(details.tabId, function(tab) {
-//           if(tab.url === details.url) {
-//             chrome.tabs.sendMessage(details.tabId, {type: 'onUpdateFrmEvent'}, function (response) {
-//               console.log(response)
-//             })
-//           }
-//       });
-//   }
-// });
-
 // a new event listener is registered to listen for a message called meetupRequest which makes a call to the authentication api to redirect the user.     
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){

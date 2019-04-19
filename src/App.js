@@ -22,19 +22,7 @@ export default class App extends Component {
         };
     }
 
-
-    
     componentDidMount() {
-        chrome.runtime.sendMessage({type: 'popupInit'}, (response) => {
-            if (response) {
-                this.setState({
-                    // take incoming response data and set state
-                    grpNameArray: response.groupNameArray,
-                    textField: response.groupName,
-                    urlGroupName: response.groupName
-                });
-            }
-        });
         chrome.storage.local.get(['urlGroupName'], (result) => {
             if(result.urlGroupName){
                 this.setState({
@@ -48,11 +36,9 @@ export default class App extends Component {
                 });
           }
         });
-
         chrome.runtime.onMessage.addListener(this.handleMessage.bind(this));
-
     }
-
+    
     onChange = date => this.setState({ date })
 
 // sort the data after the two meetupdata obj has been pieced back together so that the order of the data won't change

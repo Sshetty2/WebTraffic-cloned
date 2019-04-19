@@ -15,17 +15,13 @@ function Transition(props) {
 
 export default class DialogComponent extends Component {
 
-  
-
-
   toReadableDateFormat(utcMilliseconds){
       var d = new Date(0);
       d.setUTCMilliseconds(utcMilliseconds)
       let options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
       return (d.toLocaleDateString("en-US", options));
   }
-    
-
+  
   render(){
     let { open, handleClose, dialogClose, handleConfirmation } = this.props;
     let { meetupEventData, onCheck } = this.props;

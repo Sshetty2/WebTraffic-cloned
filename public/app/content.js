@@ -7,12 +7,6 @@ if (document.getElementById('simple-cal-export')) {
   document.getElementById('simple-cal-export').setAttribute("style", "height:50px; margin-left: 78.5px");
 }
 
-// this mutation observer will listen for anytime the height of the main container is changed and then inject that same height into the right container where the application is injected
-
-
-// instantiating the mutation observer
-var target = document.getElementsByClassName('searchResults')[0];
-observer.observe(target, { attributes : true });
 
 // modified buildGroupArray to build a list of tuples of both the urlpathname uniqueid and the GroupName so that this can be used instead of doing a roundabout search for the groupname
 
@@ -85,6 +79,10 @@ function buttonInjection(){
       }catch(err){ console.log(err)}
     }
 
+
+
+// this mutation observer will listen for anytime the height of the main container is changed and then inject that same height into the right container where the application is injected
+
 var observer = new MutationObserver(function(mutations) {
   mutations.forEach(function(mutationRecord) {
     const docHeight = mutationRecord.target.scrollHeight
@@ -93,6 +91,10 @@ var observer = new MutationObserver(function(mutations) {
   });    
 });
 
+// instantiating the mutation observer
+
+var target = document.getElementsByClassName('searchResults')[0];
+observer.observe(target, { attributes : true });
 
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {

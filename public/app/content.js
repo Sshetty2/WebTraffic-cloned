@@ -8,12 +8,7 @@ if (document.getElementById('simple-cal-export')) {
 }
 
 // this mutation observer will listen for anytime the height of the main container is changed and then inject that same height into the right container where the application is injected
-var observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutationRecord) {
-    const docHeight = mutationRecord.target.scrollHeight
-    document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`)
-  });    
-});
+
 
 // instantiating the mutation observer
 var target = document.getElementsByClassName('searchResults')[0];
@@ -45,6 +40,60 @@ function buildGroupArray(els){
   
 // event listener that listens for messages from bg script everytime the page is reloaded
 
+
+function buttonInjection(){ 
+  // button(s) injection script after the app has been loaded
+    
+      let columnContainerCollection = document.getElementsByClassName('row event-listing clearfix doc-padding')
+
+      let columnContainerCollectionArray = [...columnContainerCollection]
+
+  // initialize onClick to set date time start to todays date and the current time and the date range end to one day from today 
+    
+      function onClick(){
+          let urlPathName = this.id.split(' ')[0]
+          let startTime = this.id.split(' ')[1]
+          // set start range to the utc milliseconds formatted and pulled from the dom node, and the date range end to the date range start plus one day
+          chrome.storage.local.set({dateRangeStart: startTime - 14400000, dateRangeEnd: startTime - 14100000, urlPathName: urlPathName})
+          chrome.runtime.sendMessage({ 
+              action: 'meetupRequest'
+          }, response => console.log(response))
+      }
+
+        // having an issue where the button injection script will fail because the page hasn't loaded completely yet, and the chome platform api will not catch this because the loading is happening with Iframes. The easiest solution is to set a timeout
+
+        //check to see if any of the buttons exist then if one of them doesn't then try to add the button injection script
+
+      try{
+        columnContainerCollectionArray.map(x => {
+          if (x.children[2].childElementCount === 1){
+            let block_to_insert = document.createElement( 'div' );
+            let buttonContainer = document.createElement('button')
+            buttonContainer.innerHTML = 'MBEST'
+            let groupName = x.children[1].children[0].children[1].href.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/)/)[0]
+            let startTime = new Date(x.children[0].children[0].children[0].dateTime).getTime()
+            buttonContainer.id = `${groupName} ${startTime}`
+            buttonContainer.setAttribute("style", 'background-color: #0f1721;color: white;font-family: "Roboto", "Helvetica", "Arial", sans-serif;font-weight: 400;font-size: medium; padding: 10px;');
+            buttonContainer.onclick = onClick
+            block_to_insert.appendChild(buttonContainer)
+            x.children[2].appendChild(block_to_insert)
+            x.children[2].setAttribute("style", 'display: flex; flex-direction: column;');
+            x.children[2].children[0].setAttribute("style", 'margin-bottom: auto;');
+            return x
+          } 
+        })
+      }catch(err){ console.log(err)}
+    }
+
+var observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutationRecord) {
+    const docHeight = mutationRecord.target.scrollHeight
+    document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`)
+  });    
+});
+
+
+
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.type === 'onUpdateFrmEvent') {
     sendResponse('the the onupdate listener is working correctly and we recieved the message to fire our messages')
@@ -67,53 +116,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     grpNameCollection = document.getElementsByClassName('row event-listing clearfix doc-padding');
     grpNameArray = buildGroupArray(grpNameCollection)
     chrome.storage.local.set({grpNameArray: grpNameArray})
-
-
-// button(s) injection script after the app has been loaded
-
-    let columnContainerCollection = document.getElementsByClassName('row event-listing clearfix doc-padding')
-
-    let columnContainerCollectionArray = [...columnContainerCollection]
-
-// initialize onClick to set date time start to todays date and the current time and the date range end to one day from today 
-
-    function onClick(){
-        let urlPathName = this.id.split(' ')[0]
-        let startTime = this.id.split(' ')[1]
-        // set start range to the utc milliseconds formatted and pulled from the dom node, and the date range end to the date range start plus one day
-        chrome.storage.local.set({dateRangeStart: startTime - 14400000, dateRangeEnd: startTime - 14100000, urlPathName: urlPathName})
-        chrome.runtime.sendMessage({ 
-            action: 'meetupRequest'
-        }, response => console.log(response))
-    }
-
-      // having an issue where the button injection script will fail because the page hasn't loaded completely yet, and the chome platform api will not catch this because the loading is happening with Iframes. The easiest solution is to set a timeout
-
-      //check to see if any of the buttons exist then if one of them doesn't then try to add the button injection script
-    if (document.getElementsByClassName('row-item row-item--shrink friend-container')[0].childElementCount === 1){
-      try{
-        columnContainerCollectionArray.map(x => {
-          let block_to_insert = document.createElement( 'div' );
-          let buttonContainer = document.createElement('button')
-          buttonContainer.innerHTML = 'MBEST'
-          let groupName = x.children[1].children[0].children[1].href.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/)/)[0]
-          let startTime = new Date(x.children[0].children[0].children[0].dateTime).getTime()
-          buttonContainer.id = `${groupName} ${startTime}`
-          buttonContainer.setAttribute("style", 'background-color: #0f1721;color: white;font-family: "Roboto", "Helvetica", "Arial", sans-serif;font-weight: 400;font-size: medium; padding: 10px;');
-          buttonContainer.onclick = onClick
-          block_to_insert.appendChild(buttonContainer)
-          x.children[2].appendChild(block_to_insert)
-          x.children[2].setAttribute("style", 'display: flex; flex-direction: column;');
-          x.children[2].children[0].setAttribute("style", 'margin-bottom: auto;');
-          return
-      })
-      }catch(err){return null}
-    }
-
-
-
-
-
+    buttonInjection()
   }
   return true;
 });

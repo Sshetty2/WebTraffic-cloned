@@ -92,7 +92,6 @@ var observer = new MutationObserver(function(mutations) {
 });
 
 // instantiating the mutation observer
-
 var target = document.getElementsByClassName('searchResults')[0];
 observer.observe(target, { attributes : true });
 
@@ -153,6 +152,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     const docHeight = document.getElementsByClassName('searchResults')[0].scrollHeight
     document.getElementById('meetup-batch-event-set').setAttribute("style", 'position: -webkit-sticky; position: sticky; top: 135px; padding-bottom: 0px#b5d2c8; padding-bottom: 5px; box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.64)');    document.getElementsByClassName('App')[0].setAttribute("style", 'padding-top: 10px;padding-bottom: 0px;#e4e6e6; padding-bottom: 5px; box-shadow: 0px 0px 17px -7px rgba(0,0,0,0.23);');
     document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`)
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutationRecord) {
+        const docHeight = mutationRecord.target.scrollHeight
+        document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`);
+        buttonInjection();
+      });    
+    });
+    // instantiating the mutation observer
+    var target = document.getElementsByClassName('searchResults')[0];
+    observer.observe(target, { attributes : true });
   }
     return true;
 });

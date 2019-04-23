@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import  AutosuggestField  from "./Autosuggest";
 
 
-require("./styles.css");
+import './css/index.css';
 
 export default class Form extends React.Component {
 

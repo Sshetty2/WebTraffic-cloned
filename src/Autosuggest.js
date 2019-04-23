@@ -2,7 +2,7 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
 import TextField from "@material-ui/core/TextField";
-import './App.css';
+import './css/index.css';
 
 
 export default class AutosuggestField extends React.Component {

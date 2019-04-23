@@ -1,6 +1,6 @@
 /*global chrome*/
 import React, { Component } from 'react';
-import './App.css';
+import './css/styles.css';
 import DialogComponent from "./Dialog"
 import Calendar from 'react-calendar';
 import SuccessDialogComponent from "./SuccessDialog"

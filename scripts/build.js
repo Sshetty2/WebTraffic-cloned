@@ -145,4 +145,16 @@ function copyPublicFolder() {
     dereference: true,
     filter: file => file !== paths.appHtml,
   });
+  fs.copySync(paths.appContentJs, paths.appBuild, {
+    dereference: true,
+    filter: file => file !== paths.appHtml,
+  });
+  fs.copySync(paths.appBackgroundJs, paths.appBuild, {
+    dereference: true,
+    filter: file => file !== paths.appHtml,
+  });
+  fs.copySync(paths.appManifest, paths.appBuildManifest, {
+    dereference: true,
+    filter: file => file !== paths.appHtml,
+  });
 }

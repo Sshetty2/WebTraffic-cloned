@@ -3,6 +3,7 @@
 
 // function declaration to send errors back to application 
 const errorLog = (err) => {
+  loadingScreenOffRelay()
   chrome.runtime.sendMessage({type: 'error', error: err}, (response) => {
     console.log(response)
   }) 

@@ -175,8 +175,15 @@ export default class App extends Component {
             sendResponse('we received the loadingScreenInit message, thanks')
             this.setState({
                 isLoading: true,
+                disabled: true
             })
-        } 
+        } else if (request.type === 'loadingScreenOff'){
+            sendResponse('we received the loadingScreenInit message, thanks')
+            this.setState({
+                isLoading: false,
+                disabled: false
+            })
+        }
     }
     
 

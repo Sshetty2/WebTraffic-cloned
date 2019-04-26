@@ -4,6 +4,7 @@ import './css/styles.css';
 import DialogComponent from "./Dialog"
 import Calendar from 'react-calendar';
 import SuccessDialogComponent from "./SuccessDialog"
+import LoadingDialogComponent from "./LoadingDialog"
 import  Form  from "./form";
 
 
@@ -18,7 +19,8 @@ export default class App extends Component {
             textField: "",
             urlGroupName: "",
             successBox: false,
-            disabled: false
+            disabled: false,
+            isLoading: false
         };
     }
 
@@ -73,7 +75,7 @@ export default class App extends Component {
     }
 
     onFormSubmit=() => {
-        this.setState({disabled: true})
+        this.setState({disabled: true, isLoading: true})
         let urlPathName
         if(this.state.textField.length ===  0){
             return alert("please enter a valid group name")
@@ -150,22 +152,30 @@ export default class App extends Component {
             this.setState({
                 meetupEventData: meetupEventData,
                 open: true,
-                disabled: false
+                disabled: false,
+                isLoading: false
             });
         } else if (request.type === 'success'){
             sendResponse('we received the success message, thanks')
             this.setState({
                 successBox: true,
-                disabled: false
+                disabled: false,
+                isLoading: false
             })
         } else if (request.type === 'error'){
             sendResponse('we received the error message, thanks');
             typeof(request.error) === 'object' ? alert(`Something went wrong. Try tweaking the date range, contacting the developer, restarting the browser, or, try again later... Error Code (Object): ${JSON.stringify(request.error)}`) 
             : alert(`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${request.error}`);
             this.setState({
-                disabled: false
+                disabled: false,
+                isLoading: false
             })
-        };    
+        } else if (request.type === 'loadingScreenInit'){
+            sendResponse('we received the loadingScreenInit message, thanks')
+            this.setState({
+                isLoading: true,
+            })
+        }
     }
     
 
@@ -177,6 +187,7 @@ export default class App extends Component {
           <div className="App">
             <DialogComponent open = {this.state.open} handleConfirmation = {this.handleConfirmation.bind(this)} dialogClose = {this.dialogClose.bind(this)} meetupEventData = {this.state.meetupEventData} onCheck={this.onCheck.bind(this)} />
             <SuccessDialogComponent open = {this.state.successBox} dialogClose = {this.successDialogClose.bind(this)} />
+            <LoadingDialogComponent open = {this.state.isLoading} />
             <div style={{margin: '20px'}}>
                 <div>
                     <h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>
@@ -185,9 +196,9 @@ export default class App extends Component {
             </div>
             <div style={{margin: '20px', paddingBottom: '10px'}}>
                 <Calendar
-                onChange={this.onChange}
-                value={this.state.date}
-                selectRange={true}
+                    onChange={this.onChange}
+                    value={this.state.date}
+                    selectRange={true}
                 />
             </div>
           </div>

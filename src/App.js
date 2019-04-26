@@ -78,6 +78,7 @@ export default class App extends Component {
         this.setState({disabled: true, isLoading: true})
         let urlPathName
         if(this.state.textField.length ===  0){
+            this.setState({disabled: false, isLoading: false})
             return alert("please enter a valid group name")
         } 
         try {
@@ -175,7 +176,7 @@ export default class App extends Component {
             this.setState({
                 isLoading: true,
             })
-        }
+        } 
     }
     
 

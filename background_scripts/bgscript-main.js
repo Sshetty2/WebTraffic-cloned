@@ -26,10 +26,21 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 })
 
 
+// reset text field relay; I cant send messages from the content script to the application thats injected into the content script without rerouting it through the background script
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.type === "resetTextField") {
+    // see bgscript-relays
+    resetTextFieldRelay()
+  } 
+});
+
+
 // a new event listener is registered to listen for a message called meetupRequest which makes a call to the authentication api to redirect the user.     
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   if (request.action === 'meetupRequest'){ 
+    // a relay needs to be added for the injected application to know when the meetup request has been sent to the server so that the loading screen will initiate
+    loadScreenRelay()
     chrome.identity.launchWebAuthFlow({ 
       url: `https://secure.meetup.com/oauth2/authorize?client_id=${mCK}&response_type=code&redirect_uri=${redirect_Uri}&scope=rsvp`,
       interactive: true
@@ -48,18 +59,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   return true;
 })
 
-// reset text field relay; I cant send messages from the content script to the application thats injected into the content script before rerouting it through the background script
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.type === "resetTextField") {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, { type: 'resetTextField' }, (response) => {
-        console.log(response);
-      });
-    });
-  }
-});
 
-let checkDefinition = value => typeof value === 'undefined' ? "" : value
+
+const checkDefinition = value => typeof value === 'undefined' ? "" : value
 
 // called after token is received
 
@@ -125,7 +127,7 @@ function makeXhrRequestWithGroupId(token) {
       .then(async groupId => {
           requestUrl = `https://api.meetup.com/2/events?&sign=true&photo-host=public&group_id=${groupId}&time=${dateRangeStart},${dateRangeEnd}&page=20`
           try {
-          const data = await makeXhrRequestGeneric('GET', requestUrl, token);
+          let data = await makeXhrRequestGeneric('GET', requestUrl, token);
           let parsedData = await JSON.parse(data);
           let resultData = parsedData["results"];
           chrome.runtime.sendMessage({ type: 'meetupEventData', meetupEventData: resultData }, (response) => {

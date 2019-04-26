@@ -25,9 +25,6 @@ const SuccessDialogComponent = props => {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
-          {/* <DialogTitle style={{padding: '20px 24px 6px'}} id="alert-dialog-slide-title">
-           <h1 className='habibi Dialog-header'></h1>
-          </DialogTitle> */}
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description" style={{color:'rgba(0, 0, 0, 0.85)', textShadow:'#0072ff99 1px 0 17px'}}>
               <p>The Items were successfully posted to your Google Calendar and we've attempted to RSVP for your events with a high chance of success!</p>

@@ -47,8 +47,9 @@ if (document.getElementById('simple-cal-export')) {
             // the tool will query local storage when the api call is made to get the daterangestart and daterangeend time
             chrome.storage.local.set({dateRangeStart: startTime - 14400000, dateRangeEnd: startTime - 14100000, urlPathName: urlPathName})
             chrome.runtime.sendMessage({ 
-                action: 'meetupRequest'
+              action: 'meetupRequest'
             }, response => console.log(response))
+            // normally the loading screen would initialize if this was fired from the react app, but the injected app doesn't know that the meetup request was initiated. The message is sent directly to the background script so a relay needs to be configured that will fire a message to the content script when the background script is pinged with the meetup request.
         }
         try{
           columnContainerCollectionArray.map(x => {
@@ -59,7 +60,7 @@ if (document.getElementById('simple-cal-export')) {
               let groupName = x.children[1].children[0].children[1].href.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/)/)[0]
               let startTime = new Date(x.children[0].children[0].children[0].dateTime).getTime()
               buttonContainer.id = `${groupName} ${startTime}`
-              buttonContainer.setAttribute("style", 'background-color: #0f1721;color: white;font-family: "Roboto", "Helvetica", "Arial", sans-serif;font-weight: 400; font-size: 14px; padding: 5px;');
+              buttonContainer.setAttribute("style", 'background-color: #0f1721;color: white;font-family: "Roboto", "Helvetica", "Arial", sans-serif;font-weight: 400; font-size: 14px;');
               buttonContainer.onclick = onClick
               block_to_insert.appendChild(buttonContainer)
               x.children[2].appendChild(block_to_insert)

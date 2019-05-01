@@ -96,6 +96,8 @@ if (document.getElementById('simple-cal-export')) {
     }
       // style injections
     if(document.getElementsByClassName('rock-salt')[0]) {
+      // fix bug in meetupBody styling where dialog boxes set style to overflow hidden and padding right to 15
+      document.getElementById('meetupBody').setAttribute("style", "padding-right: 0px !important; overflow: visible !important");
       document.getElementsByClassName('rock-salt')[0].setAttribute("style", "margin: 0px 0px 0px 0px; padding-bottom: 15px; line-height: 26pt; font-family: \"Graphik Meetup\",helvetica,arial,sans-serif ; font-size: 28px; color: #00455d");
       document.getElementsByClassName('react-calendar')[0].setAttribute("style", 'background-color: #f5f5dc; border-radius: 10px;');
       document.getElementById('mbest-form-button').setAttribute("style", "background-color: #0f1721;");
@@ -103,7 +105,7 @@ if (document.getElementById('simple-cal-export')) {
       const docHeight = document.getElementsByClassName('searchResults')[0].scrollHeight
       document.getElementById('meetup-batch-event-set').setAttribute("style", 'position: -webkit-sticky; position: sticky; top: 135px; padding-bottom: 0px#b5d2c8; padding-bottom: 5px; box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.64)');    document.getElementsByClassName('App')[0].setAttribute("style", 'padding-top: 10px;padding-bottom: 0px;#e4e6e6; padding-bottom: 5px; box-shadow: 0px 0px 17px -7px rgba(0,0,0,0.23);');
       document.getElementById('simple-event-filter-column').setAttribute("style", `height: ${docHeight}px`)
-      // this mutation observer will listen for anytime the height of the main container is changed and then inject that same height into the right container where the application is injected
+      // this mutation observer will listen for anytime the height of the main container is changed and then inject that same height into the right container where the application is injected; it fixes issues where the document height reaches a limit due to content loading
       var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutationRecord) {
           const docHeight = mutationRecord.target.scrollHeight

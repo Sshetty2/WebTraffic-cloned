@@ -16,10 +16,10 @@ function Transition(props) {
 export default class DialogComponent extends Component {
 
   toReadableDateFormat(utcMilliseconds){
-      var d = new Date(0);
-      d.setUTCMilliseconds(utcMilliseconds)
-      let options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
-      return (d.toLocaleDateString("en-US", options));
+    var d = new Date(0);
+    d.setUTCMilliseconds(utcMilliseconds)
+    let options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+    return (d.toLocaleDateString("en-US", options));
   }
   
   render(){

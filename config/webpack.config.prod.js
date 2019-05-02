@@ -1,5 +1,3 @@
-'use strict';
-
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
@@ -89,7 +87,7 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: ['.web.js', '.mjs', '.js', '.ts', '.tsx', '.json', '.web.jsx', '.jsx'],
     alias: {
       
       // Support React Native Web
@@ -151,7 +149,7 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               compact: true,
-              presets: ['@babel/preset-react', '@babel/preset-env']
+              presets: ['@babel/preset-react', '@babel/preset-env', "@babel/typescript"]
             },
           },
           // The notation here is somewhat confusing.

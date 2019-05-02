@@ -1,4 +1,5 @@
 /*global chrome*/
+
 import React, { Component } from 'react';
 import './css/styles.css';
 import DialogComponent from "./Dialog"
@@ -9,7 +10,7 @@ import  Form  from "./form";
 
 
 export default class App extends Component {
-    constructor(props) {
+    constructor(props : any) {
         super(props);
         this.state = {
             grpNameArray: [],

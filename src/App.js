@@ -10,7 +10,7 @@ import  Form  from "./form";
 
 
 export default class App extends Component {
-    constructor(props : any) {
+    constructor(props) {
         super(props);
         this.state = {
             grpNameArray: [],
@@ -24,6 +24,7 @@ export default class App extends Component {
             isLoading: false
         };
     }
+    
 
     componentDidMount() {
         chrome.storage.local.get(['urlGroupName'], (result) => {

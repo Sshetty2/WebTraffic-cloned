@@ -150,8 +150,8 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              
               compact: true,
+              presets: ['@babel/preset-react', '@babel/preset-env']
             },
           },
           // The notation here is somewhat confusing.

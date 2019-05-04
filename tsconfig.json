@@ -13,12 +13,16 @@
 		// Disallow features that require cross-file information for emit.
 		"isolatedModules": true,
 		// Import non-ES modules as default imports.
-        "esModuleInterop": true,
-        "jsx": "react"
+		"esModuleInterop": true,
+		"jsx": "react"
 	},
 	"include": [
-        "src",
-        "background_scripts",
-        "content_scripts"
+		"src",
+		"background_scripts",
+		"content_scripts"
+	],
+	"types": [
+		//(various types, e.g. jquery, core-js),
+		"chrome"
 	]
 }

@@ -13,7 +13,17 @@ function Transition(props) {
 	return <Slide direction='down' {...props} />;
 }
 
-export default class DialogComponent extends Component {
+interface DialogComponentProps {
+	open: boolean;
+	handleConfirmation: Function;
+	dialogClose: Function;
+	meetupEventData: Object;
+	onCheck: Function;
+}
+
+interface DialogComponentState {}
+
+export default class DialogComponent extends Component<DialogComponentProps, DialogComponentState> {
 	toReadableDateFormat(utcMilliseconds) {
 		var d = new Date(0);
 		d.setUTCMilliseconds(utcMilliseconds);
@@ -33,10 +43,7 @@ export default class DialogComponent extends Component {
 			meetupEventData.length > 0
 				? `Here's what I found for ${meetupEventData[0]["group"]["name"]}!`
 				: "I couldn't find anything! Please try searching a different group name or select a different date range";
-		let followUp =
-			meetupEventData.length > 0
-				? "Are you sure you'd like to schedule the following events?"
-				: null;
+		let followUp = meetupEventData.length > 0 ? "Are you sure you'd like to schedule the following events?" : null;
 		return (
 			<Dialog
 				open={open}
@@ -45,9 +52,7 @@ export default class DialogComponent extends Component {
 				onClose={handleClose}
 				aria-labelledby='alert-dialog-slide-title'
 				aria-describedby='alert-dialog-slide-description'>
-				<DialogTitle
-					style={{padding: "20px 24px 6px"}}
-					id='alert-dialog-slide-title'>
+				<DialogTitle style={{padding: "20px 24px 6px"}} id='alert-dialog-slide-title'>
 					<h1 className='habibi Dialog-header'>
 						{greeting}
 						<br />
@@ -59,18 +64,14 @@ export default class DialogComponent extends Component {
 						{meetupEventData.map((x, i) => {
 							return (
 								<div>
-									<ul
-										key={i}
-										style={{padding: "0px 0px 18px 0px", margin: "0px"}}>
+									<ul key={i} style={{padding: "0px 0px 18px 0px", margin: "0px"}}>
 										<div
 											style={{
 												display: "flex",
 												justifyContent: "space-between"
 											}}>
 											<li style={{color: "rgba(0, 0, 0, 0.85)"}}>
-												{typeof x["venue"] !== "undefined"
-													? x["venue"]["name"]
-													: x["group"]["name"]}
+												{typeof x["venue"] !== "undefined" ? x["venue"]["name"] : x["group"]["name"]}
 											</li>
 											<input
 												style={{marginRight: "15px"}}
@@ -89,9 +90,7 @@ export default class DialogComponent extends Component {
 												{x["name"]}
 											</a>
 										</li>
-										<li style={{color: "rgba(0, 0, 0, 0.85)"}}>
-											{this.toReadableDateFormat(x["time"])}
-										</li>
+										<li style={{color: "rgba(0, 0, 0, 0.85)"}}>{this.toReadableDateFormat(x["time"])}</li>
 									</ul>
 								</div>
 							);

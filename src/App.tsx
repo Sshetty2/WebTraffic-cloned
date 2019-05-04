@@ -8,8 +8,29 @@ import SuccessDialogComponent from "./SuccessDialog";
 import LoadingDialogComponent from "./LoadingDialog";
 import Form from "./form";
 
-export default class App extends Component {
-	constructor(props) {
+interface AppComponentState {
+	meetupEventData: Array<any>;
+	grpNameArray: Array<string>;
+	date: any;
+	open: boolean;
+	textField: string;
+	urlGroupName: string;
+	successBox: boolean;
+	disabled: boolean;
+	isLoading: boolean;
+}
+
+interface AppComponentProps {}
+interface urlGroupNameResults {
+	urlGroupName: string;
+}
+interface DateObj {
+	0?: Date;
+	1?: Date;
+}
+
+export default class App extends Component<AppComponentProps, AppComponentState> {
+	constructor(props: object) {
 		super(props);
 		this.state = {
 			grpNameArray: [],
@@ -25,28 +46,34 @@ export default class App extends Component {
 	}
 
 	componentDidMount() {
-		chrome.storage.local.get(["urlGroupName"], result => {
-			if (result.urlGroupName) {
-				this.setState({
-					textField: result.urlGroupName,
-					urlGroupName: result.urlGroupName
-				});
-			} else {
-				this.setState({
-					textField: "",
-					urlGroupName: ""
-				});
+		chrome.storage.local.get(
+			["urlGroupName"],
+			// callback with results
+			(result: urlGroupNameResults) => {
+				if (result.urlGroupName) {
+					this.setState({
+						textField: result.urlGroupName,
+						urlGroupName: result.urlGroupName
+					});
+				} else {
+					this.setState({
+						textField: "",
+						urlGroupName: ""
+					});
+				}
 			}
-		});
+		);
 		chrome.runtime.onMessage.addListener(this.handleMessage.bind(this));
 	}
 
-	onChange = date => this.setState({date});
+	onChange = (date: DateObj) => {
+		this.setState({date});
+	};
 
 	// sort the data after the two meetupdata obj has been pieced back together so that the order of the data won't change
 
-	sortByTime(dataObj) {
-		return dataObj.sort((a, b) => {
+	sortByTime(dataObj: DateObj) {
+		return dataObj.sort((a: any, b: any) => {
 			let newDate1 = new Date(0);
 			let newDate2 = new Date(0);
 			a = newDate1.setUTCMilliseconds(a.time);
@@ -55,20 +82,23 @@ export default class App extends Component {
 		});
 	}
 
-	onCheck = e => {
+	onCheck = (e: object) => {
 		let {meetupEventData} = this.state;
-		const otherEvents = meetupEventData.filter(
-			event => event.id !== e.target.id
-		);
+		const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
 		let meetupEvent = meetupEventData.filter(event => event.id === e.target.id);
 		meetupEvent = meetupEvent[0];
-		let updatedEvent = {...meetupEvent, checked: !meetupEvent.checked};
+		let updatedEvent = {
+			...meetupEvent,
+			checked: !meetupEvent.checked
+		};
 		meetupEventData = [updatedEvent, ...otherEvents];
 		meetupEventData = this.sortByTime(meetupEventData);
-		this.setState({meetupEventData: meetupEventData});
+		this.setState({
+			meetupEventData: meetupEventData
+		});
 	};
 
-	getAutosuggestInput(value) {
+	getAutosuggestInput(value: string) {
 		// the input value of the autosuggest component which essentially controls the text field will be set to the value of the text field onchange if there is no urlGrpName in state
 		if (!this.state.urlGroupName) {
 			this.setState({textField: value});
@@ -76,10 +106,16 @@ export default class App extends Component {
 	}
 
 	onFormSubmit = () => {
-		this.setState({disabled: true, isLoading: true});
+		this.setState({
+			disabled: true,
+			isLoading: true
+		});
 		let urlPathName;
 		if (this.state.textField.length === 0) {
-			this.setState({disabled: false, isLoading: false});
+			this.setState({
+				disabled: false,
+				isLoading: false
+			});
 			return alert("please enter a valid group name");
 		}
 		try {
@@ -89,7 +125,9 @@ export default class App extends Component {
 					urlPathName = result.grpNameArray.filter(
 						x => x[1].toLowerCase() === this.state.textField.toLowerCase()
 					)[0][0];
-					chrome.storage.local.set({urlPathName: urlPathName});
+					chrome.storage.local.set({
+						urlPathName: urlPathName
+					});
 					console.log(`the urlPathName was set to ${urlPathName}`);
 				}
 			});
@@ -98,14 +136,9 @@ export default class App extends Component {
 		}
 		console.log("proceeding");
 		// sets date range start and end in UTC milliseconds since the epoch
-		let dateRangeStart =
-			this.state.date.length === 2
-				? this.state.date[0].getTime()
-				: this.state.date.getTime();
+		let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime();
 		let dateRangeEnd =
-			this.state.date.length === 2
-				? this.state.date[1].getTime()
-				: this.state.date.getTime() + 86400000;
+			this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
 		chrome.storage.local.set({
 			grpNameInput: this.state.textField,
 			dateRangeStart: dateRangeStart,
@@ -137,11 +170,12 @@ export default class App extends Component {
 
 	handleConfirmation = () => {
 		// only takes events with the checked attribute set to true
-		let parsedDataObj = this.state.meetupEventData.filter(
-			x => x.checked === true
-		);
+		let parsedDataObj = this.state.meetupEventData.filter(x => x.checked === true);
 		chrome.runtime.sendMessage(
-			{type: "googleAuthFlow", parsedDataObj: parsedDataObj},
+			{
+				type: "googleAuthFlow",
+				parsedDataObj: parsedDataObj
+			},
 			response => console.log(response)
 		);
 		this.setState({
@@ -227,10 +261,10 @@ export default class App extends Component {
 		};
 		const dateRendered =
 			this.state.date.length === 2
-				? `${this.state.date[0].toLocaleDateString(
+				? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString(
 						"en-US",
 						options
-				  )}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}`
+				  )}`
 				: this.state.date.toLocaleDateString("en-US", options);
 
 		return (
@@ -242,10 +276,7 @@ export default class App extends Component {
 					meetupEventData={this.state.meetupEventData}
 					onCheck={this.onCheck.bind(this)}
 				/>
-				<SuccessDialogComponent
-					open={this.state.successBox}
-					dialogClose={this.successDialogClose.bind(this)}
-				/>
+				<SuccessDialogComponent open={this.state.successBox} dialogClose={this.successDialogClose.bind(this)} />
 				<LoadingDialogComponent open={this.state.isLoading} />
 				<div style={{margin: "20px"}}>
 					<div>
@@ -259,12 +290,12 @@ export default class App extends Component {
 						/>
 					</div>
 				</div>
-				<div style={{margin: "20px", paddingBottom: "10px"}}>
-					<Calendar
-						onChange={this.onChange}
-						value={this.state.date}
-						selectRange={true}
-					/>
+				<div
+					style={{
+						margin: "20px",
+						paddingBottom: "10px"
+					}}>
+					<Calendar onChange={this.onChange} value={this.state.date} selectRange={true} />
 				</div>
 			</div>
 		);

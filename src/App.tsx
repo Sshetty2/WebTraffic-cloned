@@ -21,12 +21,17 @@ interface AppComponentState {
 }
 
 interface AppComponentProps {}
-interface urlGroupNameResults {
-	urlGroupName: string;
-}
+
 interface DateObj {
 	0?: Date;
 	1?: Date;
+}
+
+interface IncomingMessage {
+	type: string;
+	urlGroupName: string;
+	meetupEventData: object;
+	error: object;
 }
 
 export default class App extends Component<AppComponentProps, AppComponentState> {
@@ -49,7 +54,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		chrome.storage.local.get(
 			["urlGroupName"],
 			// callback with results
-			(result: urlGroupNameResults) => {
+			(result: {urlGroupName?: string}): void => {
 				if (result.urlGroupName) {
 					this.setState({
 						textField: result.urlGroupName,
@@ -123,7 +128,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 			chrome.storage.local.get(["grpNameArray"], result => {
 				if (result.grpNameArray) {
 					urlPathName = result.grpNameArray.filter(
-						x => x[1].toLowerCase() === this.state.textField.toLowerCase()
+						(x: string) => x[1].toLowerCase() === this.state.textField.toLowerCase()
 					)[0][0];
 					chrome.storage.local.set({
 						urlPathName: urlPathName
@@ -137,8 +142,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		console.log("proceeding");
 		// sets date range start and end in UTC milliseconds since the epoch
 		let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime();
-		let dateRangeEnd =
-			this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
+		let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
 		chrome.storage.local.set({
 			grpNameInput: this.state.textField,
 			dateRangeStart: dateRangeStart,
@@ -185,7 +189,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		});
 	};
 
-	handleMessage(request, sender, sendResponse) {
+	handleMessage(request: IncomingMessage, sender: any, sendResponse: Function) {
 		// Handle received messages
 
 		if (request.type === "resetTextField" || request.type === "urlGroupName") {
@@ -202,7 +206,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 			}
 		}
 		if (request.type === "meetupEventData") {
-			let meetupEventData = request.meetupEventData.map(event => ({
+			let meetupEventData = request.meetupEventData.map((event: object) => ({
 				...event,
 				checked: true
 			}));

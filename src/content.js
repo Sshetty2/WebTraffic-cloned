@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* src/content.js */
 
 import React from "react";
@@ -10,7 +11,6 @@ let block_to_insert = document.createElement("div");
 block_to_insert.id = "meetup-batch-event-set";
 if (column) {
 	column.appendChild(block_to_insert);
-	console.log("app was set");
 	// App injection
 	ReactDOM.render(<div>{column ? <App /> : ""}</div>, block_to_insert);
 }

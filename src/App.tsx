@@ -22,16 +22,17 @@ interface AppComponentState {
 
 interface AppComponentProps {}
 
-interface DateObj {
-	0?: Date;
-	1?: Date;
-}
-
 interface IncomingMessage {
 	type: string;
 	urlGroupName: string;
-	meetupEventData: object;
+	meetupEventData: Array<any>;
 	error: object;
+}
+
+interface Event {
+	target: {
+		[key: string]: {id: number};
+	};
 }
 
 export default class App extends Component<AppComponentProps, AppComponentState> {
@@ -87,7 +88,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		});
 	}
 
-	onCheck = (e: object) => {
+	onCheck = (e: Event) => {
 		let {meetupEventData} = this.state;
 		const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
 		let meetupEvent = meetupEventData.filter(event => event.id === e.target.id);
@@ -141,8 +142,12 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		}
 		console.log("proceeding");
 		// sets date range start and end in UTC milliseconds since the epoch
-		let dateRangeStart = this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime();
-		let dateRangeEnd = this.state.date.length === 2 ? this.state.date[1].getTime() : this.state.date.getTime() + 86400000;
+		let dateRangeStart =
+			this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime();
+		let dateRangeEnd =
+			this.state.date.length === 2
+				? this.state.date[1].getTime()
+				: this.state.date.getTime() + 86400000;
 		chrome.storage.local.set({
 			grpNameInput: this.state.textField,
 			dateRangeStart: dateRangeStart,
@@ -265,10 +270,10 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		};
 		const dateRendered =
 			this.state.date.length === 2
-				? `${this.state.date[0].toLocaleDateString("en-US", options)}  -  ${this.state.date[1].toLocaleDateString(
+				? `${this.state.date[0].toLocaleDateString(
 						"en-US",
 						options
-				  )}`
+				  )}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}`
 				: this.state.date.toLocaleDateString("en-US", options);
 
 		return (
@@ -280,7 +285,10 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 					meetupEventData={this.state.meetupEventData}
 					onCheck={this.onCheck.bind(this)}
 				/>
-				<SuccessDialogComponent open={this.state.successBox} dialogClose={this.successDialogClose.bind(this)} />
+				<SuccessDialogComponent
+					open={this.state.successBox}
+					dialogClose={this.successDialogClose.bind(this)}
+				/>
 				<LoadingDialogComponent open={this.state.isLoading} />
 				<div style={{margin: "20px"}}>
 					<div>

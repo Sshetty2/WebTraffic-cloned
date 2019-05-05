@@ -71,13 +71,13 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		chrome.runtime.onMessage.addListener(this.handleMessage.bind(this));
 	}
 
-	onChange = (date: DateObj) => {
+	onChange = (date: any) => {
 		this.setState({date});
 	};
 
 	// sort the data after the two meetupdata obj has been pieced back together so that the order of the data won't change
 
-	sortByTime(dataObj: DateObj) {
+	sortByTime(dataObj: Array<Date>) {
 		return dataObj.sort((a: any, b: any) => {
 			let newDate1 = new Date(0);
 			let newDate2 = new Date(0);

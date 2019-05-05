@@ -5,7 +5,16 @@ import AutosuggestField from "./Autosuggest";
 
 import "./css/index.css";
 
-export default class Form extends React.Component {
+interface FormComponentProps {
+	date: Date;
+	getInputData: Function;
+	onFormSubmit: Function;
+	textFieldValue: string;
+	disabled: boolean;
+}
+
+interface FormComponentState {}
+export default class Form extends React.Component<FormComponentProps, FormComponentState> {
 	render() {
 		var gnamestyle = {
 			paddingTop: "10x",

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-useless-escape */
 /*global chrome*/
 
@@ -9,13 +10,9 @@ const errorLog = err => {
 	});
 
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(
-			tabs[0].id,
-			{type: "error", error: err},
-			response => {
-				console.log(response);
-			}
-		);
+		chrome.tabs.sendMessage(tabs[0].id, {type: "error", error: err}, response => {
+			console.log(response);
+		});
 	});
 };
 
@@ -24,9 +21,7 @@ const errorLog = err => {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	var url = tab.url;
 	if (url !== undefined && changeInfo.status === "complete") {
-		chrome.tabs.sendMessage(tabId, {type: "onUpdateFrmEvent"}, function(
-			response
-		) {
+		chrome.tabs.sendMessage(tabId, {type: "onUpdateFrmEvent"}, function(response) {
 			console.log(response);
 		});
 	}
@@ -58,9 +53,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 						data = await JSON.parse(data);
 						let access_token = data.access_token;
 						chrome.storage.local.set({access_token: access_token}, () =>
-							console.log(
-								`the access token has been set in local storage in the background script`
-							)
+							console.log(`the access token has been set in local storage in the background script`)
 						);
 						makeXhrRequestWithGroupId(access_token);
 					})
@@ -86,13 +79,9 @@ function makeXhrRequestWithGroupId(token) {
 			let grpNameInput = result.grpNameInput;
 			let urlPathName = result.urlPathName;
 			let requestUrl;
-			console.log(
-				`the urlPathName after it has been pulled from local storage is ${urlPathName}`
-			);
+			console.log(`the urlPathName after it has been pulled from local storage is ${urlPathName}`);
 			if (urlPathName) {
-				console.log(
-					`making request with the url path name which is ${urlPathName}`
-				);
+				console.log(`making request with the url path name which is ${urlPathName}`);
 				requestUrl = `https://api.meetup.com/${urlPathName}/events?&sign=true&photo-host=public&no_later_than=${formattedDateRangeEnd}&no_earlier_than=${formattedDateRangeStart}&page=20`;
 				console.log(`${formattedDateRangeStart} ${formattedDateRangeEnd}`);
 				return makeXhrRequestGeneric("GET", requestUrl, token)
@@ -108,9 +97,7 @@ function makeXhrRequestWithGroupId(token) {
 							? parsedData[0]["group"]["timezone"]
 							: dummyObj[0]["timezone"];
 						chrome.storage.local.set({timezone: timezone}, () =>
-							console.log(
-								`timezone has been set in bg local storage in the background script`
-							)
+							console.log(`timezone has been set in bg local storage in the background script`)
 						);
 						chrome.runtime.sendMessage(
 							{type: "meetupEventData", meetupEventData: parsedData},
@@ -118,9 +105,7 @@ function makeXhrRequestWithGroupId(token) {
 								console.log(response);
 							}
 						);
-						chrome.tabs.query({active: true, currentWindow: true}, function(
-							tabs
-						) {
+						chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 							chrome.tabs.sendMessage(
 								tabs[0].id,
 								{type: "meetupEventData", meetupEventData: parsedData},
@@ -137,9 +122,7 @@ function makeXhrRequestWithGroupId(token) {
 
 				// spaces for readability
 			} else {
-				console.log(
-					`not making the request with the url path name which is ${urlPathName}`
-				);
+				console.log(`not making the request with the url path name which is ${urlPathName}`);
 				requestUrl = `https://api.meetup.com/find/groups?&sign=true&photo-host=public&text=${grpNameInput}&page=20`;
 				return makeXhrRequestGeneric("GET", requestUrl, token)
 					.then(async data => {
@@ -161,11 +144,7 @@ function makeXhrRequestWithGroupId(token) {
 							: dummyObj["0"];
 						let timezone = parsedDataRefined.timezone;
 						chrome.storage.local.set({timezone: timezone}, () =>
-							console.log(
-								`timezone has been set in bg local storage to ${
-									parsedDataRefined.timezone
-								}`
-							)
+							console.log(`timezone has been set in bg local storage to ${parsedDataRefined.timezone}`)
 						);
 						let groupId = parsedDataRefined.id;
 
@@ -184,9 +163,7 @@ function makeXhrRequestWithGroupId(token) {
 								}
 							);
 
-							chrome.tabs.query({active: true, currentWindow: true}, function(
-								tabs
-							) {
+							chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 								chrome.tabs.sendMessage(
 									tabs[0].id,
 									{type: "meetupEventData", meetupEventData: resultData},
@@ -197,12 +174,10 @@ function makeXhrRequestWithGroupId(token) {
 							});
 						} catch (err) {
 							// end try block to make query and then parse JSON data and set it in local storage using chrome's platform API --THIS WILL WORK--
-							console.log(err);
 							return errorLog(err);
 						}
 					})
 					.catch(err => {
-						console.log(err);
 						return errorLog(err);
 					}); // end promise + async/await to query meetup's API with the group Id, date range start and date range end for meetup event data
 			} // end conditional check for url pathname / if a raw input string is given, this will be used to query Meetup.com's API
@@ -220,10 +195,8 @@ chrome.runtime.onMessage.addListener((request, sendResponse) => {
 			try {
 				return Promise.all(
 					results.map(x => {
-						eventUrl = x["event_url"];
-						urlPathName = eventUrl.match(
-							/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/
-						)[0];
+						eventUrl = x["link"];
+						urlPathName = eventUrl.match(/(?<=\meetup\.com\/)(.*?)(?=\s*\/events)/)[0];
 						eventId = x["id"];
 						if (!/\d/.test(eventId))
 							// checks to see if there is NOT number in the string (numbers mean the event has passed)
@@ -235,7 +208,7 @@ chrome.runtime.onMessage.addListener((request, sendResponse) => {
 					})
 				);
 			} catch (err) {
-				console.log(err);
+				errorLog(err);
 			} finally {
 				chrome.storage.local.get(["timezone"], result => {
 					let timezone = result.timezone;
@@ -250,27 +223,13 @@ chrome.runtime.onMessage.addListener((request, sendResponse) => {
 						},
 						description: `This event is hosted by ${x["group"]["name"]} at ${
 							typeof x["venue"] !== "undefined" ? x["venue"]["name"] : "N/A"
-						}; More details regarding this event can be found at: ${checkDefinition(
-							x["event_url"]
-						)}`,
+						}; More details regarding this event can be found at: ${checkDefinition(x["event_url"])}`,
 						summary: `${x["name"]}`,
 						location: `${
-							typeof x["venue"] !== "undefined"
-								? checkDefinition(x["venue"]["address_1"])
-								: ""
-						} ${
-							typeof x["venue"] !== "undefined"
-								? checkDefinition(x["venue"]["address_2"])
-								: ""
-						} - ${
-							typeof x["venue"] !== "undefined"
-								? checkDefinition(x["venue"]["city"])
-								: ""
-						} ${
-							typeof x["venue"] !== "undefined"
-								? checkDefinition(x["venue"]["state"])
-								: ""
-						}`,
+							typeof x["venue"] !== "undefined" ? checkDefinition(x["venue"]["address_1"]) : ""
+						} ${typeof x["venue"] !== "undefined" ? checkDefinition(x["venue"]["address_2"]) : ""} - ${
+							typeof x["venue"] !== "undefined" ? checkDefinition(x["venue"]["city"]) : ""
+						} ${typeof x["venue"] !== "undefined" ? checkDefinition(x["venue"]["state"]) : ""}`,
 						reminders: {
 							useDefault: true
 						}
@@ -287,18 +246,12 @@ chrome.runtime.onMessage.addListener((request, sendResponse) => {
 							})
 						)
 							.then(() => {
-								chrome.tabs.query({active: true, currentWindow: true}, function(
-									tabs
-								) {
-									chrome.tabs.sendMessage(
-										tabs[0].id,
-										{type: "success"},
-										response => {
-											if (response) {
-												console.log(response);
-											}
+								chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+									chrome.tabs.sendMessage(tabs[0].id, {type: "success"}, response => {
+										if (response) {
+											console.log(response);
 										}
-									);
+									});
 								});
 
 								chrome.runtime.sendMessage({type: "success"}, response => {

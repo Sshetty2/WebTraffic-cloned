@@ -4,7 +4,7 @@
   "name": "Meetup Batch-Event-Set Tool v2",
   "short_name": "MBEST",
   "description": "This extension allows you to schedule multiple Meetup.com events at once",
-  "version": "7.2.0",
+  "version": "7.3.0",
 
   "browser_action": {
     "default_popup": "index.html",
@@ -32,14 +32,12 @@
     "activeTab",
     "http://*.meetup.com/*"
   ],
-  "content_scripts": [
-    {
-      "css": ["/static/css/app.css"],
-      "js": ["content.js", "/static/js/content.js", "/static/js/app.js"],
-      "matches": ["https://*.meetup.com/*"]
-    }
-  ],
-  "web_accessible_resources" : ["/oauth2/*"],
+  "content_scripts": [{
+    "css": ["/static/css/app.css"],
+    "js": ["content.js", "/static/js/content.js", "/static/js/app.js"],
+    "matches": ["https://*.meetup.com/*"]
+  }],
+  "web_accessible_resources": ["/oauth2/*"],
   "oauth2": {
     "client_id": "466748401928-03ccuqqlm38fvnkprf2ole9knehounkt.apps.googleusercontent.com",
     "scopes": [
@@ -47,5 +45,3 @@
     ]
   }
 }
-
-

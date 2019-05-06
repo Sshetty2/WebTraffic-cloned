@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 //dev laptop
 // const mCK = 'kgkm17qkpg4hh781h4tu67tki3'
 //dev desktop
@@ -10,8 +11,7 @@ const mCK = "gh7mcktjlopdddno5sv8ufcu80";
 // dev laptop
 // const redirect_Uri = 'https://jodnpnodmbflogmledmffojgmdjljfmj.chromiumapp.org/'
 // dev desktop
-const redirect_Uri =
-	"https://aeklccpcadobjohfhnfppdhphkeabomk.chromiumapp.org/";
+const redirect_Uri = "https://aeklccpcadobjohfhnfppdhphkeabomk.chromiumapp.org/";
 
 // production = 466748401928-m88okvel4gdsc9rjo9qlo8em25ihs65s.apps.googleusercontent.com
 // development = 466748401928-7hgv6idtmp9dolbvedg85oahappoprel.apps.googleusercontent.com

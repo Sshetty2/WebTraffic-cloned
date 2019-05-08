@@ -26,9 +26,7 @@ function buildGroupArray(els) {
 		if (!(hrefArr.indexOf(href) !== -1)) {
 			hrefArr.push(href);
 			tempArr.push(href);
-			grpName = els[i].children[1].children[0].children[0].getElementsByTagName(
-				"span"
-			)[0].innerText;
+			grpName = els[i].children[1].children[0].children[0].getElementsByTagName("span")[0].innerText;
 			tempArr.push(grpName);
 			combinedArr.push(tempArr);
 		}
@@ -59,6 +57,7 @@ function buttonInjection() {
 			{
 				action: "meetupRequest"
 			},
+			// eslint-disable-next-line no-console
 			response => console.log(response)
 		);
 		// normally the loading screen would initialize if this was fired from the react app, but the injected app doesn't know that the meetup request was initiated. The message is sent directly to the background script so a relay needs to be configured that will fire a message to the content script when the background script is pinged with the meetup request.
@@ -72,9 +71,7 @@ function buttonInjection() {
 				let groupName = x.children[1].children[0].children[1].href.match(
 					/(?<=\meetup\.com\/)(.*?)(?=\s*\/)/
 				)[0];
-				let startTime = new Date(
-					x.children[0].children[0].children[0].dateTime
-				).getTime();
+				let startTime = new Date(x.children[0].children[0].children[0].dateTime).getTime();
 				buttonContainer.id = `${groupName} ${startTime}`;
 				buttonContainer.setAttribute(
 					"style",
@@ -83,15 +80,13 @@ function buttonInjection() {
 				buttonContainer.onclick = onClick;
 				block_to_insert.appendChild(buttonContainer);
 				x.children[2].appendChild(block_to_insert);
-				x.children[2].setAttribute(
-					"style",
-					"display: flex; flex-direction: column;"
-				);
+				x.children[2].setAttribute("style", "display: flex; flex-direction: column;");
 				x.children[2].children[0].setAttribute("style", "margin-bottom: auto;");
 			}
 			return x;
 		});
 	} catch (err) {
+		// eslint-disable-next-line no-console
 		console.log(err);
 	}
 }
@@ -108,9 +103,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		let groupName, grpNameArray, grpNameCollection;
 		// checks current pathname if it has the following strings and if it doesn't and its not empty, then groupName is assigned to the pathname
 		if (
-			!pathname.match(
-				/(find|login|create|messages|account|members|topics|apps|meetup_api)/
-			) &&
+			!pathname.match(/(find|login|create|messages|account|members|topics|apps|meetup_api)/) &&
 			pathname.slice(1)
 		) {
 			pathname = pathname.slice(1);
@@ -120,9 +113,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		}
 		chrome.runtime.sendMessage({type: "urlGroupName", urlGroupName: groupName});
 		chrome.storage.local.set({urlGroupName: groupName});
-		grpNameCollection = document.getElementsByClassName(
-			"row event-listing clearfix doc-padding"
-		);
+		grpNameCollection = document.getElementsByClassName("row event-listing clearfix doc-padding");
 		grpNameArray = buildGroupArray(grpNameCollection);
 		chrome.storage.local.set({grpNameArray: grpNameArray});
 		buttonInjection();
@@ -132,10 +123,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		// fix bug in meetupBody styling where dialog boxes set style to overflow hidden and padding right to 15
 		document
 			.getElementById("meetupBody")
-			.setAttribute(
-				"style",
-				"padding-right: 0px !important; overflow: visible !important"
-			);
+			.setAttribute("style", "padding-right: 0px !important; overflow: visible !important");
 		document
 			.getElementsByClassName("rock-salt")[0]
 			.setAttribute(
@@ -145,12 +133,9 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		document
 			.getElementsByClassName("react-calendar")[0]
 			.setAttribute("style", "background-color: #f5f5dc; border-radius: 10px;");
-		document
-			.getElementById("mbest-form-button")
-			.setAttribute("style", "background-color: #0f1721;");
+		document.getElementById("mbest-form-button").setAttribute("style", "background-color: #0f1721;");
 		// get the height of the document by querying the node where all of the meetup events reside
-		const docHeight = document.getElementsByClassName("searchResults")[0]
-			.scrollHeight;
+		const docHeight = document.getElementsByClassName("searchResults")[0].scrollHeight;
 		document
 			.getElementById("meetup-batch-event-set")
 			.setAttribute(

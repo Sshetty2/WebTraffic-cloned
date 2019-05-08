@@ -9,7 +9,7 @@ import Slide from "@material-ui/core/Slide";
 
 import "./css/index.css";
 
-function Transition(props) {
+function Transition(props: DialogComponentProps) {
 	return <Slide direction='down' {...props} />;
 }
 
@@ -17,14 +17,15 @@ interface DialogComponentProps {
 	open: boolean;
 	handleConfirmation: Function;
 	dialogClose: Function;
-	meetupEventData: Object;
+	meetupEventData: Array<any>;
 	onCheck: Function;
+	handleClose: Function;
 }
 
 interface DialogComponentState {}
 
 export default class DialogComponent extends Component<DialogComponentProps, DialogComponentState> {
-	toReadableDateFormat(utcMilliseconds) {
+	toReadableDateFormat(utcMilliseconds: number) {
 		var d = new Date(0);
 		d.setUTCMilliseconds(utcMilliseconds);
 		let options = {
@@ -43,7 +44,8 @@ export default class DialogComponent extends Component<DialogComponentProps, Dia
 			meetupEventData.length > 0
 				? `Here's what I found for ${meetupEventData[0]["group"]["name"]}!`
 				: "I couldn't find anything! Please try searching a different group name or select a different date range";
-		let followUp = meetupEventData.length > 0 ? "Are you sure you'd like to schedule the following events?" : null;
+		let followUp =
+			meetupEventData.length > 0 ? "Are you sure you'd like to schedule the following events?" : null;
 		return (
 			<Dialog
 				open={open}

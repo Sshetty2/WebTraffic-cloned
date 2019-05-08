@@ -12,7 +12,6 @@ import "./css/index.css";
 function Transition(props: DialogComponentProps) {
 	return <Slide direction='down' {...props} />;
 }
-
 interface DialogComponentProps {
 	open: boolean;
 	handleConfirmation: Function;
@@ -51,7 +50,7 @@ export default class DialogComponent extends Component<DialogComponentProps, Dia
 				open={open}
 				TransitionComponent={Transition}
 				keepMounted
-				onClose={handleClose}
+				onClose={() => handleClose()}
 				aria-labelledby='alert-dialog-slide-title'
 				aria-describedby='alert-dialog-slide-description'>
 				<DialogTitle style={{padding: "20px 24px 6px"}} id='alert-dialog-slide-title'>
@@ -79,7 +78,7 @@ export default class DialogComponent extends Component<DialogComponentProps, Dia
 												style={{marginRight: "15px"}}
 												type='checkbox'
 												checked={x["checked"]}
-												onChange={onCheck}
+												onChange={() => onCheck()}
 												id={x["id"]}
 											/>
 										</div>
@@ -107,10 +106,10 @@ export default class DialogComponent extends Component<DialogComponentProps, Dia
 					</h3>
 				</div>
 				<DialogActions>
-					<Button onClick={dialogClose} color='primary'>
+					<Button onClick={() => dialogClose()} color='primary'>
 						No
 					</Button>
-					<Button onClick={handleConfirmation} color='primary'>
+					<Button onClick={() => handleConfirmation()} color='primary'>
 						Yes
 					</Button>
 				</DialogActions>

@@ -78,7 +78,7 @@ export default class DialogComponent extends Component<DialogComponentProps, Dia
 												style={{marginRight: "15px"}}
 												type='checkbox'
 												checked={x["checked"]}
-												onChange={() => onCheck()}
+												onChange={(e) => onCheck(e)}
 												id={x["id"]}
 											/>
 										</div>

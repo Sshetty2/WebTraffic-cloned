@@ -1,6 +1,6 @@
 /*global chrome*/
 
-import React, {Component} from "react";
+import React, { Component } from "react";
 import "./css/styles.css";
 import DialogComponent from "./Dialog";
 import Calendar from "react-calendar";
@@ -9,7 +9,7 @@ import LoadingDialogComponent from "./LoadingDialog";
 import Form from "./form";
 
 interface AppComponentState {
-	meetupEventData: Array<any>;
+	meetupEventData: MeetupEvent[];
 	grpNameArray: Array<string>;
 	date: any;
 	open: boolean;
@@ -20,7 +20,18 @@ interface AppComponentState {
 	isLoading: boolean;
 }
 
-interface AppComponentProps {}
+interface MeetupEvent {
+	venue: {
+		[key: string]: { name: string }
+	}
+	group: {
+		[key: string]: { name: string }
+	}
+	checked: boolean
+	id: number
+}
+
+interface AppComponentProps { }
 
 interface IncomingMessage {
 	type: string;
@@ -29,10 +40,9 @@ interface IncomingMessage {
 	error: object;
 }
 
-interface Event {
-	target: {
-		[key: string]: {id: number};
-	};
+
+interface EventId {
+	id: number
 }
 
 export default class App extends Component<AppComponentProps, AppComponentState> {
@@ -55,7 +65,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		chrome.storage.local.get(
 			["urlGroupName"],
 			// callback with results
-			(result: {urlGroupName?: string}): void => {
+			(result: { urlGroupName?: string }): void => {
 				if (result.urlGroupName) {
 					this.setState({
 						textField: result.urlGroupName,
@@ -73,7 +83,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 	}
 
 	onChange = (date: any) => {
-		this.setState({date});
+		this.setState({ date });
 	};
 
 	// sort the data after the two meetupdata obj has been pieced back together so that the order of the data won't change
@@ -88,10 +98,12 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		});
 	}
 
-	onCheck = (e: Event) => {
-		let {meetupEventData} = this.state;
+	onCheck = (e: any) => {
+		let { meetupEventData } = this.state;
+
 		const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
 		let meetupEvent = meetupEventData.filter(event => event.id === e.target.id);
+		console.log(meetupEvent)
 		meetupEvent = meetupEvent[0];
 		let updatedEvent = {
 			...meetupEvent,
@@ -107,7 +119,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 	getAutosuggestInput(value: string) {
 		// the input value of the autosuggest component which essentially controls the text field will be set to the value of the text field onchange if there is no urlGrpName in state
 		if (!this.state.urlGroupName) {
-			this.setState({textField: value});
+			this.setState({ textField: value });
 		}
 	}
 
@@ -174,7 +186,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 	};
 
 	successDialogClose = () => {
-		this.setState({successBox: false});
+		this.setState({ successBox: false });
 	};
 
 	handleConfirmation = () => {
@@ -233,15 +245,15 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 			sendResponse("we received the error message, thanks");
 			typeof request.error === "object"
 				? alert(
-						`Something went wrong. Try tweaking the date range, contacting the developer, restarting the browser, or, try again later... Error Code (Object): ${JSON.stringify(
-							request.error
-						)}`
-				  )
+					`Something went wrong. Try tweaking the date range, contacting the developer, restarting the browser, or, try again later... Error Code (Object): ${JSON.stringify(
+						request.error
+					)}`
+				)
 				: alert(
-						`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${
-							request.error
-						}`
-				  );
+					`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${
+					request.error
+					}`
+				);
 			this.setState({
 				disabled: false,
 				isLoading: false
@@ -271,9 +283,9 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		const dateRendered =
 			this.state.date.length === 2
 				? `${this.state.date[0].toLocaleDateString(
-						"en-US",
-						options
-				  )}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}`
+					"en-US",
+					options
+				)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}`
 				: this.state.date.toLocaleDateString("en-US", options);
 
 		return (
@@ -290,7 +302,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 					dialogClose={this.successDialogClose.bind(this)}
 				/>
 				<LoadingDialogComponent open={this.state.isLoading} />
-				<div style={{margin: "20px"}}>
+				<div style={{ margin: "20px" }}>
 					<div>
 						<h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>
 						<Form

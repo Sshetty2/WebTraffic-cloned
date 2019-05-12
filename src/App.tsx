@@ -1,12 +1,12 @@
 /*global chrome*/
 
-import React, { Component } from "react";
-import "./css/styles.css";
-import DialogComponent from "./Dialog";
-import Calendar from "react-calendar";
-import SuccessDialogComponent from "./SuccessDialog";
-import LoadingDialogComponent from "./LoadingDialog";
-import Form from "./form";
+import React, {Component} from 'react';
+import './css/styles.css';
+import DialogComponent from './Dialog';
+import Calendar from 'react-calendar';
+import SuccessDialogComponent from './SuccessDialog';
+import LoadingDialogComponent from './LoadingDialog';
+import Form from './form';
 
 interface AppComponentState {
 	meetupEventData: MeetupEvent[];
@@ -22,16 +22,16 @@ interface AppComponentState {
 
 interface MeetupEvent {
 	venue: {
-		[key: string]: { name: string }
-	}
+		[key: string]: {name: string};
+	};
 	group: {
-		[key: string]: { name: string }
-	}
-	checked: boolean
-	id: number
+		[key: string]: {name: string};
+	};
+	checked: boolean;
+	id: number;
 }
 
-interface AppComponentProps { }
+interface AppComponentProps {}
 
 interface IncomingMessage {
 	type: string;
@@ -40,12 +40,14 @@ interface IncomingMessage {
 	error: object;
 }
 
-
 interface EventId {
-	id: number
+	id: number;
 }
 
-export default class App extends Component<AppComponentProps, AppComponentState> {
+export default class App extends Component<
+	AppComponentProps,
+	AppComponentState
+> {
 	constructor(props: object) {
 		super(props);
 		this.state = {
@@ -53,8 +55,8 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 			date: new Date(),
 			open: false,
 			meetupEventData: [],
-			textField: "",
-			urlGroupName: "",
+			textField: '',
+			urlGroupName: '',
 			successBox: false,
 			disabled: false,
 			isLoading: false
@@ -63,9 +65,9 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 
 	componentDidMount() {
 		chrome.storage.local.get(
-			["urlGroupName"],
+			['urlGroupName'],
 			// callback with results
-			(result: { urlGroupName?: string }): void => {
+			(result: {urlGroupName?: string}): void => {
 				if (result.urlGroupName) {
 					this.setState({
 						textField: result.urlGroupName,
@@ -73,8 +75,8 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 					});
 				} else {
 					this.setState({
-						textField: "",
-						urlGroupName: ""
+						textField: '',
+						urlGroupName: ''
 					});
 				}
 			}
@@ -83,12 +85,12 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 	}
 
 	onChange = (date: any) => {
-		this.setState({ date });
+		this.setState({date});
 	};
 
 	// sort the data after the two meetupdata obj has been pieced back together so that the order of the data won't change
 
-	sortByTime(dataObj: Array<Date>) {
+	sortByTime(dataObj: Array<any>) {
 		return dataObj.sort((a: any, b: any) => {
 			let newDate1 = new Date(0);
 			let newDate2 = new Date(0);
@@ -99,12 +101,15 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 	}
 
 	onCheck = (e: any) => {
-		let { meetupEventData } = this.state;
+		let {meetupEventData} = this.state;
 
-		const otherEvents = meetupEventData.filter(event => event.id !== e.target.id);
-		let meetupEvent = meetupEventData.filter(event => event.id === e.target.id);
-		console.log(meetupEvent)
-		meetupEvent = meetupEvent[0];
+		const otherEvents = meetupEventData.filter(
+			event => event.id !== e.target.id
+		);
+		let meetupEvent = meetupEventData.find(event => event.id === e.target.id);
+		if (meetupEvent === undefined) {
+			throw 'No event found';
+		}
 		let updatedEvent = {
 			...meetupEvent,
 			checked: !meetupEvent.checked
@@ -119,7 +124,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 	getAutosuggestInput(value: string) {
 		// the input value of the autosuggest component which essentially controls the text field will be set to the value of the text field onchange if there is no urlGrpName in state
 		if (!this.state.urlGroupName) {
-			this.setState({ textField: value });
+			this.setState({textField: value});
 		}
 	}
 
@@ -134,14 +139,15 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 				disabled: false,
 				isLoading: false
 			});
-			return alert("please enter a valid group name");
+			return alert('please enter a valid group name');
 		}
 		try {
 			// try setting the state of the urlGroupName to the url group name that was part of the url Group Name array if the value of the textfield exists in the group Name array pulled from the content script after its been set in local storage
-			chrome.storage.local.get(["grpNameArray"], result => {
+			chrome.storage.local.get(['grpNameArray'], result => {
 				if (result.grpNameArray) {
 					urlPathName = result.grpNameArray.filter(
-						(x: string) => x[1].toLowerCase() === this.state.textField.toLowerCase()
+						(x: string) =>
+							x[1].toLowerCase() === this.state.textField.toLowerCase()
 					)[0][0];
 					chrome.storage.local.set({
 						urlPathName: urlPathName
@@ -150,12 +156,14 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 				}
 			});
 		} catch (err) {
-			console.log("there was an error and the urlPathName was not set");
+			console.log('there was an error and the urlPathName was not set');
 		}
-		console.log("proceeding");
+		console.log('proceeding');
 		// sets date range start and end in UTC milliseconds since the epoch
 		let dateRangeStart =
-			this.state.date.length === 2 ? this.state.date[0].getTime() : this.state.date.getTime();
+			this.state.date.length === 2
+				? this.state.date[0].getTime()
+				: this.state.date.getTime();
 		let dateRangeEnd =
 			this.state.date.length === 2
 				? this.state.date[1].getTime()
@@ -168,7 +176,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 		});
 		chrome.runtime.sendMessage(
 			{
-				action: "meetupRequest"
+				action: 'meetupRequest'
 			},
 			response => console.log(response)
 		);
@@ -186,15 +194,17 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 	};
 
 	successDialogClose = () => {
-		this.setState({ successBox: false });
+		this.setState({successBox: false});
 	};
 
 	handleConfirmation = () => {
 		// only takes events with the checked attribute set to true
-		let parsedDataObj = this.state.meetupEventData.filter(x => x.checked === true);
+		let parsedDataObj = this.state.meetupEventData.filter(
+			x => x.checked === true
+		);
 		chrome.runtime.sendMessage(
 			{
-				type: "googleAuthFlow",
+				type: 'googleAuthFlow',
 				parsedDataObj: parsedDataObj
 			},
 			response => console.log(response)
@@ -209,63 +219,64 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 	handleMessage(request: IncomingMessage, sender: any, sendResponse: Function) {
 		// Handle received messages
 
-		if (request.type === "resetTextField" || request.type === "urlGroupName") {
+		if (request.type === 'resetTextField' || request.type === 'urlGroupName') {
 			this.setState({
-				textField: "",
-				urlGroupName: ""
+				textField: '',
+				urlGroupName: ''
 			});
 
-			if (request.type === "urlGroupName") {
+			if (request.type === 'urlGroupName') {
 				this.setState({
 					urlGroupName: request.urlGroupName,
 					textField: request.urlGroupName
 				});
 			}
 		}
-		if (request.type === "meetupEventData") {
+		if (request.type === 'meetupEventData') {
 			let meetupEventData = request.meetupEventData.map((event: object) => ({
 				...event,
 				checked: true
 			}));
-			sendResponse("we received the meetupEventData request, thanks");
+			sendResponse('we received the meetupEventData request, thanks');
 			this.setState({
 				meetupEventData: meetupEventData,
 				open: true,
 				disabled: false,
-				isLoading: false
+				isLoading: false,
+				...this.state
 			});
-		} else if (request.type === "success") {
-			sendResponse("we received the success message, thanks");
+		} else if (request.type === 'success') {
+			sendResponse('we received the success message, thanks');
 			this.setState({
 				successBox: true,
 				disabled: false,
 				isLoading: false
 			});
-		} else if (request.type === "error") {
-			sendResponse("we received the error message, thanks");
-			typeof request.error === "object"
+		} else if (request.type === 'error') {
+			sendResponse('we received the error message, thanks');
+			typeof request.error === 'object'
 				? alert(
-					`Something went wrong. Try tweaking the date range, contacting the developer, restarting the browser, or, try again later... Error Code (Object): ${JSON.stringify(
-						request.error
-					)}`
-				)
+						`Something went wrong. Try tweaking the date range, contacting the developer, restarting the browser, or, try again later... Error Code (Object): ${JSON.stringify(
+							request.error
+						)}`
+				  )
 				: alert(
-					`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${
-					request.error
-					}`
-				);
+						`Something went wrong. Please contact the developer, restart the browser, or try again later. Error Code: ${
+							request.error
+						}`
+				  );
 			this.setState({
 				disabled: false,
 				isLoading: false
 			});
-		} else if (request.type === "loadingScreenInit") {
-			sendResponse("we received the loadingScreenInit message, thanks");
+		} else if (request.type === 'loadingScreenInit') {
+			sendResponse('we received the loadingScreenInit message, thanks');
 			this.setState({
 				isLoading: true,
 				disabled: true
 			});
-		} else if (request.type === "loadingScreenOff") {
-			sendResponse("we received the loadingScreenInit message, thanks");
+		} else if (request.type === 'loadingScreenOff') {
+			sendResponse('we received the loadingScreenInit message, thanks');
 			this.setState({
 				isLoading: false,
 				disabled: false
@@ -275,18 +286,18 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 
 	render() {
 		const options = {
-			weekday: "short",
-			year: "numeric",
-			month: "long",
-			day: "numeric"
+			weekday: 'short',
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric'
 		};
 		const dateRendered =
 			this.state.date.length === 2
 				? `${this.state.date[0].toLocaleDateString(
-					"en-US",
-					options
-				)}  -  ${this.state.date[1].toLocaleDateString("en-US", options)}`
-				: this.state.date.toLocaleDateString("en-US", options);
+						'en-US',
+						options
+				  )}  -  ${this.state.date[1].toLocaleDateString('en-US', options)}`
+				: this.state.date.toLocaleDateString('en-US', options);
 
 		return (
 			<div className='App'>
@@ -302,7 +313,7 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 					dialogClose={this.successDialogClose.bind(this)}
 				/>
 				<LoadingDialogComponent open={this.state.isLoading} />
-				<div style={{ margin: "20px" }}>
+				<div style={{margin: '20px'}}>
 					<div>
 						<h1 className='rock-salt App-title'>Meetup Batch Event Set Tool</h1>
 						<Form
@@ -316,10 +327,15 @@ export default class App extends Component<AppComponentProps, AppComponentState>
 				</div>
 				<div
 					style={{
-						margin: "20px",
-						paddingBottom: "10px"
-					}}>
-					<Calendar onChange={this.onChange} value={this.state.date} selectRange={true} />
+						margin: '20px',
+						paddingBottom: '10px'
+					}}
+				>
+					<Calendar
+						onChange={this.onChange}
+						value={this.state.date}
+						selectRange={true}
+					/>
 				</div>
 			</div>
 		);

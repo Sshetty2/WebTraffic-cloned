@@ -1,6 +1,6 @@
 # Privacy Policy of  Meetup Batch Event Set Tool V2
 
-Sachit Shetty  operates the  Chrome Extension, Meetup Batch Event Set tool V2 which provides the scheduling services for *Meetup.com*&reg; .
+Sachit Shetty  operates the  Chrome Extension, Meetup Batch Event Set Tool V2 which provides the scheduling services for *Meetup.com*&reg; .
 
 This page is used to inform website visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service, the  Website Name  website.
 
@@ -30,8 +30,8 @@ We may employ third-party companies and individuals due to the following reasons
 We want to inform our Service users that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.
 
 3rd Party Service Providers include:
-Meetup.com &reg;
-Google&reg;
+- Meetup.com &reg;
+- Google&reg;
 
 ## Security
 

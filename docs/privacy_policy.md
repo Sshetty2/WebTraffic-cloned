@@ -1,4 +1,4 @@
-# Privacy Policy of  Company Name
+# Privacy Policy of  Meetup Batch Event Set Tool V2
 
 Sachit Shetty  operates the  Chrome Extension, Meetup Batch Event Set tool V2 which provides the scheduling services for *Meetup.com*&reg; .
 

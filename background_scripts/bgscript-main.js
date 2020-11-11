@@ -71,19 +71,14 @@ const checkDefinition = value => (typeof value === "undefined" ? "" : value);
 function makeMeetupRequestWithUrlPathName(token) {
 	chrome.storage.local.get(
 		["dateRangeStart", "dateRangeEnd", "grpNameInput", "urlPathName"],
-		result => {
-			let dateRangeStart = result.dateRangeStart;
-			let dateRangeEnd = result.dateRangeEnd;
-			let formattedDateRangeStart = formatDateToIsoString(dateRangeStart);
-			let formattedDateRangeEnd = formatDateToIsoString(dateRangeEnd);
-			let grpNameInput = result.grpNameInput;
-			let urlPathName = result.urlPathName || '';
-			let requestUrl;
+		({ dateRangeStart, dateRangeEnd, grpNameInput, urlPathName = '' }) => {
+			const formattedDateRangeStart = formatDateToIsoString(dateRangeStart);
+			const formattedDateRangeEnd = formatDateToIsoString(dateRangeEnd);
+
 			console.log(`the urlPathName after it has been pulled from local storage is ${urlPathName}`);
 			if (!urlPathName) {
 				// if not using urlPathName, find url name first
-				requestUrl = `https://api.meetup.com/find/groups?&text=${grpNameInput}&radius=global&page=30`;
-				return makeXhrRequestGeneric("GET", requestUrl, token)
+				return makeXhrRequestGeneric("GET", `https://api.meetup.com/find/groups?&text=${grpNameInput}&radius=global&page=30`, token)
 					.then(async data => {
 						let parsedData = await JSON.parse(data);
 						// filter results for actual data or if it's not found then take the first result from the data object
@@ -122,11 +117,10 @@ function makeMeetupRequestWithUrlPathName(token) {
 	); // end chrome local storage callback
 } // end makeMeetupRequestWithUrlPathName(token) function
 
-chrome.runtime.onMessage.addListener((request, sendResponse) => {
-	if (request.type === "googleAuthFlow") {
-		chrome.storage.local.get(["access_token"], result => {
-			let access_token = result.access_token;
-			let results = request.parsedDataObj;
+chrome.runtime.onMessage.addListener(({type, parsedDataObj}, sendResponse) => {
+	if (type === "googleAuthFlow") {
+		chrome.storage.local.get(["access_token"], ({access_token}) => {
+			let results = parsedDataObj;
 			let eventUrl, urlPathName, eventId;
 			// try to RSVP for events with Meetup API using returned JSON data from client else catch error and log it
 			try {

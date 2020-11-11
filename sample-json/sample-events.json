@@ -1,0 +1,935 @@
+{
+    "0": {
+        "score": 7508,
+        "id": 34218152,
+        "name": "Smart Cities Book Club",
+        "status": "active",
+        "link": "https://www.meetup.com/Smart-Cities-Book-Club/",
+        "urlname": "Smart-Cities-Book-Club",
+        "created": 1599601947000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 40.72,
+        "lon": -74,
+        "members": 16,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 13051849,
+            "name": "Rachel",
+            "bio": "",
+            "photo": {
+                "id": 301409537,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/7/3/6/1/highres_301409537.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/7/3/6/1/member_301409537.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/7/3/6/1/thumb_301409537.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Smartivists",
+        "key_photo": {
+            "id": 492411416,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/c/8/d/8/highres_492411416.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/c/8/d/8/600_492411416.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/c/8/d/8/thumb_492411416.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "next_event": {
+            "id": "274279228",
+            "name": "SCBC #3 - 'Evolving ICT' Documentary and Paper by Ola Soderstrom",
+            "yes_rsvp_count": 2,
+            "time": 1605826800000,
+            "utc_offset": -18000000
+        },
+        "category": {
+            "id": 18,
+            "name": "Book Clubs",
+            "shortname": "book-clubs",
+            "sort_name": "Book Clubs"
+        },
+        "meta_category": {
+            "id": 222,
+            "shortname": "book-clubs",
+            "name": "Book Clubs",
+            "sort_name": "Book Clubs",
+            "photo": {
+                "id": 450131926,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/9/6/highres_450131926.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/9/6/600_450131926.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/9/6/thumb_450131926.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                18
+            ]
+        }
+    },
+    "1": {
+        "score": 7508,
+        "id": 368534,
+        "name": "A New York Experience-Social Events",
+        "status": "active",
+        "link": "https://www.meetup.com/culture/",
+        "urlname": "culture",
+        "created": 1163875513000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 40.72,
+        "lon": -74,
+        "members": 1490,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 207939007,
+            "name": "jay",
+            "bio": "",
+            "photo": {
+                "id": 257850216,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/7/6/0/8/highres_257850216.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/7/6/0/8/member_257850216.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/7/6/0/8/thumb_257850216.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Members",
+        "group_photo": {
+            "id": 2757011,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/d/e/b/3/highres_2757011.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/d/e/b/3/600_2757011.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/d/e/b/3/thumb_2757011.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "key_photo": {
+            "id": 467010274,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/7/6/4/2/highres_467010274.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/7/6/4/2/600_467010274.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/7/6/4/2/thumb_467010274.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "next_event": {
+            "id": "274352379",
+            "name": "ONLINE Speed FRIENDING (Virtually from your computer)-- all ages Fundraiser",
+            "yes_rsvp_count": 16,
+            "time": 1605225600000,
+            "utc_offset": -18000000
+        },
+        "category": {
+            "id": 31,
+            "name": "Socializing",
+            "shortname": "socializing",
+            "sort_name": "Socializing"
+        },
+        "meta_category": {
+            "id": 272,
+            "shortname": "social",
+            "name": "Social",
+            "sort_name": "Social",
+            "photo": {
+                "id": 450131947,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/a/b/highres_450131947.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/a/b/600_450131947.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/a/b/thumb_450131947.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                31
+            ]
+        }
+    },
+    "2": {
+        "score": 7504,
+        "id": 1273704,
+        "name": "Pick up soccer in new york city",
+        "status": "active",
+        "link": "https://www.meetup.com/nycsoccer/",
+        "urlname": "nycsoccer",
+        "created": 1220297640000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "approval",
+        "visibility": "public_limited",
+        "lat": 40.76,
+        "lon": -73.97,
+        "members": 8496,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": false,
+        "organizer": {
+            "id": 4464642,
+            "name": "Dale",
+            "bio": "",
+            "photo": {
+                "id": 250982012,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/7/d/c/highres_250982012.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/7/d/c/member_250982012.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/7/d/c/thumb_250982012.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Soccer Players",
+        "key_photo": {
+            "id": 94249682,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/c/2/1/2/highres_94249682.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/c/2/1/2/600_94249682.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/c/2/1/2/thumb_94249682.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "next_event": {
+            "id": "wtcbbsybcpbsb",
+            "name": "Saturday soccer @ 7AM",
+            "yes_rsvp_count": 3,
+            "time": 1605355200000,
+            "utc_offset": -18000000
+        },
+        "category": {
+            "id": 32,
+            "name": "Sports & Recreation",
+            "shortname": "sports-recreation",
+            "sort_name": "Sports & Recreation"
+        },
+        "meta_category": {
+            "id": 282,
+            "shortname": "sports-fitness",
+            "name": "Sports & Fitness",
+            "sort_name": "Sports & Fitness",
+            "photo": {
+                "id": 450131948,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/a/c/highres_450131948.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/a/c/600_450131948.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/a/c/thumb_450131948.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                9,
+                32
+            ]
+        }
+    },
+    "3": {
+        "score": 7504,
+        "id": 30326004,
+        "name": "The Indie Film Collective of Greater New York City",
+        "status": "active",
+        "link": "https://www.meetup.com/IndieFilmCollective/",
+        "urlname": "IndieFilmCollective",
+        "created": 1539642483000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "approval",
+        "visibility": "public",
+        "lat": 40.75,
+        "lon": -73.99,
+        "members": 914,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 76740132,
+            "name": "orville",
+            "bio": "",
+            "photo": {
+                "id": 95236422,
+                "photo_link": "https://secure.meetupstatic.com/photos/member/4/0/2/6/member_95236422.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/4/0/2/6/thumb_95236422.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Members",
+        "group_photo": {
+            "id": 487942431,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/5/7/9/f/highres_487942431.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/5/7/9/f/600_487942431.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/5/7/9/f/thumb_487942431.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "key_photo": {
+            "id": 488610227,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/7/6/1/3/highres_488610227.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/7/6/1/3/600_488610227.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/7/6/1/3/thumb_488610227.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "category": {
+            "id": 20,
+            "name": "Movies & Film",
+            "shortname": "movies-film",
+            "sort_name": "Movies & Film"
+        },
+        "meta_category": {
+            "id": 583,
+            "shortname": "film",
+            "name": "Film",
+            "sort_name": "Film",
+            "photo": {
+                "id": 450858495,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/4/8/3/f/highres_450858495.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/4/8/3/f/600_450858495.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/4/8/3/f/thumb_450858495.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                20
+            ]
+        }
+    },
+    "4": {
+        "score": 7504,
+        "id": 90497,
+        "name": "The New York City Karaoke Meetup Group",
+        "status": "active",
+        "link": "https://www.meetup.com/NYC-Karaoke-Meetup/",
+        "urlname": "NYC-Karaoke-Meetup",
+        "created": 1059601052000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "approval",
+        "visibility": "public_limited",
+        "lat": 40.75,
+        "lon": -73.98,
+        "members": 1091,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 2800785,
+            "name": "Frieda",
+            "bio": "",
+            "photo": {
+                "id": 250809609,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/2/5/8/9/highres_250809609.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/2/5/8/9/member_250809609.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/2/5/8/9/thumb_250809609.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Karaoke Singers",
+        "group_photo": {
+            "id": 63369762,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/2/6/2/2/highres_63369762.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/2/6/2/2/600_63369762.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/2/6/2/2/thumb_63369762.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "key_photo": {
+            "id": 331569512,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/2/5/2/8/highres_331569512.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/2/5/2/8/600_331569512.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/2/5/2/8/thumb_331569512.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "category": {
+            "id": 31,
+            "name": "Socializing",
+            "shortname": "socializing",
+            "sort_name": "Socializing"
+        },
+        "meta_category": {
+            "id": 272,
+            "shortname": "social",
+            "name": "Social",
+            "sort_name": "Social",
+            "photo": {
+                "id": 450131947,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/a/b/highres_450131947.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/a/b/600_450131947.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/a/b/thumb_450131947.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                31
+            ]
+        }
+    },
+    "5": {
+        "score": 6510,
+        "id": 559463,
+        "name": "Center for Inquiry New York City",
+        "status": "active",
+        "link": "https://www.meetup.com/cfinyc/",
+        "urlname": "cfinyc",
+        "created": 1184008377000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 40.73,
+        "lon": -74.01,
+        "members": 2916,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 288513001,
+            "name": "CFI NYC",
+            "bio": ""
+        },
+        "who": "Inquirers",
+        "group_photo": {
+            "id": 8945580,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/1/5/c/c/highres_8945580.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/1/5/c/c/600_8945580.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/1/5/c/c/thumb_8945580.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "key_photo": {
+            "id": 473761374,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/5/5/e/highres_473761374.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/5/5/e/600_473761374.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/5/5/e/thumb_473761374.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "next_event": {
+            "id": "drnhzcybcpbpb",
+            "name": "Muslim-ish: searching for truth, rejecting false idols, and fighting for freedom",
+            "yes_rsvp_count": 1,
+            "time": 1605139200000,
+            "utc_offset": -18000000
+        },
+        "category": {
+            "id": 28,
+            "name": "Religion & Beliefs",
+            "shortname": "religion-beliefs",
+            "sort_name": "Religion & Beliefs"
+        },
+        "meta_category": {
+            "id": 132,
+            "shortname": "beliefs",
+            "name": "Beliefs",
+            "sort_name": "Beliefs",
+            "photo": {
+                "id": 450131925,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/9/5/highres_450131925.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/9/5/600_450131925.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/9/5/thumb_450131925.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                22,
+                24,
+                28
+            ]
+        }
+    },
+    "6": {
+        "score": 6508,
+        "id": 8417772,
+        "name": "ACM New York City",
+        "status": "active",
+        "link": "https://www.meetup.com/ACM-NY/",
+        "urlname": "ACM-NY",
+        "created": 1368124862000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 40.72,
+        "lon": -74,
+        "members": 1714,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 176842802,
+            "name": "ACM",
+            "bio": "ACM is the world’s largest educational and scientific computing society, uniting computing professionals through conferences, publications, and local chapter events. Be creative, connect with peers, and see what’s next.",
+            "photo": {
+                "id": 233393472,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/d/0/e/0/highres_233393472.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/d/0/e/0/member_233393472.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/d/0/e/0/thumb_233393472.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Peers",
+        "group_photo": {
+            "id": 489324941,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/6/1/6/d/highres_489324941.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/6/1/6/d/600_489324941.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/6/1/6/d/thumb_489324941.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "key_photo": {
+            "id": 472809760,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/2/6/2/0/highres_472809760.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/2/6/2/0/600_472809760.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/2/6/2/0/thumb_472809760.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "category": {
+            "id": 34,
+            "name": "Tech",
+            "shortname": "tech",
+            "sort_name": "Tech"
+        },
+        "meta_category": {
+            "id": 292,
+            "shortname": "tech",
+            "name": "Tech",
+            "sort_name": "Tech",
+            "photo": {
+                "id": 450131949,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/highres_450131949.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/600_450131949.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/thumb_450131949.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                34
+            ]
+        }
+    },
+    "7": {
+        "score": 6508,
+        "id": 5135232,
+        "name": "FREE Film and Theatre University New York City, NY",
+        "status": "active",
+        "link": "https://www.meetup.com/FREE-Film-and-Theatre-University-New-York-City-NY/",
+        "urlname": "FREE-Film-and-Theatre-University-New-York-City-NY",
+        "created": 1348766859000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 40.72,
+        "lon": -74,
+        "members": 677,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 114554042,
+            "name": "Amy werba",
+            "bio": "",
+            "photo": {
+                "id": 260298590,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/4/8/9/e/highres_260298590.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/4/8/9/e/member_260298590.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/4/8/9/e/thumb_260298590.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Actors",
+        "group_photo": {
+            "id": 165220582,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/9/e/8/6/highres_165220582.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/9/e/8/6/600_165220582.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/9/e/8/6/thumb_165220582.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "key_photo": {
+            "id": 165003592,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/e/0/8/highres_165003592.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/e/0/8/600_165003592.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/e/0/8/thumb_165003592.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "category": {
+            "id": 1,
+            "name": "Arts & Culture",
+            "shortname": "arts-culture",
+            "sort_name": "Arts & Culture"
+        },
+        "meta_category": {
+            "id": 122,
+            "shortname": "arts-culture",
+            "name": "Arts",
+            "sort_name": "Arts",
+            "photo": {
+                "id": 450131912,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/8/8/highres_450131912.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/8/8/600_450131912.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/8/8/thumb_450131912.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                1
+            ]
+        }
+    },
+    "8": {
+        "score": 6504,
+        "id": 9201702,
+        "name": "Drawing New York",
+        "status": "active",
+        "link": "https://www.meetup.com/drawingnewyork/",
+        "urlname": "drawingnewyork",
+        "created": 1372873289000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "approval",
+        "visibility": "public",
+        "lat": 40.74,
+        "lon": -73.99,
+        "members": 9355,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 100637332,
+            "name": "Simon Levenson",
+            "bio": "Oil Painting Instructor - Art Students League - Oil Paintings at Cavalier Galleries - Drawing Instructor - The Morgan Library & Museum, Museum of The City of New York, National Arts Club,  MTA, Arts For Transit - Commission",
+            "photo": {
+                "id": 248032380,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/c/c/9/c/highres_248032380.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/c/c/9/c/member_248032380.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/c/c/9/c/thumb_248032380.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Members",
+        "key_photo": {
+            "id": 464127929,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/6/d/1/9/highres_464127929.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/6/d/1/9/600_464127929.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/6/d/1/9/thumb_464127929.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "next_event": {
+            "id": "274522403",
+            "name": "Live Costume Drawing - Wed Sept 30th",
+            "yes_rsvp_count": 2,
+            "time": 1605137400000,
+            "utc_offset": -18000000
+        },
+        "category": {
+            "id": 1,
+            "name": "Arts & Culture",
+            "shortname": "arts-culture",
+            "sort_name": "Arts & Culture"
+        },
+        "meta_category": {
+            "id": 122,
+            "shortname": "arts-culture",
+            "name": "Arts",
+            "sort_name": "Arts",
+            "photo": {
+                "id": 450131912,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/8/8/highres_450131912.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/8/8/600_450131912.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/8/8/thumb_450131912.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                1
+            ]
+        }
+    },
+    "9": {
+        "score": 6504,
+        "id": 5963662,
+        "name": "'Conversations New York'",
+        "status": "active",
+        "link": "https://www.meetup.com/Conversations-New-York/",
+        "urlname": "Conversations-New-York",
+        "created": 1353680064000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 40.74,
+        "lon": -74,
+        "members": 2356,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 4222640,
+            "name": "Ronald Gross",
+            "bio": "Ron co-chairs the University Seminar on Innovation at Columbia University, and is the founder/director of Conversations New York, a voluntary association which enhances urban life by promoting street-level dialogue (www.conversationsnewyork.com).",
+            "photo": {
+                "id": 58746892,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/1/a/e/c/highres_58746892.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/1/a/e/c/member_58746892.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/1/a/e/c/thumb_58746892.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Conversationalists",
+        "key_photo": {
+            "id": 455591013,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/2/b/0/5/highres_455591013.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/2/b/0/5/600_455591013.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/2/b/0/5/thumb_455591013.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "next_event": {
+            "id": "vqknvrybcpbpb",
+            "name": "Renaissance Person or Polymath or Comprehensivist Wednesdays",
+            "yes_rsvp_count": 1,
+            "time": 1605146400000,
+            "utc_offset": -18000000
+        },
+        "category": {
+            "id": 6,
+            "name": "Education & Learning",
+            "shortname": "education-learning",
+            "sort_name": "Education & Learning"
+        },
+        "meta_category": {
+            "id": 562,
+            "shortname": "education",
+            "name": "Learning",
+            "sort_name": "Learning",
+            "photo": {
+                "id": 450131931,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/9/b/highres_450131931.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/9/b/600_450131931.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/9/b/thumb_450131931.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                6
+            ]
+        }
+    },
+    "10": {
+        "score": 6504,
+        "id": 14035072,
+        "name": "New York Adventure Club",
+        "status": "active",
+        "link": "https://www.meetup.com/NewYorkAdventureClub/",
+        "urlname": "NewYorkAdventureClub",
+        "created": 1398126302000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 40.76,
+        "lon": -73.97,
+        "members": 5419,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 119394892,
+            "name": "Corey William Schneider",
+            "bio": "",
+            "photo": {
+                "id": 254530443,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/2/8/c/b/highres_254530443.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/2/8/c/b/member_254530443.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/2/8/c/b/thumb_254530443.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Non-Boring Members",
+        "key_photo": {
+            "id": 447585691,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/b/2/7/b/highres_447585691.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/b/2/7/b/600_447585691.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/b/2/7/b/thumb_447585691.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "next_event": {
+            "id": "274234000",
+            "name": "'Memorials of New York City: Over 200 Years of Honoring the Fallen' Webinar",
+            "yes_rsvp_count": 2,
+            "time": 1605121200000,
+            "utc_offset": -18000000
+        },
+        "category": {
+            "id": 23,
+            "name": "Outdoors & Adventure",
+            "shortname": "outdoors-adventure",
+            "sort_name": "Outdoors & Adventure"
+        },
+        "meta_category": {
+            "id": 242,
+            "shortname": "outdoors-adventure",
+            "name": "Outdoors & Adventure",
+            "sort_name": "Outdoors & Adventure",
+            "photo": {
+                "id": 450131943,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/a/7/highres_450131943.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/a/7/600_450131943.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/a/7/thumb_450131943.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                3,
+                23
+            ]
+        }
+    },
+    "11": {
+        "score": 6504,
+        "id": 34077786,
+        "name": "OWASP New York City Chapter",
+        "status": "active",
+        "link": "https://www.meetup.com/OWASP-New-York-City-Chapter/",
+        "urlname": "OWASP-New-York-City-Chapter",
+        "created": 1597060271000,
+        "city": "New York",
+        "untranslated_city": "New York",
+        "country": "US",
+        "localized_country_name": "USA",
+        "localized_location": "New York, NY",
+        "region2": "",
+        "state": "NY",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 40.75,
+        "lon": -73.99,
+        "members": 248,
+        "member_pay_fee": false,
+        "wepay_fee_deprecated": true,
+        "organizer": {
+            "id": 209437456,
+            "name": "OWASP® Foundation",
+            "bio": "OWASP®is an open community dedicated to enabling organizations to conceive, develop, acquire, operate, and maintain applications that can be trusted. All tools, documents, forums and chapters are free and open to everyone.",
+            "photo": {
+                "id": 300526905,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/b/7/3/9/highres_300526905.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/b/7/3/9/member_300526905.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/b/7/3/9/thumb_300526905.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Members",
+        "key_photo": {
+            "id": 491760323,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/1/4/3/highres_491760323.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/1/4/3/600_491760323.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/1/4/3/thumb_491760323.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "US/Eastern",
+        "next_event": {
+            "id": "274246561",
+            "name": "Partner Event:  All Day DevOps 2020",
+            "yes_rsvp_count": 17,
+            "time": 1605168000000,
+            "utc_offset": -18000000
+        },
+        "category": {
+            "id": 34,
+            "name": "Tech",
+            "shortname": "tech",
+            "sort_name": "Tech"
+        },
+        "meta_category": {
+            "id": 292,
+            "shortname": "tech",
+            "name": "Tech",
+            "sort_name": "Tech",
+            "photo": {
+                "id": 450131949,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/highres_450131949.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/600_450131949.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/thumb_450131949.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                34
+            ]
+        },
+        "pro_network": {
+            "name": "The OWASP® Foundation ",
+            "urlname": "owasp",
+            "number_of_groups": 249,
+            "network_url": "https://www.meetup.com/pro/owasp/"
+        }
+    }
+}

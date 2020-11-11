@@ -95,3 +95,44 @@ function makeXhrPostRequestJSON(method, url, token, params = null) {
 		xhr.send(stringifiedParams);
 	});
 }
+
+
+function makeXhrGetWithUrlPathName(urlPathName, formattedDateRangeStart, formattedDateRangeEnd, token) {
+	requestUrl = `https://api.meetup.com/${urlPathName}/events?&sign=true&photo-host=public&no_later_than=${formattedDateRangeEnd}&no_earlier_than=${formattedDateRangeStart}&page=20`;
+	console.log(`${formattedDateRangeStart} ${formattedDateRangeEnd}`);
+	return makeXhrRequestGeneric("GET", requestUrl, token)
+		.then(async data => {
+			//
+			let dummyObj = [
+				{
+					timezone: "US/Eastern"
+				}
+			];
+			let parsedData = await JSON.parse(data);
+			let timezone = parsedData.length
+				? parsedData[0]["group"]["timezone"]
+				: dummyObj[0]["timezone"];
+			chrome.storage.local.set({ timezone: timezone }, () =>
+				console.log(`timezone has been set in bg local storage in the background script`)
+			);
+			chrome.runtime.sendMessage(
+				{ type: "meetupEventData", meetupEventData: parsedData },
+				response => {
+					console.log(response);
+				}
+			);
+			chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+				chrome.tabs.sendMessage(
+					tabs[0].id,
+					{ type: "meetupEventData", meetupEventData: parsedData },
+					response => {
+						console.log(response);
+					}
+				);
+			});
+		})
+		.catch(err => {
+			console.log(err);
+			return errorLog(err);
+		}); // end promise + async/await to query meetup's API with the group Id, date range start and date range end for meetup event data
+}
